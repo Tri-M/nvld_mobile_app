@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:nvld_app/screens/mcq_page.dart';
 
 void main() {
   runApp(
@@ -22,9 +23,7 @@ class MyApp extends StatelessWidget {
       builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        
-          
-
+        body:McqPage()
           ),
     );
   }
