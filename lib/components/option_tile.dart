@@ -29,7 +29,7 @@ class OptionTile extends StatelessWidget {
         },
         child: Container(
           width: width * 0.9,
-          height: height * 0.1,
+          height: height * 0.09,
           padding: EdgeInsets.symmetric(
               horizontal: width * 0.04),
           decoration: BoxDecoration(

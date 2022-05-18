@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nvld_app/components/common_button.dart';
 import 'package:nvld_app/components/common_layout.dart';
 import 'package:nvld_app/components/option_tile.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/constants.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
+import '../components/question_navigation.dart';
 import '../models/Question.dart';
 
 class McqPage extends StatefulWidget {
@@ -13,19 +15,23 @@ class McqPage extends StatefulWidget {
 }
 
 class _McqPageState extends State<McqPage> {
-  int currQuestion=0;
-  List<Question> questions=[
+  int currQuestion = 0;
+  List<Question> questions = [
     Question(
-      question:'Who is the captain of indian cricket team?',
-      options:[
-        'MS Dhoni','Virat Kohli','Rohit Sharma','Bhumra'
-      ],
-      answer:3,
+      question: 'Who is the captain of indian cricket team?',
+      options: ['MS Dhoni', 'Virat Kohli', 'Rohit Sharma', 'Bhumra'],
+      answer: 3,
+    ),
+    Question(
+      question: 'How many players are there in a cricket team?',
+      options: ['11', '12', '13', '14'],
+      answer: 1,
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
+    int questionsLength=questions.length;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return CommonLayout(
@@ -38,7 +44,12 @@ class _McqPageState extends State<McqPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    if (currQuestion > 0)
+                      setState(() {
+                        currQuestion--;
+                      });
+                  },
                   child: Row(
                     children: [
                       Icon(Icons.arrow_back_ios,
@@ -55,13 +66,49 @@ class _McqPageState extends State<McqPage> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap:(){
+                    showModalBottomSheet(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        elevation: 3,
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return QuestionNavigation(
+                            totalQuestions: questionsLength,
+                            // totalQuestions: 200,
+                            currQuestion: currQuestion,
+                            onTap: (int value){
+                              setState(() {
+                                currQuestion = value;
+                              
+                              });
+                            },
+                          );
+                        });
+                  },
+                  child: CircleAvatar(
+                    radius:width*0.06,
+                    backgroundColor: primaryPurple,
+                    child:Center(
+                      child:Icon(Icons.map_outlined,color:Colors.white,size:width*0.08)
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    if (currQuestion!=questionsLength-1)
+                    setState(() {
+                      currQuestion++;
+                    });
+                  },
                   child: Row(
                     children: [
                       TextContainer(
                           text: 'Next',
                           presetFontSizes: [16, 14, 12, 10],
-                          width: width * 0.2,
+                          width: width * 0.14,
                           textAlign: TextAlign.end,
                           style: TextStyle(
                               color: primaryPurple,
@@ -74,11 +121,11 @@ class _McqPageState extends State<McqPage> {
                 ),
               ],
             ),
-            SizedBox(height: height * 0.04),
+            SizedBox(height: height * 0.02),
             Container(
               height: height * 0.06,
               decoration: BoxDecoration(
-                  color:Colors.white,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
@@ -91,64 +138,76 @@ class _McqPageState extends State<McqPage> {
                       spreadRadius: 2.0,
                     ),
                   ]),
-                  child:Row(
-                    children:[
-                      Container(
-                        width:width*0.7,
-                        
-                        child:LinearPercentIndicator(
-                          width: width*0.7,
-                          lineHeight: 20.0,
-                          barRadius:Radius.circular(20),
-                          percent: 0.5,
-                          backgroundColor: Colors.grey[200],
-                          progressColor: primaryPurple,
-                        ),
-                      ),
-                    ],
-                  ),
-
-            ),
-            SizedBox(height:height*0.02),
-            Container(
-              padding:EdgeInsets.symmetric(horizontal:width*0.02,vertical:height*0.01),
-              decoration: BoxDecoration(
-                borderRadius:BorderRadius.circular(20),
-                boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(
-                        1,
-                        3,
-                      ),
-                      blurRadius: 4,
-                      spreadRadius: 2.0,
+              child: Row(
+                children: [
+                  Container(
+                    width: width * 0.7,
+                    child: LinearPercentIndicator(
+                      width: width * 0.7,
+                      lineHeight: 20.0,
+                      barRadius: Radius.circular(20),
+                      percent: 0.5,
+                      backgroundColor: Colors.grey[200],
+                      progressColor: primaryPurple,
                     ),
-                  ],
-                  color:Colors.white,
-                  
-
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: height * 0.02),
+            Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.02, vertical: height * 0.01),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(
+                      1,
+                      3,
+                    ),
+                    blurRadius: 4,
+                    spreadRadius: 2.0,
+                  ),
+                ],
+                color: Colors.white,
               ),
               child: TextContainer(
                 text: questions[currQuestion].question,
                 textAlign: TextAlign.center,
-                presetFontSizes: [30,28,26,24,22,20,18,16, 14, 12, 10],
+                presetFontSizes: [30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10],
                 maxlines: 5,
                 width: width * 0.9,
-                height:height*0.17,
+                height: height * 0.16,
               ),
             ),
-            SizedBox(height:height*0.02),
-            for (int i=0;i<questions[currQuestion].options.length;i++)
-              OptionTile(text: questions[currQuestion].options[i], index: i,selected:questions[currQuestion].selected,
-                onTap: (int value){
+            SizedBox(height: height * 0.02),
+            for (int i = 0; i < questions[currQuestion].options.length; i++)
+              OptionTile(
+                text: questions[currQuestion].options[i],
+                index: i + 1,
+                selected: questions[currQuestion].selected,
+                onTap: (int value) {
                   setState(() {
-                    questions[currQuestion].selected=value;
+                    questions[currQuestion].selected = value;
                     // print('hi');
                   });
                 },
-              )
-            
+              ),
+            SizedBox(height: height * 0.03),
+            CommonButton(height: height*0.05, width: width*0.6, text: 'SAVE', onTap: (){
+              
+              setState(() {
+                if (questions[currQuestion].selected!=null){
+                  questions[currQuestion].submitted=true;
+                  if (currQuestion!=questionsLength-1)
+                    currQuestion=currQuestion+1;
+                }
+
+              });
+
+            })
           ],
         ),
       ),
