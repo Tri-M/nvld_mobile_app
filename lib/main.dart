@@ -5,11 +5,11 @@ import 'package:nvld_app/screens/mcq_page.dart';
 
 void main() {
   runApp(
-    DevicePreview(
+    /*DevicePreview(
       enabled: !kReleaseMode,
       builder: (context) => MyApp(), // Wrap your app
-    ),
-    // MyApp()
+    ),*/
+    MyApp()
   );
 }
 

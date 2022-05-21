@@ -16,21 +16,32 @@ class McqPage extends StatefulWidget {
 
 class _McqPageState extends State<McqPage> {
   int currQuestion = 0;
+
   List<Question> questions = [
     Question(
       question: 'Who is the captain of indian cricket team?',
       options: ['MS Dhoni', 'Virat Kohli', 'Rohit Sharma', 'Bhumra'],
       answer: 3,
+      type:"text",
     ),
     Question(
       question: 'How many players are there in a cricket team?',
       options: ['11', '12', '13', '14'],
       answer: 1,
+      type:"text",
     ),
+    
   ];
+  @override
+  initState() {
+    // questions=[...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions];
+    super.initState();
+  }
+  
 
   @override
   Widget build(BuildContext context) {
+    print(questions.where((q)=>q.submitted).length);
     int questionsLength=questions.length;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -82,7 +93,6 @@ class _McqPageState extends State<McqPage> {
                             onTap: (int value){
                               setState(() {
                                 currQuestion = value;
-                              
                               });
                             },
                           );
@@ -146,7 +156,7 @@ class _McqPageState extends State<McqPage> {
                       width: width * 0.7,
                       lineHeight: 20.0,
                       barRadius: Radius.circular(20),
-                      percent: 0.5,
+                      percent: questions.where((q)=>q.submitted).length/questionsLength,
                       backgroundColor: Colors.grey[200],
                       progressColor: primaryPurple,
                     ),
@@ -190,7 +200,12 @@ class _McqPageState extends State<McqPage> {
                 selected: questions[currQuestion].selected,
                 onTap: (int value) {
                   setState(() {
-                    questions[currQuestion].selected = value;
+                    if (questions[currQuestion].selected!=value)
+                      questions[currQuestion].selected = value;
+                    else{
+                      questions[currQuestion].selected=null;
+                      questions[currQuestion].submitted=false;
+                    }
                     // print('hi');
                   });
                 },

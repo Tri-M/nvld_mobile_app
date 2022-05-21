@@ -5,6 +5,7 @@ class Question{
   int answer;
   int? selected;
   bool submitted=false;
-  Question({required this.question,required this.answer,required this.options,this.image});
+  String type; //text or image or video
+  Question({required this.question,required this.answer,required this.options,this.image,required this.type});
   
 }
