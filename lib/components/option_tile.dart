@@ -21,8 +21,9 @@ class OptionTile extends StatelessWidget {
             : index == 3
                 ? 'C'
                 : 'D';
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: height*0.01),
+    return Container(
+      width:width*0.92,
+      padding: EdgeInsets.symmetric(vertical: height*0.01,horizontal:width*0.01),
       child: InkWell(
         onTap:(){
           onTap(index);

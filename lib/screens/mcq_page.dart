@@ -6,6 +6,7 @@ import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/constants.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
+import '../components/question_card.dart';
 import '../components/question_navigation.dart';
 import '../models/Question.dart';
 
@@ -22,33 +23,31 @@ class _McqPageState extends State<McqPage> {
       question: 'Who is the captain of indian cricket team?',
       options: ['MS Dhoni', 'Virat Kohli', 'Rohit Sharma', 'Bhumra'],
       answer: 3,
-      type:"text",
+      type: "video",
     ),
     Question(
       question: 'How many players are there in a cricket team?',
       options: ['11', '12', '13', '14'],
       answer: 1,
-      type:"text",
+      type: "video",
     ),
-    
   ];
   @override
   initState() {
     // questions=[...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions];
     super.initState();
   }
-  
 
   @override
   Widget build(BuildContext context) {
-    print(questions.where((q)=>q.submitted).length);
-    int questionsLength=questions.length;
+    // print(questions.where((q)=>q.submitted).length);
+    int questionsLength = questions.length;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return CommonLayout(
       child: Container(
         padding: EdgeInsets.symmetric(
-            horizontal: width * 0.05, vertical: height * 0.01),
+            horizontal: width * 0.03, vertical: height * 0.01),
         child: Column(
           children: [
             Row(
@@ -77,7 +76,7 @@ class _McqPageState extends State<McqPage> {
                   ),
                 ),
                 InkWell(
-                  onTap:(){
+                  onTap: () {
                     showModalBottomSheet(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
@@ -90,7 +89,7 @@ class _McqPageState extends State<McqPage> {
                             totalQuestions: questionsLength,
                             // totalQuestions: 200,
                             currQuestion: currQuestion,
-                            onTap: (int value){
+                            onTap: (int value) {
                               setState(() {
                                 currQuestion = value;
                               });
@@ -99,19 +98,19 @@ class _McqPageState extends State<McqPage> {
                         });
                   },
                   child: CircleAvatar(
-                    radius:width*0.06,
+                    radius: width * 0.06,
                     backgroundColor: primaryPurple,
-                    child:Center(
-                      child:Icon(Icons.map_outlined,color:Colors.white,size:width*0.08)
-                    ),
+                    child: Center(
+                        child: Icon(Icons.map_outlined,
+                            color: Colors.white, size: width * 0.08)),
                   ),
                 ),
                 InkWell(
                   onTap: () {
-                    if (currQuestion!=questionsLength-1)
-                    setState(() {
-                      currQuestion++;
-                    });
+                    if (currQuestion != questionsLength - 1)
+                      setState(() {
+                        currQuestion++;
+                      });
                   },
                   child: Row(
                     children: [
@@ -156,7 +155,8 @@ class _McqPageState extends State<McqPage> {
                       width: width * 0.7,
                       lineHeight: 20.0,
                       barRadius: Radius.circular(20),
-                      percent: questions.where((q)=>q.submitted).length/questionsLength,
+                      percent: questions.where((q) => q.submitted).length /
+                          questionsLength,
                       backgroundColor: Colors.grey[200],
                       progressColor: primaryPurple,
                     ),
@@ -165,64 +165,48 @@ class _McqPageState extends State<McqPage> {
               ),
             ),
             SizedBox(height: height * 0.02),
-            Container(
-              padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.02, vertical: height * 0.01),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(
-                      1,
-                      3,
-                    ),
-                    blurRadius: 4,
-                    spreadRadius: 2.0,
-                  ),
-                ],
-                color: Colors.white,
-              ),
-              child: TextContainer(
-                text: questions[currQuestion].question,
-                textAlign: TextAlign.center,
-                presetFontSizes: [30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10],
-                maxlines: 5,
-                width: width * 0.9,
-                height: height * 0.16,
-              ),
-            ),
+            QuestionCard(question: questions[currQuestion]),
             SizedBox(height: height * 0.02),
-            for (int i = 0; i < questions[currQuestion].options.length; i++)
-              OptionTile(
-                text: questions[currQuestion].options[i],
-                index: i + 1,
-                selected: questions[currQuestion].selected,
-                onTap: (int value) {
-                  setState(() {
-                    if (questions[currQuestion].selected!=value)
-                      questions[currQuestion].selected = value;
-                    else{
-                      questions[currQuestion].selected=null;
-                      questions[currQuestion].submitted=false;
-                    }
-                    // print('hi');
-                  });
-                },
-              ),
+            Expanded(
+              child: SingleChildScrollView(
+                  child: Column(
+                children: [
+                  for (int i = 0;
+                      i < questions[currQuestion].options.length;
+                      i++)
+                    OptionTile(
+                      text: questions[currQuestion].options[i],
+                      index: i + 1,
+                      selected: questions[currQuestion].selected,
+                      onTap: (int value) {
+                        setState(() {
+                          if (questions[currQuestion].selected != value)
+                            questions[currQuestion].selected = value;
+                          else {
+                            questions[currQuestion].selected = null;
+                            questions[currQuestion].submitted = false;
+                          }
+                          // print('hi');
+                        });
+                      },
+                    ),
+                ],
+              )),
+            ),
             SizedBox(height: height * 0.03),
-            CommonButton(height: height*0.05, width: width*0.6, text: 'SAVE', onTap: (){
-              
-              setState(() {
-                if (questions[currQuestion].selected!=null){
-                  questions[currQuestion].submitted=true;
-                  if (currQuestion!=questionsLength-1)
-                    currQuestion=currQuestion+1;
-                }
-
-              });
-
-            })
+            CommonButton(
+                height: height * 0.05,
+                width: width * 0.6,
+                text: 'SAVE',
+                onTap: () {
+                  setState(() {
+                    if (questions[currQuestion].selected != null) {
+                      questions[currQuestion].submitted = true;
+                      if (currQuestion != questionsLength - 1)
+                        currQuestion = currQuestion + 1;
+                    }
+                  });
+                })
           ],
         ),
       ),
