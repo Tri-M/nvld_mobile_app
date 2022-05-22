@@ -51,7 +51,7 @@ class _McqPageState extends State<McqPage> {
 
   @override
   Widget build(BuildContext context) {
-    
+    int submittedQuestions=questions.where((q) => q.submitted).length;
     int questionsLength = questions.length;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -158,21 +158,43 @@ class _McqPageState extends State<McqPage> {
                       spreadRadius: 2.0,
                     ),
                   ]),
-              child: Row(
-                children: [
-                  Container(
-                    width: width * 0.7,
-                    child: LinearPercentIndicator(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: width*0.03),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
                       width: width * 0.7,
-                      lineHeight: 20.0,
-                      barRadius: Radius.circular(20),
-                      percent: questions.where((q) => q.submitted).length /
-                          questionsLength,
-                      backgroundColor: Colors.grey[200],
-                      progressColor: primaryPurple,
+                      child: LinearPercentIndicator(
+                        width: width * 0.7,
+                        lineHeight: 20.0,
+                        barRadius: Radius.circular(20),
+                        percent: submittedQuestions /
+                            questionsLength,
+                        backgroundColor: Colors.grey[200],
+                        progressColor: primaryPurple,
+                      ),
                     ),
-                  ),
-                ],
+                    Container(
+                      width:width*0.15,
+                      height:height*0.04,
+                      decoration: BoxDecoration(
+                        color:submittedQuestions!=questionsLength?Colors.grey[300]:primaryPurple.withOpacity(0.6),
+                        borderRadius: BorderRadius.circular(15)
+                      ),
+                      child:Center(
+                        child: TextContainer(
+                          textAlign: TextAlign.center,
+                          text: '${submittedQuestions}/${questionsLength}',
+                          presetFontSizes: [16,14,12],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: height * 0.02),
