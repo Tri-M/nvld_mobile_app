@@ -20,16 +20,17 @@ class _McqPageState extends State<McqPage> {
 
   List<Question> questions = [
     Question(
-      question: 'Who is the captain of indian cricket team?',
-      options: ['MS Dhoni', 'Virat Kohli', 'Rohit Sharma', 'Bhumra'],
+      question: 'Who is the captain of indian cricket team? ',
+      options: ['MS Dhoni what a great player one of the best of all time', 'Virat Kohli', 'Rohit Sharma', 'Bhumra'],
       answer: 3,
       type: "video",
+      media:"https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
     ),
     Question(
       question: 'How many players are there in a cricket team?',
       options: ['11', '12', '13', '14'],
       answer: 1,
-      type: "video",
+      type: "text",
     ),
   ];
   @override

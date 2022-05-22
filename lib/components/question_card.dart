@@ -1,4 +1,6 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:nvld_app/components/common_button.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:video_player/video_player.dart';
 
@@ -13,24 +15,44 @@ class QuestionCard extends StatefulWidget {
 
 class _QuestionCardState extends State<QuestionCard> {
   Question question;
-  late VideoPlayerController _controller;
+  late VideoPlayerController videoController;
+  late ChewieController _chewieController;
+  bool showQuestion = true;
   _QuestionCardState({required this.question});
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
+    if (question.type == 'video') {
+      videoController = VideoPlayerController.network(question.media!)
+        ..initialize().then((_) {
+          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+          setState(() {});
+        });
+      _chewieController = ChewieController(
+        videoPlayerController: videoController,
+        // aspectRatio: videoController.value.aspectRatio,
+        autoPlay: true,
+        autoInitialize: true,
+        // looping: widget.looping,
+        allowFullScreen: true,
+        allowMuting: true,
+        errorBuilder: (context, errorMessage) {
+          return Center(
+            child: Text(
+              errorMessage,
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        },
+      );
 
-    _controller.play();
+      videoController.play();
+    }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    videoController.dispose();
     super.dispose();
   }
 
@@ -40,7 +62,7 @@ class _QuestionCardState extends State<QuestionCard> {
     double height = MediaQuery.of(context).size.height;
     return Container(
       padding: EdgeInsets.symmetric(
-          horizontal: width * 0.02, vertical: height * 0.01),
+          horizontal: width * 0.03, vertical: height * 0.01),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
@@ -59,70 +81,54 @@ class _QuestionCardState extends State<QuestionCard> {
       child: question.type == 'text'
           ? TextContainer(
               text: question.question,
-              textAlign: TextAlign.center,
-              presetFontSizes: [30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10],
+              textAlign: TextAlign.start,
+              presetFontSizes: [22, 20, 18, 16, 14, 12, 10],
               maxlines: 5,
               width: width * 0.9,
               height: height * 0.16,
             )
-          : _controller.value.isInitialized
-              ? Column(
+          : Column(
                   children: [
-                    AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
-                    ),
-                    SizedBox(height: height * 0.02),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              _controller.value.isPlaying
-                                  ? _controller.pause()
-                                  : _controller.play();
-                            });
-                          },
-                          child: Container(
-                              width: width * 0.2,
-                              height: height * 0.05,
-                              decoration: BoxDecoration(
-                                color: Colors.green[400],
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Icon(
-                                _controller.value.isPlaying
-                                    ? Icons.pause
-                                    : Icons.play_arrow,
-                                size: width * 0.06,
-                              )),
-                        ),
-                        SizedBox(width: width * 0.05),
-                        InkWell(
-                          onTap: () async {
-                            await _controller.seekTo(Duration.zero);
-                            setState(() {
-                              _controller.play();
-                            });
-                          },
-                          child: Container(
-                              width: width * 0.2,
-                              height: height * 0.05,
-                              decoration: BoxDecoration(
-                                color: Colors.red[400],
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Icon(
-                                Icons.replay,
-                                size: width * 0.06,
-                              )),
-                        ),
-                      ],
-                    ),
+                    !showQuestion
+                        ? videoController.value.isInitialized
+              ? AspectRatio(
+                            aspectRatio: videoController.value.aspectRatio,
+                            child: Chewie(
+                              controller: _chewieController,
+                            ),
+                          ):Container(
+                            
+                          )
+                        : TextContainer(
+                            text: question.question,
+                            textAlign: TextAlign.start,
+                            presetFontSizes: [
+                              
+                              22,
+                              20,
+                              18,
+                              16,
+                              14,
+                              12,
+                              10
+                            ],
+                            maxlines: 5,
+                            width: width * 0.9,
+                            height: height * 0.16,
+                          ),
+                    SizedBox(height: height * 0.01),
+                    CommonButton(
+                        height: height * 0.06,
+                        width: width * 0.6,
+                        text: showQuestion?'Watch Video':'Show Question',
+                        onTap: () {
+                          setState(() {
+                            showQuestion = !showQuestion;
+                          });
+                        })
                   ],
                 )
-              : Container(),
+              
     );
   }
 }

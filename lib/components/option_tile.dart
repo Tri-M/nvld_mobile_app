@@ -30,9 +30,12 @@ class OptionTile extends StatelessWidget {
         },
         child: Container(
           width: width * 0.9,
-          height: height * 0.09,
+          // height: height * 0.09,
+          constraints: BoxConstraints(
+            minHeight: height * 0.09,
+          ),
           padding: EdgeInsets.symmetric(
-              horizontal: width * 0.04),
+              horizontal: width * 0.04,vertical:height*0.005),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               gradient: selected!=null && selected==index?LinearGradient(
@@ -57,25 +60,24 @@ class OptionTile extends StatelessWidget {
               ]),
           child: Center(
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children:[
                 CircleAvatar(
                   radius: width*0.05,
                   backgroundColor: selected!=null && selected==index?Colors.purple:Colors.grey[300],
-                  child:Center(
-                    child: TextContainer(text: optionChar, presetFontSizes: [20,18,16,14],
-                      width:width*0.08,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color:selected!=null && selected==index?Colors.white:primaryPurple,
-                      ),
+                  child:TextContainer(text: optionChar, presetFontSizes: [20,18,16,14],
+                    width:width*0.08,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color:selected!=null && selected==index?Colors.white:primaryPurple,
                     ),
                   )
                 ),
                 SizedBox(width:width*0.02),
                 TextContainer(
                   text: text,
-                  presetFontSizes: [26,24,22,20,18,16,14,12,10,8],
+                  presetFontSizes: [22,20,18,16,14,12,10,8],
                   maxlines: 3,
                   width:width*0.7,
                   style: TextStyle(
