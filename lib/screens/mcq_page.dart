@@ -17,8 +17,19 @@ class McqPage extends StatefulWidget {
 
 class _McqPageState extends State<McqPage> {
   int currQuestion = 0;
-
-  List<Question> questions = [
+  late List<Question> questions;
+  
+  @override
+  initState() {
+    super.initState();
+    questions = [
+    Question(
+      question: 'How many players are there in a cricket team?',
+      options: ['11', '12', '13', '14'],
+      answer: 1,
+      type: "image",
+      media:''
+    ),
     Question(
       question: 'Who is the captain of indian cricket team? ',
       options: ['MS Dhoni what a great player one of the best of all time', 'Virat Kohli', 'Rohit Sharma', 'Bhumra'],
@@ -26,22 +37,21 @@ class _McqPageState extends State<McqPage> {
       type: "video",
       media:"https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
     ),
+    
     Question(
-      question: 'How many players are there in a cricket team?',
-      options: ['11', '12', '13', '14'],
+      question: 'How many Idiots in a cricket team?',
+      options: ['2', '12', '3', '4'],
       answer: 1,
       type: "text",
+      media:''
     ),
   ];
-  @override
-  initState() {
-    // questions=[...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions,...questions];
-    super.initState();
   }
+  
 
   @override
   Widget build(BuildContext context) {
-    // print(questions.where((q)=>q.submitted).length);
+    
     int questionsLength = questions.length;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -167,6 +177,7 @@ class _McqPageState extends State<McqPage> {
             ),
             SizedBox(height: height * 0.02),
             QuestionCard(question: questions[currQuestion]),
+            // Text(questions[currQuestion].question),
             SizedBox(height: height * 0.02),
             Expanded(
               child: SingleChildScrollView(

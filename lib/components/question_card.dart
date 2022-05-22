@@ -48,7 +48,41 @@ class _QuestionCardState extends State<QuestionCard> {
 
       videoController.play();
     }
+    
   }
+  @override
+  void didUpdateWidget(QuestionCard oldWidget){
+    super.didUpdateWidget(oldWidget);
+    print(widget.question.type);
+    if (widget.question.type == 'video') {
+      videoController = VideoPlayerController.network(widget.question.media!)
+        ..initialize().then((_) {
+          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+          setState(() {});
+        });
+      _chewieController = ChewieController(
+        videoPlayerController: videoController,
+        // aspectRatio: videoController.value.aspectRatio,
+        autoPlay: true,
+        autoInitialize: true,
+        // looping: widget.looping,
+        allowFullScreen: true,
+        allowMuting: true,
+        errorBuilder: (context, errorMessage) {
+          return Center(
+            child: Text(
+              errorMessage,
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        },
+      );
+
+      videoController.play();
+    }
+  }
+  
+  
 
   @override
   void dispose() {
@@ -58,77 +92,66 @@ class _QuestionCardState extends State<QuestionCard> {
 
   @override
   Widget build(BuildContext context) {
+    
+    
+    question = widget.question;
+
+    
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: width * 0.03, vertical: height * 0.01),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(
-              1,
-              3,
+        padding: EdgeInsets.symmetric(
+            horizontal: width * 0.03, vertical: height * 0.01),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey,
+              offset: Offset(
+                1,
+                3,
+              ),
+              blurRadius: 4,
+              spreadRadius: 2.0,
             ),
-            blurRadius: 4,
-            spreadRadius: 2.0,
-          ),
-        ],
-        color: Colors.white,
-      ),
-      child: question.type == 'text'
-          ? TextContainer(
-              text: question.question,
-              textAlign: TextAlign.start,
-              presetFontSizes: [22, 20, 18, 16, 14, 12, 10],
-              maxlines: 5,
-              width: width * 0.9,
-              height: height * 0.16,
-            )
-          : Column(
-                  children: [
-                    !showQuestion
-                        ? videoController.value.isInitialized
-              ? AspectRatio(
-                            aspectRatio: videoController.value.aspectRatio,
-                            child: Chewie(
-                              controller: _chewieController,
-                            ),
-                          ):Container(
-                            
-                          )
-                        : TextContainer(
-                            text: question.question,
-                            textAlign: TextAlign.start,
-                            presetFontSizes: [
-                              
-                              22,
-                              20,
-                              18,
-                              16,
-                              14,
-                              12,
-                              10
-                            ],
-                            maxlines: 5,
-                            width: width * 0.9,
-                            height: height * 0.16,
-                          ),
-                    SizedBox(height: height * 0.01),
-                    CommonButton(
-                        height: height * 0.06,
-                        width: width * 0.6,
-                        text: showQuestion?'Watch Video':'Show Question',
-                        onTap: () {
-                          setState(() {
-                            showQuestion = !showQuestion;
-                          });
-                        })
-                  ],
-                )
-              
-    );
+          ],
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            !showQuestion && question.type == 'video'
+                ? videoController.value.isInitialized
+                    ? AspectRatio(
+                        aspectRatio: videoController.value.aspectRatio,
+                        child: Chewie(
+                          controller: _chewieController,
+                        ),
+                      )
+                    : Container()
+                : TextContainer(
+                    text: question.question,
+                    textAlign: TextAlign.start,
+                    presetFontSizes: [22, 20, 18, 16, 14, 12, 10],
+                    maxlines: 5,
+                    width: width * 0.9,
+                    height: height * 0.16,
+                  ),
+            if (question.type != 'text') SizedBox(height: height * 0.01),
+            if (question.type != 'text')
+              CommonButton(
+                  height: height * 0.06,
+                  width: width * 0.6,
+                  text: showQuestion
+                      ? question.type == 'video'
+                          ? 'Watch Video'
+                          : 'Show Image'
+                      : 'Show Question',
+                  onTap: () {
+                    setState(() {
+                      showQuestion = !showQuestion;
+                    });
+                  })
+          ],
+        ));
   }
 }
