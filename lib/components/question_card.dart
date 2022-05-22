@@ -1,7 +1,9 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nvld_app/components/common_button.dart';
 import 'package:nvld_app/components/text_container.dart';
+import 'package:nvld_app/constants.dart';
 import 'package:video_player/video_player.dart';
 
 import '../models/Question.dart';
@@ -127,9 +129,30 @@ class _QuestionCardState extends State<QuestionCard> {
                           controller: _chewieController,
                         ),
                       )
-                    : Container():
+                    : Container(
+                        child:SpinKitFadingCircle(
+                          color: primaryPurple,
+                          size: width*0.3,
+                        )
+                    ):
                     Image.network(question.media!
-                    ,width:width*0.9,fit:BoxFit.fill)
+                    ,width:width*0.9,fit:BoxFit.fill,
+                    loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      height:height*0.2,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color:primaryPurple,
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      ),
+                    );}                    
+                  )
                 : TextContainer(
                     text: question.question,
                     textAlign: TextAlign.start,
