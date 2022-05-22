@@ -119,7 +119,7 @@ class _QuestionCardState extends State<QuestionCard> {
         ),
         child: Column(
           children: [
-            !showQuestion && question.type == 'video'
+            !showQuestion && question.type!='text'?question.type=='video'
                 ? videoController.value.isInitialized
                     ? AspectRatio(
                         aspectRatio: videoController.value.aspectRatio,
@@ -127,7 +127,9 @@ class _QuestionCardState extends State<QuestionCard> {
                           controller: _chewieController,
                         ),
                       )
-                    : Container()
+                    : Container():
+                    Image.network(question.media!
+                    ,width:width*0.9,fit:BoxFit.fill)
                 : TextContainer(
                     text: question.question,
                     textAlign: TextAlign.start,

@@ -28,7 +28,7 @@ class _McqPageState extends State<McqPage> {
       options: ['11', '12', '13', '14'],
       answer: 1,
       type: "image",
-      media:''
+      media:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png'
     ),
     Question(
       question: 'Who is the captain of indian cricket team? ',
