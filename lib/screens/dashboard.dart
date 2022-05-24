@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '/components/text_container.dart';
 import './profile_screen.dart';
 import './student_dashboard_drawer.dart';
+import 'package:nvld_app/components/performance _graph.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -74,6 +75,7 @@ class _DashboardState extends State<Dashboard> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Container(
+                    child: PerformanceGraph(),
                     height: height * 0.2,
                     width: width * 0.75,
                     decoration: BoxDecoration(
@@ -108,6 +110,21 @@ class _DashboardState extends State<Dashboard> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              TextContainer(
+                                  text: "Recent Score",
+                                  presetFontSizes: [18, 16, 14, 12],
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                              TextContainer(
+                                  text: "13/15",
+                                  presetFontSizes: [20, 18, 16, 14, 12],
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                            ],
+                          ),
                           height: width * 0.36,
                           width: width * 0.36,
                           decoration: BoxDecoration(
@@ -122,6 +139,20 @@ class _DashboardState extends State<Dashboard> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              TextContainer(
+                                  text: "Best Score",
+                                  presetFontSizes: [18, 16, 14, 12],
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                              TextContainer(
+                                  text: "14/15",
+                                  presetFontSizes: [20, 18, 16, 14, 12],
+                                  style: TextStyle(fontWeight: FontWeight.bold))
+                            ],
+                          ),
                           height: width * 0.36,
                           width: width * 0.36,
                           decoration: BoxDecoration(

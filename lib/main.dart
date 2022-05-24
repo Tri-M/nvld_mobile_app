@@ -6,11 +6,12 @@ import 'package:nvld_app/screens/mcq_page.dart';
 
 //comment
 void main() {
-  runApp(DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => MyApp(), // Wrap your app
-  ));
-  // MyApp());
+  runApp(
+      //DevicePreview(
+      //   enabled: !kReleaseMode,
+      //   builder: (context) => MyApp(), // Wrap your app
+      // ));
+      MyApp());
 }
 
 class MyApp extends StatelessWidget {
