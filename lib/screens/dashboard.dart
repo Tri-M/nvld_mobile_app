@@ -42,22 +42,31 @@ class _DashboardState extends State<Dashboard> {
             ),
             child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.only(
-                      top: height * 0.035,
-                      bottom: height * 0.03,
-                      left: width * 0.06),
-                  alignment: Alignment.topLeft,
-                  child: TextContainer(
-                    text: "Hello user!",
-                    presetFontSizes: const [24, 22, 20, 18, 16],
-                    textAlign: TextAlign.left,
-                    width: width * 0.6,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(
+                          top: height * 0.035,
+                          bottom: height * 0.03,
+                          left: width * 0.06),
+                      alignment: Alignment.topLeft,
+                      child: TextContainer(
+                        text: "Hello user!",
+                        presetFontSizes: const [24, 22, 20, 18, 16],
+                        textAlign: TextAlign.left,
+                        width: width * 0.6,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
+                    TextContainer(
+                      text: "Level 3",
+                      presetFontSizes: [20, 18, 16, 14],
+                    )
+                  ],
                 ),
                 Card(
                   elevation: height * 0.03,
