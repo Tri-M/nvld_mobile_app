@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ChartData {
-  ChartData(this.x, this.y);
+  ChartData(this.x, this.y, this.day);
   final int x;
   final double y;
+  final String day;
 }
 
 class PerformanceGraph extends StatelessWidget {
@@ -14,13 +15,13 @@ class PerformanceGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<ChartData> chartData = [
-      ChartData(1924, 12),
-      ChartData(1925, 7),
-      ChartData(1926, 5),
-      ChartData(1927, 10),
-      ChartData(1928, 10),
-      ChartData(1929, 13),
-      ChartData(1930, 5),
+      ChartData(1, 12, "mon"),
+      ChartData(2, 7, "tues"),
+      ChartData(3, 5, "wed"),
+      ChartData(4, 10, "thur"),
+      ChartData(5, 10, "fri"),
+      ChartData(6, 13, "sat"),
+      ChartData(7, 5, "sun"),
     ];
     final List<Color> color = <Color>[];
     color.add(Color.fromARGB(255, 203, 180, 226)!);
@@ -35,7 +36,10 @@ class PerformanceGraph extends StatelessWidget {
     final LinearGradient gradientColors =
         LinearGradient(colors: color, stops: stops);
     return SfCartesianChart(
-        primaryYAxis: NumericAxis(labelFormat: '{value}'),
+        primaryXAxis: NumericAxis(
+            labelFormat: 'day',
+            labelIntersectAction: AxisLabelIntersectAction.rotate45),
+        title: ChartTitle(text: "Performance"),
         series: <ChartSeries>[
           // Renders area chart
           AreaSeries<ChartData, int>(

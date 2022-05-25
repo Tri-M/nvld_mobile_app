@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nvld_app/constants.dart';
 import '/components/text_container.dart';
 import './profile_screen.dart';
 import './student_dashboard_drawer.dart';
@@ -38,7 +39,7 @@ class _DashboardState extends State<Dashboard> {
             height: height * 0.75,
             width: width * 0.85,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: background,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Column(
@@ -95,7 +96,7 @@ class _DashboardState extends State<Dashboard> {
                     width: width * 0.75,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: const Color.fromRGBO(213, 213, 213, 1),
+                      color: Colors.grey[100],
                     ),
                   ),
                 ),
@@ -189,15 +190,18 @@ class _DashboardState extends State<Dashboard> {
                     top: (height * 0.03),
                   ),
                   child: ElevatedButton(
-                    onPressed: () {},
-                    child: Image.asset('./assets/images/play.png'),
                     style: ElevatedButton.styleFrom(
+                      primary: const Color.fromRGBO(88, 57, 178, 1),
                       shape: const CircleBorder(),
-                      // primary: const Color.fromRGBO(118, 72, 216, 1),
-                      onPrimary: Colors.purple,
+                      padding: EdgeInsets.all(width * 0.05),
                     ),
+                    child: const Icon(
+                      Icons.play_arrow,
+                      size: 50,
+                    ),
+                    onPressed: () {},
                   ),
-                )
+                ),
               ],
             ),
           ),
