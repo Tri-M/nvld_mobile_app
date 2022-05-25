@@ -26,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
                 Container(
                   height: height * 0.46,
                   decoration: BoxDecoration(
-                    color: Colors.purple,
+                    color: Color.fromARGB(255, 81, 29, 122),
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(height * 0.04),
                       bottomRight: Radius.circular(height * 0.04),
@@ -119,6 +119,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   RoundedInputField(
                     hintText: "Name",
+                    icon: Icons.person,
                     onChanged: (value) {},
                   ),
                 ],
@@ -150,6 +151,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   RoundedInputField(
                     hintText: "E-mail",
+                    icon: Icons.email,
                     onChanged: (value) {},
                   ),
                 ],
@@ -213,6 +215,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   RoundedInputField(
                     hintText: "Phone",
+                    icon: Icons.call,
                     onChanged: (value) {},
                   ),
                 ],

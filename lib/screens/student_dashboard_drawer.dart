@@ -28,7 +28,7 @@ class StudentDashboardDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(
               Icons.person,
-              size: 26,
+              size: width * 0.075,
             ),
             title: Text('Profile'),
             onTap: () {
@@ -41,7 +41,7 @@ class StudentDashboardDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(
               Icons.help,
-              size: 26,
+              size: width * 0.07,
             ),
             title: Text('Help'),
             onTap: () {},
