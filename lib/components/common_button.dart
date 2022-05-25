@@ -41,9 +41,9 @@ class CommonButton extends StatelessWidget {
         child: Center(
           child: TextContainer(
             text: text,
-            presetFontSizes: [24, 22, 20, 18, 16],
+            presetFontSizes: [18, 16,14,12,10],
             textAlign: TextAlign.center,
-            width:width*0.6,
+            width:width*0.8,
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
