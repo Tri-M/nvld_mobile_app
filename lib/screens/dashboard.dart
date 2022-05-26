@@ -102,13 +102,14 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   child: Container(
                     child: Container(
-                        padding: EdgeInsets.only(
-                          top: height * 0.01,
-                          bottom: height * 0.01,
-                          right: width * 0.06,
-                          left: width * 0.02,
-                        ),
-                        child: PerformanceGraph()),
+                      padding: EdgeInsets.only(
+                        top: height * 0.01,
+                        bottom: height * 0.01,
+                        right: width * 0.06,
+                        left: width * 0.02,
+                      ),
+                      child: PerformanceGraph(),
+                    ),
                     height: height * 0.2,
                     width: width * 0.75,
                     decoration: BoxDecoration(

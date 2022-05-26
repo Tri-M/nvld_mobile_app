@@ -18,7 +18,7 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
-        obscureText: true,
+        obscureText: _flag,
         onChanged: widget.onChanged,
         cursorColor: kPrimaryColor,
         decoration: InputDecoration(
@@ -29,7 +29,7 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
           ),
           suffixIcon: IconButton(
             icon: Icon(
-              _flag ? Icons.visibility : Icons.visibility_off,
+              _flag ? Icons.visibility_off : Icons.visibility,
               color: kPrimaryColor,
             ),
             onPressed: () {

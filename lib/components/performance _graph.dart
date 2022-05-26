@@ -33,20 +33,24 @@ class PerformanceGraph extends StatelessWidget {
     stops.add(0.5);
     stops.add(1.0);
 
-    final LinearGradient gradientColors =
-        LinearGradient(colors: color, stops: stops);
+    LinearGradient gradientColors = LinearGradient(
+      colors: color,
+      stops: stops,
+    );
     return SfCartesianChart(
-        primaryXAxis: NumericAxis(
-            labelFormat: 'day',
-            labelIntersectAction: AxisLabelIntersectAction.rotate45),
-        title: ChartTitle(text: "Performance"),
-        series: <ChartSeries>[
-          // Renders area chart
-          AreaSeries<ChartData, int>(
-              dataSource: chartData,
-              xValueMapper: (ChartData data, _) => data.x,
-              yValueMapper: (ChartData data, _) => data.y,
-              gradient: gradientColors)
-        ]);
+      primaryXAxis: NumericAxis(
+          labelFormat: 'day',
+          labelIntersectAction: AxisLabelIntersectAction.rotate45),
+      title: ChartTitle(text: "Performance"),
+      series: <ChartSeries>[
+        // Renders area chart
+        AreaSeries<ChartData, int>(
+          dataSource: chartData,
+          xValueMapper: (ChartData data, _) => data.x,
+          yValueMapper: (ChartData data, _) => data.y,
+          gradient: gradientColors,
+        )
+      ],
+    );
   }
 }

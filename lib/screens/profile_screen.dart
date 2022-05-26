@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:nvld_app/screens/components/rounded_password_field.dart';
-import './components/rounded_input_field.dart';
+import 'package:nvld_app/screens/components_profile/rounded_number_field.dart';
+import 'package:nvld_app/screens/components_profile/rounded_password_field.dart';
+import './components_profile/rounded_input_field.dart';
 import '../components/text_container.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -161,10 +161,10 @@ class ProfileScreen extends StatelessWidget {
             //profile_list
             Container(
               padding: EdgeInsets.only(
-                top: height * 0.03,
+                top: height * 0.02,
                 left: width * 0.05,
                 right: width * 0.05,
-                bottom: height * 0.03,
+                bottom: height * 0.02,
               ),
               color: Colors.white,
               child: Column(
@@ -172,7 +172,9 @@ class ProfileScreen extends StatelessWidget {
                   Container(
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.only(
-                        bottom: height * 0.015, left: width * 0.03),
+                      bottom: height * 0.015,
+                      left: width * 0.03,
+                    ),
                     child: TextContainer(
                       text: "Password",
                       presetFontSizes: const [20, 18, 16, 14, 12],
@@ -203,7 +205,9 @@ class ProfileScreen extends StatelessWidget {
                   Container(
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.only(
-                        bottom: height * 0.015, left: width * 0.03),
+                      bottom: height * 0.015,
+                      left: width * 0.03,
+                    ),
                     child: TextContainer(
                       text: "Phone",
                       presetFontSizes: const [20, 18, 16, 14, 12],
@@ -213,7 +217,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  RoundedInputField(
+                  RoundedNumberField(
                     hintText: "Phone",
                     icon: Icons.call,
                     onChanged: (value) {},
