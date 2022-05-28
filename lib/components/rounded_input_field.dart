@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import "./text_field_container.dart";
-
+import 'text_field_container.dart';
 import "/constants.dart";
 
-class RoundedNumberField extends StatelessWidget {
+class RoundedInputField extends StatelessWidget {
   final String hintText;
   final IconData icon;
   final ValueChanged<String> onChanged;
-  const RoundedNumberField({
+  const RoundedInputField({
     required this.hintText,
     required this.icon,
     required this.onChanged,
@@ -17,7 +16,6 @@ class RoundedNumberField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
-        keyboardType: TextInputType.number,
         onChanged: onChanged,
         cursorColor: kPrimaryColor,
         decoration: InputDecoration(
