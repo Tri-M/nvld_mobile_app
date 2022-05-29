@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:nvld_app/screens/edit_profile_page.dart';
 import '/components/text_container.dart';
-import './profile_screen.dart';
+import 'profile_page.dart';
 import './student_dashboard_drawer.dart';
 import '../components/performance _graph.dart';
 import '../constants.dart';
@@ -42,7 +43,7 @@ class _DashboardState extends State<Dashboard> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ProfileScreen(),
+                  builder: (context) => ProfilePage(),
                 ),
               );
             },

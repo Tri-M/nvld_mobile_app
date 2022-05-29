@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './profile_screen.dart';
+import 'profile_page.dart';
 
 class StudentDashboardDrawer extends StatelessWidget {
   const StudentDashboardDrawer({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class StudentDashboardDrawer extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ProfileScreen()));
+                      builder: (context) => ProfilePage()));
             },
           ),
           ListTile(
