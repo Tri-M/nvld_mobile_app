@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nvld_app/components/common_layout.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/constants.dart';
 import 'package:nvld_app/screens/edit_profile_page.dart';
@@ -20,28 +21,30 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(context),
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        children: [
-          ProfileWidget(
-            imagePath: user.imagePath,
-            onClicked: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => EditProfilePage(),
-                ),
-              );
-            },
-          ),
-          SizedBox(height: 20),
-          buildName(user),
-          SizedBox(height: 25),
-          NumbersWidget(),
-          SizedBox(height: 20),
-          buildAbout(user),
-        ],
+    return CommonLayout(
+      child: Scaffold(
+        appBar: buildAppBar(context),
+        body: ListView(
+          physics: BouncingScrollPhysics(),
+          children: [
+            ProfileWidget(
+              imagePath: user.imagePath,
+              onClicked: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => EditProfilePage(),
+                  ),
+                );
+              },
+            ),
+            SizedBox(height: 20),
+            buildName(user),
+            SizedBox(height: 25),
+            NumbersWidget(),
+            SizedBox(height: 20),
+            buildAbout(user),
+          ],
+        ),
       ),
     );
   }
