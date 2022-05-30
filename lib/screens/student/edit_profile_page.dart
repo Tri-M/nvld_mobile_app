@@ -5,8 +5,8 @@ import 'package:nvld_app/utils/user_preferences.dart';
 import 'package:nvld_app/widget/appbar_widget.dart';
 import 'package:nvld_app/widget/profile_widget.dart';
 
-import '../models/user.dart';
-import '../widget/textfield_widget.dart';
+import '../../models/user.dart';
+import '../../widget/textfield_widget.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);

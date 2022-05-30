@@ -2,8 +2,9 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/screens/staff/upload_question_page.dart';
+import 'package:nvld_app/screens/student/edit_profile_page.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
-import 'package:nvld_app/screens/student_dashboard.dart';
+import 'package:nvld_app/screens/student/student_dashboard.dart';
 // import 'package:nvld_app/screens/mcq_page.dart';
 
 void main() {
@@ -26,7 +27,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const Scaffold(
           // body:McqPage()
-          body: Dashboard()),
+          body: StudentDashboard()
+          // body:EditProfilePage()
+          ),
     );
   }
 }

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:nvld_app/screens/edit_profile_page.dart';
+import 'package:nvld_app/screens/student/edit_profile_page.dart';
+import 'package:nvld_app/screens/student/mcq_page.dart';
 import '/components/text_container.dart';
 import 'profile_page.dart';
-import './student_dashboard_drawer.dart';
-import '../components/performance _graph.dart';
-import '../constants.dart';
+import 'student_dashboard_drawer.dart';
+import '../../components/performance _graph.dart';
+import '../../constants.dart';
 
-class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+class StudentDashboard extends StatefulWidget {
+  const StudentDashboard({Key? key}) : super(key: key);
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  State<StudentDashboard> createState() => _StudentDashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _StudentDashboardState extends State<StudentDashboard> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -220,7 +221,9 @@ class _DashboardState extends State<Dashboard> {
                         Icons.play_arrow,
                         size: 50,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push((context),MaterialPageRoute(builder: (context) => McqPage()));
+                      },
                     ),
                   ),
                 ],

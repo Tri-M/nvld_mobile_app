@@ -77,8 +77,8 @@ class OptionTile extends StatelessWidget {
                 SizedBox(width:width*0.02),
                 TextContainer(
                   text: text,
-                  presetFontSizes: [22,20,18,16,14,12,10,8],
-                  maxlines: 3,
+                  presetFontSizes: [20,18,16,14,12],
+                  maxlines: 10,
                   width:width*0.7,
                   style: TextStyle(
                     color:selected!=null && selected==index?Colors.white:Colors.black,

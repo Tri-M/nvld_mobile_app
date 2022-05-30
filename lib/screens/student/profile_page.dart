@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/constants.dart';
-import 'package:nvld_app/screens/edit_profile_page.dart';
+import 'package:nvld_app/screens/student/edit_profile_page.dart';
 import 'package:nvld_app/utils/user_preferences.dart';
-import '../models/user.dart';
-import '../widget/appbar_widget.dart';
-import '../widget/numbers_widget.dart';
-import '../widget/profile_widget.dart';
+import '../../models/user.dart';
+import '../../widget/appbar_widget.dart';
+import '../../widget/numbers_widget.dart';
+import '../../widget/profile_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
