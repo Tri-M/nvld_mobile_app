@@ -38,6 +38,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
           TextFieldWidget(
             label: 'Name',
+            icon: const Icon(Icons.person),
             text: user.name,
             onChanged: (name) {},
           ),
@@ -46,6 +47,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
           TextFieldWidget(
             label: 'Email',
+            icon: const Icon(Icons.email),
             text: user.email,
             onChanged: (name) {},
           ),
@@ -53,6 +55,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             height: 20,
           ),
           TextFieldWidget(
+            icon: const Icon(Icons.lock),
             label: 'Password',
             text: user.password,
             onChanged: (name) {},
@@ -61,6 +64,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             height: 20,
           ),
           TextFieldWidget(
+            icon: const Icon(Icons.phone),
             label: 'Phone',
             text: user.phone,
             onChanged: (name) {},
@@ -69,6 +73,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             height: 20,
           ),
           TextFieldWidget(
+            icon: const Icon(Icons.edit),
             label: 'About',
             text: user.about,
             maxLines: 4,

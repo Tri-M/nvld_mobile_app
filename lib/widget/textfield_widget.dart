@@ -5,6 +5,7 @@ import 'package:nvld_app/constants.dart';
 class TextFieldWidget extends StatefulWidget {
   final int maxLines;
   final String label;
+  final Icon icon;
   final String text;
   final ValueChanged<String> onChanged;
 
@@ -12,6 +13,7 @@ class TextFieldWidget extends StatefulWidget {
     Key? key,
     this.maxLines = 1,
     required this.label,
+    required this.icon,
     required this.text,
     required this.onChanged,
   }) : super(key: key);
@@ -42,6 +44,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         TextContainer(
           text: widget.label,
           style: const TextStyle(
+            color: Color.fromARGB(255, 41, 0, 62),
             fontWeight: FontWeight.bold,
           ),
           presetFontSizes: [20, 18, 16, 14],
@@ -51,6 +54,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         ),
         TextField(
           decoration: InputDecoration(
+            icon: widget.icon,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
             ),
