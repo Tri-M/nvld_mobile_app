@@ -3,18 +3,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/screens/staff/upload_question_page.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
+import 'package:nvld_app/screens/student_dashboard.dart';
+// import 'package:nvld_app/screens/mcq_page.dart';
 
 void main() {
-  runApp(
-    /*DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => MyApp(), // Wrap your app
-    ),*/
-    MyApp()
-  );
+  runApp(DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) => MyApp(), // Wrap your app
+  ));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,10 +24,9 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        // body:McqPage()
-        body:UploadQuestionPage()
-      ),
+      home: const Scaffold(
+          // body:McqPage()
+          body: Dashboard()),
     );
   }
 }
