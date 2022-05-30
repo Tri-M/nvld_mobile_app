@@ -1,35 +1,22 @@
-import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:nvld_app/screens/staff/upload_question_page.dart';
-import 'package:nvld_app/screens/student/edit_profile_page.dart';
-import 'package:nvld_app/screens/student/mcq_page.dart';
-import 'package:nvld_app/screens/student/student_dashboard.dart';
-// import 'package:nvld_app/screens/mcq_page.dart';
+import 'package:quiz_app/Screens/Welcome/welcome_screen.dart';
+import 'package:quiz_app/constants.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => MyApp(), // Wrap your app
-  ));
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(),
-      useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
-      home: const Scaffold(
-          // body:McqPage()
-          body: StudentDashboard()
-          // body:EditProfilePage()
-          ),
+      title: 'Quiz App',
+      theme: ThemeData(
+        primaryColor: kPrimaryColor,
+        scaffoldBackgroundColor: Color.fromARGB(255, 250, 248, 248),
+      ),
+      home: WelcomeScreen(),
     );
   }
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'text_field_container.dart';
-import '/constants.dart';
+import 'package:quiz_app/components/text_field_container.dart';
+import 'package:quiz_app/constants.dart';
 
 class RoundedPasswordField extends StatefulWidget {
   final ValueChanged<String> onChanged;
-  // ignore: use_key_in_widget_constructors
   const RoundedPasswordField({
-    required this.onChanged,
-  });
+    Key key,
+    this.onChanged,
+  }) : super(key: key);
 
   @override
   State<RoundedPasswordField> createState() => _RoundedPasswordFieldState();
@@ -19,7 +19,7 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
-        obscureText: _flag,
+        obscureText: true,
         onChanged: widget.onChanged,
         cursorColor: kPrimaryColor,
         decoration: InputDecoration(
@@ -30,7 +30,7 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
           ),
           suffixIcon: IconButton(
             icon: Icon(
-              _flag ? Icons.visibility_off : Icons.visibility,
+              _flag ? Icons.visibility : Icons.visibility_off,
               color: kPrimaryColor,
             ),
             onPressed: () {
