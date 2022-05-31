@@ -55,7 +55,7 @@ class _QuestionCardState extends State<QuestionCard> {
   @override
   void didUpdateWidget(QuestionCard oldWidget){
     super.didUpdateWidget(oldWidget);
-    print(widget.question.type);
+    // print(widget.question.type);
     if (widget.question.type == 'video') {
       videoController = VideoPlayerController.network(widget.question.media!)
         ..initialize().then((_) {
