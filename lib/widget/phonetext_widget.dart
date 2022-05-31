@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/constants.dart';
 
-class TextFieldWidget extends StatefulWidget {
+class PhoneTextWidget extends StatefulWidget {
   final int maxLines;
   final String label;
   final Icon icon;
   final String text;
   final ValueChanged<String> onChanged;
 
-  const TextFieldWidget({
+  const PhoneTextWidget({
     Key? key,
     this.maxLines = 1,
     required this.label,
@@ -19,10 +19,10 @@ class TextFieldWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<TextFieldWidget> createState() => _TextFieldWidgetState();
+  State<PhoneTextWidget> createState() => _PhoneTextWidgetState();
 }
 
-class _TextFieldWidgetState extends State<TextFieldWidget> {
+class _PhoneTextWidgetState extends State<PhoneTextWidget> {
   late final TextEditingController controller;
   @override
   void initState() {
@@ -53,6 +53,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           height: 8,
         ),
         TextField(
+          keyboardType: TextInputType.number,
           decoration: InputDecoration(
             prefixIcon: widget.icon,
             border: OutlineInputBorder(
