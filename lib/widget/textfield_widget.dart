@@ -53,13 +53,14 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           height: 8,
         ),
         TextField(
+          cursorColor: kPrimaryColor,
           decoration: InputDecoration(
             prefixIcon: widget.icon,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(45),
+              borderRadius: BorderRadius.circular(15),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(45),
+              borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide(
                 color: kPrimaryColor,
                 width: 2,
