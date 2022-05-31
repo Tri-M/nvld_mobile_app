@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/Screens/Login/login_screen.dart';
-import 'package:quiz_app/Screens/Signup/components/background.dart';
+import 'package:quiz_app/Screens/login_screen.dart';
+import './background_signup.dart';
 import 'package:quiz_app/components/account_check.dart';
 import 'package:quiz_app/components/rounded_button.dart';
 import 'package:quiz_app/components/rounded_input_field.dart';

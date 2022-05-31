@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/Screens/Login/login_screen.dart';
-import 'package:quiz_app/Screens/Signup/signup_screen.dart';
-import 'package:quiz_app/Screens/Welcome/components/background.dart';
+import './background_login.dart';
+import 'package:quiz_app/Screens/signup_screen.dart';
+import 'package:quiz_app/components/account_check.dart';
 import 'package:quiz_app/components/rounded_button.dart';
-import 'package:quiz_app/constants.dart';
+import 'package:quiz_app/components/rounded_input_field.dart';
+import 'package:quiz_app/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Body extends StatelessWidget {
+  const Body({
+    Key key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Background(
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "QUIZ APP",
+              "LOGIN",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 40,
@@ -26,29 +30,25 @@ class Body extends StatelessWidget {
                     ..strokeWidth = 6
                     ..color = Color.fromARGB(255, 133, 25, 210)),
             ),
-            SizedBox(height: size.height * 0.05),
+            SizedBox(height: size.height * 0.03),
             SvgPicture.asset(
-              "assets/icons/homepageicon.svg",
+              "assets/icons/login.svg",
               height: size.height * 0.25,
             ),
-            SizedBox(height: size.height * 0.05),
-            RoundedButton(
-              text: "LOGIN",
-              press: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return LoginScreen();
-                    },
-                  ),
-                );
-              },
+            SizedBox(height: size.height * 0.03),
+            RoundedInputField(
+              hintText: "Your Email",
+              onChanged: (value) {},
+            ),
+            RoundedPasswordField(
+              onChanged: (value) {},
             ),
             RoundedButton(
-              text: "SIGN UP",
-              color: kPrimaryLightColor,
-              textColor: Colors.black,
+              text: "LOGIN",
+              press: () {},
+            ),
+            SizedBox(height: size.height * 0.03),
+            AlreadyHaveAnAccountCheck(
               press: () {
                 Navigator.push(
                   context,
