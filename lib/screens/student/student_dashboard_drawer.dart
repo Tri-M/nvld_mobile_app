@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nvld_app/Screens/welcome_screen.dart';
 import 'profile_page.dart';
 
 class StudentDashboardDrawer extends StatelessWidget {
@@ -32,10 +33,19 @@ class StudentDashboardDrawer extends StatelessWidget {
             ),
             title: Text('Profile'),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ProfilePage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()));
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.logout,
+              size: width * 0.075,
+            ),
+            title: Text('Logout'),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => WelcomeScreen()));
             },
           ),
           ListTile(
