@@ -2,8 +2,8 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 
 toteacher(String recipientMailId) async {
-  String username = 'kmkarthik97@gmail.com';
-  String password = 'appleonatree';
+  String username = 'mailID';
+  String password = 'password';
 
   final smtpServer = gmail(username, password);
   // Use the SmtpServer class to configure an SMTP server:
