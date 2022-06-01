@@ -12,7 +12,6 @@ import 'package:nvld_app/components/rounded_password_field.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 class Body extends StatelessWidget {
   final _auth = FirebaseAuth.instance;
-  final _formKey = GlobalKey<FormState>();
   late String email = "";
   late String password = "";
 
@@ -20,7 +19,6 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     late String errorMessage;
     void signIn(String email, String password) async {
-      print(email);
       try {
         await _auth
             .signInWithEmailAndPassword(email: email, password: password)
@@ -54,7 +52,6 @@ class Body extends StatelessWidget {
             errorMessage = "An undefined Error happened.";
         }
         Fluttertoast.showToast(msg: errorMessage);
-        print(error.code);
       }
     }
 
@@ -83,7 +80,8 @@ class Body extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
 
             RoundedInputField(
-              hintText: "Your Email",
+              hintText: "Email",
+              icon: Icons.mail,
               onChanged: (value) {
                 email = value;
               },
@@ -96,10 +94,6 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: "LOGIN",
               press: () {
-                // Navigator.push(
-                //     (context),
-                //     MaterialPageRoute(
-                //         builder: (context) => StudentDashboard()));
                 signIn(email, password);
               },
             ),

@@ -117,7 +117,8 @@ class Body extends StatelessWidget {
             //   height: size.height * 0.15,
             // ),
             RoundedInputField(
-              hintText: "Your Email",
+              hintText: "Email",
+              icon: Icons.mail,
               onChanged: (value) {
                 email = value;
               },
@@ -128,13 +129,15 @@ class Body extends StatelessWidget {
               },
             ),
             RoundedInputField(
-              hintText: "Your Name",
+              hintText: "Name",
+              icon: Icons.account_circle,
               onChanged: (value) {
                 name = value;
               },
             ),
             DOBField(
               hintText: "Date of Birth",
+              icon: Icons.calendar_month,
               onChanged: (value) {
                 dob = value;
               },

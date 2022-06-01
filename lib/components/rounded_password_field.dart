@@ -19,23 +19,23 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
         obscureText: true,
         onChanged: widget.onChanged,
         cursorColor: kPrimaryColor,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           hintText: "Password",
           icon: Icon(
             Icons.lock,
             color: kPrimaryColor,
           ),
-          suffixIcon: IconButton(
-            icon: Icon(
-              _flag ? Icons.visibility : Icons.visibility_off,
-              color: kPrimaryColor,
-            ),
-            onPressed: () {
-              setState(() {
-                _flag = !_flag;
-              });
-            },
-          ),
+          // suffixIcon: IconButton(
+          //   icon: Icon(
+          //     _flag ? Icons.visibility : Icons.visibility_off,
+          //     color: kPrimaryColor,
+          //   ),
+          //   onPressed: () {
+          //     setState(() {
+          //       _flag = !_flag;
+          //     });
+          //   },
+          // ),
           border: InputBorder.none,
         ),
       ),
