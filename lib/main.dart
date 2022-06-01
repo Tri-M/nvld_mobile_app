@@ -3,14 +3,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/screens/dashboard.dart';
 import 'package:nvld_app/screens/mcq_page.dart';
+import 'package:nvld_app/screens/teacher_invite.dart';
 
 //comment
 void main() {
   runApp(
-      //DevicePreview(
-      //   enabled: !kReleaseMode,
-      //   builder: (context) => MyApp(), // Wrap your app
-      // ));
+      // DevicePreview(
+      //    enabled: !kReleaseMode,
+      //    builder: (context) => MyApp(), // Wrap your app
+      //  ));
       MyApp());
 }
 
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
           // body: McqPage()
-          body: Dashboard()),
+          //body: Dashboard()
+          body: TeacherInviteScreen()),
     );
   }
 }
