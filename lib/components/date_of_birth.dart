@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:nvld_app/components/text_field_container.dart';
 import 'package:nvld_app/constants.dart';
 
-class RoundedInputField extends StatelessWidget {
+class DOBField extends StatelessWidget {
   final String hintText;
   IconData? icon;
   final ValueChanged<String> onChanged;
-  RoundedInputField({required this.hintText,this.icon,required this.onChanged});
+  DOBField({required this.hintText,this.icon,required this.onChanged});
 
   @override
   Widget build(BuildContext context) {

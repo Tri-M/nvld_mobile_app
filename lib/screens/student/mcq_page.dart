@@ -6,9 +6,9 @@ import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/constants.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import '../components/question_card.dart';
-import '../components/question_navigation.dart';
-import '../models/Question.dart';
+import '../../components/question_card.dart';
+import '../../components/question_navigation.dart';
+import '../../models/Question.dart';
 
 class McqPage extends StatefulWidget {
   @override
