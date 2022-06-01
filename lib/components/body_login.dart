@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nvld_app/screens/student/student_dashboard.dart';
 import './background_login.dart';
 import 'package:nvld_app/screens/signup_screen.dart';
 import 'package:nvld_app/components/account_check.dart';
@@ -43,10 +44,13 @@ class Body extends StatelessWidget {
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () {},
+              press: () {
+                Navigator.push((context),MaterialPageRoute(builder: (context) => StudentDashboard()));
+              },
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
+              login:true,
               press: () {
                 Navigator.push(
                   context,
