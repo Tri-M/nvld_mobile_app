@@ -1,4 +1,5 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/Screens/login_screen.dart';
@@ -7,9 +8,14 @@ import 'package:nvld_app/screens/staff/upload_question_page.dart';
 import 'package:nvld_app/screens/student/edit_profile_page.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
 import 'package:nvld_app/screens/student/student_dashboard.dart';
+
+import 'firebase_options.dart';
 // import 'package:nvld_app/screens/mcq_page.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(DevicePreview(
     enabled: !kReleaseMode,
     builder: (context) => MyApp(), // Wrap your app
@@ -30,8 +36,8 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
           // body:McqPage()
           // body: StudentDashboard()
-        //  body:LoginScreen()
-        body:WelcomeScreen()
+          //  body:LoginScreen()
+          body: WelcomeScreen()
           // body:EditProfilePage()
           ),
     );
