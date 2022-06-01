@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "521780371207",
+    "project_id": "nvldapp",
+    "storage_bucket": "nvldapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521780371207:android:5d052c68affc9858cdafa2",
+        "android_client_info": {
+          "package_name": "com.example.nvld_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521780371207-2e8k8fh7ubj4pm016e2qlte7rtomigcq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nvld_app",
+            "certificate_hash": "51869a9de3100eebec542ea36e028bbf96b15cd9"
+          }
+        },
+        {
+          "client_id": "521780371207-c2nmarm19mt1eusscqcmm9p12rlu1o2g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvwmuCHVXMkV5-RM-DqGH5793qKsZlpNE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521780371207-c2nmarm19mt1eusscqcmm9p12rlu1o2g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
