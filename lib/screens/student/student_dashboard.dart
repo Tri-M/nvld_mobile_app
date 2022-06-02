@@ -158,6 +158,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                               ),
                               TextContainer(
                                 text: "13/15",
+                                width: width * 0.2,
                                 presetFontSizes: [20, 18, 16, 14, 12],
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
