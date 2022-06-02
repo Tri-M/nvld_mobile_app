@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nvld_app/screens/student/edit_profile_page.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
 import '/components/text_container.dart';
 import 'profile_page.dart';
