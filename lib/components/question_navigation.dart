@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:nvld_app/components/text_container.dart';
 
 import '../constants.dart';
+import '../models/Question.dart';
 
 class QuestionNavigation extends StatefulWidget {
   final Function(int) onTap;
   final int totalQuestions;
   int currQuestion;
-  QuestionNavigation({required this.onTap,required this.totalQuestions,required this.currQuestion});
+  List<Question> questions;
+  QuestionNavigation({required this.questions,required this.onTap,required this.totalQuestions,required this.currQuestion});
 
   @override
   State<QuestionNavigation> createState() => _QuestionNavigationState();
@@ -35,7 +37,7 @@ class _QuestionNavigationState extends State<QuestionNavigation> {
                     });
                   },
                   child: CircleAvatar(
-                    backgroundColor: widget.currQuestion==i?primaryPurple:Colors.grey[300],
+                    backgroundColor: widget.currQuestion==i?primaryPurple:widget.questions[i].selected!=null?Colors.blueGrey[900]:Colors.grey[300],
                     radius: width*0.05,
                     child: Center(
                       child: TextContainer(
@@ -44,7 +46,7 @@ class _QuestionNavigationState extends State<QuestionNavigation> {
                         presetFontSizes: [18,16,14,12],
                         width:width*0.07,
                         style: TextStyle(
-                          color:widget.currQuestion==i?Colors.white:Colors.black,
+                          color:widget.currQuestion==i || widget.questions[i].selected!=null?Colors.white:Colors.black,
                         ),
                       )
                     ),

@@ -51,7 +51,7 @@ class _McqPageState extends State<McqPage> {
 
   @override
   Widget build(BuildContext context) {
-    int submittedQuestions=questions.where((q) => q.submitted).length;
+    int submittedQuestions=questions.where((q) => q.selected!=null).length;
     int questionsLength = questions.length;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -97,6 +97,7 @@ class _McqPageState extends State<McqPage> {
                         context: context,
                         builder: (BuildContext context) {
                           return QuestionNavigation(
+                            questions: questions,
                             totalQuestions: questionsLength,
                             // totalQuestions: 200,
                             currQuestion: currQuestion,
@@ -218,7 +219,7 @@ class _McqPageState extends State<McqPage> {
                             questions[currQuestion].selected = value;
                           else {
                             questions[currQuestion].selected = null;
-                            questions[currQuestion].submitted = false;
+                            // questions[currQuestion].submitted = false;
                           }
                           // print('hi');
                         });
@@ -231,15 +232,9 @@ class _McqPageState extends State<McqPage> {
             CommonButton(
                 height: height * 0.05,
                 width: width * 0.6,
-                text: 'SAVE',
+                text: 'SUBMIT TEST',
                 onTap: () {
-                  setState(() {
-                    if (questions[currQuestion].selected != null) {
-                      questions[currQuestion].submitted = true;
-                      if (currQuestion != questionsLength - 1)
-                        currQuestion = currQuestion + 1;
-                    }
-                  });
+                  Navigator.pop(context);
                 })
           ],
         ),

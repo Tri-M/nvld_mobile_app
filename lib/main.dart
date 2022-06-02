@@ -34,10 +34,10 @@ class MyApp extends StatelessWidget {
       builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          // body:McqPage()
+          body:McqPage()
           // body: StudentDashboard()
           //  body:LoginScreen()
-          body: WelcomeScreen()
+          // body: WelcomeScreen()
           // body:EditProfilePage()
           ),
     );
