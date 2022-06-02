@@ -33,13 +33,7 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          body:McqPage()
-          // body: StudentDashboard()
-          //  body:LoginScreen()
-          // body: WelcomeScreen()
-          // body:EditProfilePage()
-          ),
+      home: Scaffold(body: WelcomeScreen()),
     );
   }
 }
