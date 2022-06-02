@@ -3,20 +3,22 @@ import 'package:nvld_app/constants.dart';
 
 class CommonLayout extends StatelessWidget {
   final Widget child;
-  CommonLayout({required this.child});
+  Color backgroundColor;
+
+  CommonLayout({required this.child, this.backgroundColor = background});
   @override
   Widget build(BuildContext context) {
-    double width =MediaQuery.of(context).size.width;
-    double height=MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Container(
-      color:background,
+      color: backgroundColor,
       child: SafeArea(
         child: Scaffold(
-          backgroundColor:background,
-          body:Container(
-            height:height,
-            width:width,
-            child:child,
+          backgroundColor: backgroundColor,
+          body: Container(
+            height: height,
+            width: width,
+            child: child,
           ),
         ),
       ),

@@ -10,21 +10,27 @@ class TextContainer extends StatelessWidget {
   int? maxlines;
   TextAlign? textAlign;
 
-  TextContainer({required this.text,required this.presetFontSizes,this.height,this.width,this.style,this.maxlines,this.textAlign});
-  
+  TextContainer(
+      {required this.text,
+      required this.presetFontSizes,
+      this.height,
+      this.width,
+      this.style,
+      this.maxlines,
+      this.textAlign});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height:height,
-      width:width,
-      child:AutoSizeText(
-        text,
-        presetFontSizes: presetFontSizes,
-        style:style,
-        textAlign: textAlign,
-        maxLines: maxlines,
-        overflow: TextOverflow.ellipsis,
-      )
-    );
+        height: height,
+        width: width,
+        child: AutoSizeText(
+          text,
+          presetFontSizes: presetFontSizes,
+          style: style,
+          textAlign: textAlign,
+          maxLines: maxlines,
+          overflow: TextOverflow.ellipsis,
+        ));
   }
 }
