@@ -49,65 +49,72 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget buildName(User user) => Column(
-        children: [
-          TextContainer(
-            text: user.name,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-            presetFontSizes: [24, 22, 20, 18, 16],
-          ),
-          SizedBox(height: 4),
-          TextContainer(
-            text: user.email,
-            style: const TextStyle(
-              color: Colors.grey,
-            ),
-            presetFontSizes: [16, 15, 14, 13, 12],
-          ),
-        ],
-      );
-}
-
-Widget buildAbout(User user) {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 48),
-    child: Column(
+  Widget buildName(User user) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    return Column(
       children: [
-        Container(
-          width: 200,
-          child: Divider(
-            color: dividerColor,
-            thickness: 0.8,
-          ),
-        ),
-        SizedBox(height: 15),
-        Text(
-          "About",
-          textAlign: TextAlign.left,
-          style: TextStyle(
+        TextContainer(
+          text: user.name,
+          maxlines: 1,
+          width: width * 0.5,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 24,
           ),
+          presetFontSizes: [24, 22, 20, 18, 16, 14, 12, 10, 8],
         ),
-        // TextContainer(
-        //   textAlign: TextAlign.left,
-        //   text: "About",
-        //   style: TextStyle(
-        //     fontWeight: FontWeight.bold,
-        //   ),
-        //   presetFontSizes: [24, 22, 20, 18, 16],
-        // ),
-        SizedBox(height: 15),
-        Text(
-          user.about,
-          style: TextStyle(
-            fontSize: 17,
-            height: 1.5,
+        SizedBox(height: 4),
+        TextContainer(
+          text: user.email,
+          style: const TextStyle(
+            color: Colors.grey,
           ),
+          presetFontSizes: [16, 15, 14, 13, 12],
         ),
       ],
-    ),
-  );
+    );
+  }
+
+  Widget buildAbout(User user) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 48),
+      child: Column(
+        children: [
+          Container(
+            width: 200,
+            child: Divider(
+              color: dividerColor,
+              thickness: 0.8,
+            ),
+          ),
+          SizedBox(height: 15),
+          Text(
+            "About",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+          ),
+          // TextContainer(
+          //   textAlign: TextAlign.left,
+          //   text: "About",
+          //   style: TextStyle(
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          //   presetFontSizes: [24, 22, 20, 18, 16],
+          // ),
+          SizedBox(height: 15),
+          Text(
+            user.about,
+            style: TextStyle(
+              fontSize: 17,
+              height: 1.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
