@@ -6,8 +6,12 @@ class RoundedInputField extends StatelessWidget {
   final String hintText;
   IconData? icon;
   final ValueChanged<String> onChanged;
+  TextEditingController? controller;
   RoundedInputField(
-      {required this.hintText, this.icon, required this.onChanged});
+      {required this.hintText,
+      this.icon,
+      required this.onChanged,
+      this.controller});
 
   @override
   Widget build(BuildContext context) {
