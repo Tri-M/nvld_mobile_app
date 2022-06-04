@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nvld_app/Screens/login_screen.dart';
 import 'package:nvld_app/Screens/signup_screen.dart';
+import 'package:nvld_app/controllers/drawer_control.dart';
+import 'package:nvld_app/screens/staff/staff_main_screen.dart';
+import 'package:provider/provider.dart';
 import './background_welcome.dart';
 import 'package:nvld_app/components/rounded_button.dart';
 import 'package:nvld_app/constants.dart';
@@ -60,6 +63,28 @@ class Body extends StatelessWidget {
                 );
               },
             ),
+            RoundedButton(
+              text: "STAFF LOGIN",
+              color: kPrimaryLightColor,
+              textColor: Colors.black,
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return MultiProvider(
+                        providers: [
+                          ChangeNotifierProvider(
+                            create: (context) => DrawerControl(),
+                          ),
+                        ],
+                        child: StaffMainScreen(),
+                      );
+                    },
+                  ),
+                );
+              },
+            )
           ],
         ),
       ),
