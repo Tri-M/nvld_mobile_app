@@ -6,3 +6,4 @@ var lightPurple = Color(0xFF624DE3);
 const kPrimaryColor = Color.fromARGB(255, 101, 64, 232);
 const kPrimaryLightColor = Color(0xFFF1E6FF);
 const dividerColor = Colors.black;
+const defaultPadding = 16.0;

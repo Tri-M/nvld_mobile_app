@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/Screens/login_screen.dart';
 import 'package:nvld_app/Screens/welcome_screen.dart';
+import 'package:nvld_app/screens/staff/individual_performance.dart';
 import 'package:nvld_app/screens/staff/students_performance.dart';
 import 'package:nvld_app/screens/staff/student_invite.dart';
 import 'package:nvld_app/screens/staff/upload_question_page.dart';
@@ -30,14 +31,15 @@ class MyApp extends StatelessWidget {
       builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          //body: McqPage()
-          //body: StudentDashboard()
-          //body: LoginScreen()
-          // body: WelcomeScreen()
-          //body: EditProfilePage()
-          //body: StudentsPerformance(),
-          //body: StudentInviteScreen(),
-          ),
+        //body: McqPage()
+        //body: StudentDashboard()
+        //body: LoginScreen()
+        // body: WelcomeScreen()
+        //body: EditProfilePage()
+        //body: StudentsPerformance(),
+        //body: StudentInviteScreen(),
+        body: IndividualPerformance(),
+      ),
     );
   }
 }
