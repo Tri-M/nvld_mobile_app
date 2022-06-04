@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nvld_app/Screens/login_screen.dart';
 import 'package:nvld_app/Screens/signup_screen.dart';
 import 'package:nvld_app/controllers/drawer_control.dart';
+import 'package:nvld_app/screens/admin/admin.dart';
 import 'package:nvld_app/screens/staff/staff_main_screen.dart';
 import 'package:provider/provider.dart';
 import './background_welcome.dart';
@@ -48,21 +49,7 @@ class Body extends StatelessWidget {
                 );
               },
             ),
-            RoundedButton(
-              text: "SIGN UP",
-              color: kPrimaryLightColor,
-              textColor: Colors.black,
-              press: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return SignUpScreen();
-                    },
-                  ),
-                );
-              },
-            ),
+
             RoundedButton(
               text: "STAFF LOGIN",
               color: kPrimaryLightColor,
@@ -80,6 +67,21 @@ class Body extends StatelessWidget {
                         ],
                         child: StaffMainScreen(),
                       );
+                    },
+                  ),
+                );
+              },
+            ),
+            RoundedButton(
+              text: "Admin",
+              color: kPrimaryLightColor,
+              textColor: Colors.black,
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return Admin();
                     },
                   ),
                 );
