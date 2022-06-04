@@ -60,6 +60,21 @@ class Body extends StatelessWidget {
                 );
               },
             ),
+            RoundedButton(
+              text: "STAFF LOGIN",
+              color: kPrimaryLightColor,
+              textColor: Colors.black,
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SignUpScreen();
+                    },
+                  ),
+                );
+              },
+            )
           ],
         ),
       ),
