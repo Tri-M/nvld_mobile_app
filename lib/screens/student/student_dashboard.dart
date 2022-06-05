@@ -80,10 +80,8 @@ class _StudentDashboardState extends State<StudentDashboard> {
                         text: "Hello ${user.email!}!",
                         presetFontSizes: const [24, 22, 20, 18, 16],
                         textAlign: TextAlign.left,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 3),
                       ),
                     ),
                     Container(
@@ -92,10 +90,11 @@ class _StudentDashboardState extends State<StudentDashboard> {
                         bottom: height * 0.03,
                         right: width * 0.06,
                       ),
-                      child: TextContainer(
-                        text: "Level 3",
-                        presetFontSizes: const [20, 18, 16, 14, 12],
-                      ),
+                      // child: TextContainer(
+                      //   text: "Level 3",
+                      //   presetFontSizes: const [20, 18, 16, 14, 12],
+                      //   style: TextStyle(fontSize: 2),
+                      // ),
                     ),
                   ],
                 ),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/components/common_layout.dart';
 import 'package:nvld_app/components/text_container.dart';
@@ -20,6 +21,36 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final user = UserPreferences.myUser;
   final duser = FirebaseAuth.instance.currentUser!;
+  late String name = "";
+  late String dob = "";
+  late String email = "";
+  late String password = "";
+  late String phonenumber = "";
+
+  void getfunction() async {
+    var collection = FirebaseFirestore.instance.collection('users');
+    late Iterator<QueryDocumentSnapshot<Object?>> objiter;
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .where("Email", isEqualTo: "s@gmail.com")
+        .get()
+        .then((QuerySnapshot snapshot) {
+      objiter = snapshot.docs.iterator;
+    });
+    while (objiter.moveNext()) {
+      name = objiter.current.get("Name");
+      dob = objiter.current.get("Dob");
+      email = objiter.current.get("Email");
+      password = objiter.current.get("Password");
+      phonenumber = objiter.current.get("Phonenumber");
+    }
+    print(name);
+    print(dob);
+    print(email);
+    print(password);
+    print(phonenumber);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget buildName(UserData user) => Column(
         children: [
           TextContainer(
-            text: user.name,
+            text: name,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),

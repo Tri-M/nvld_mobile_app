@@ -23,19 +23,41 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   UserData user = UserPreferences.myUser;
   final duser = FirebaseAuth.instance.currentUser!;
+  late String name = "";
+  late String dob = "";
+  late String email = "";
+  late String password = "";
+  late String phonenumber = "";
+
+  @override
+  void initState() {
+    super.initState;
+    getfunction();
+  }
 
   void getfunction() async {
     var collection = FirebaseFirestore.instance.collection('users');
+    late Iterator<QueryDocumentSnapshot<Object?>> objiter;
+
     await FirebaseFirestore.instance
         .collection("users")
-        .where("Email", isEqualTo: duser.email)
+        .where("Email", isEqualTo: "s@gmail.com")
         .get()
         .then((QuerySnapshot snapshot) {
-      snapshot.docs.forEach(
-        // add data to your list
-        (f) => print(f.id),
-      );
+      objiter = snapshot.docs.iterator;
     });
+    while (objiter.moveNext()) {
+      name = objiter.current.get("Name");
+      dob = objiter.current.get("Dob");
+      email = objiter.current.get("Email");
+      password = objiter.current.get("Password");
+      phonenumber = objiter.current.get("Phonenumber");
+    }
+    print(name);
+    print(dob);
+    print(email);
+    print(password);
+    print(phonenumber);
   }
 
   @override
@@ -59,8 +81,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
           TextFieldWidget(
             label: 'Name',
             icon: const Icon(Icons.person),
-            text: user.name,
-            onChanged: (name) {},
+            text: name,
+            onChanged: (Name) {
+              print(name);
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          TextFieldWidget(
+            label: 'Dob',
+            icon: const Icon(Icons.person),
+            text: dob,
+            onChanged: (Name) {},
           ),
           SizedBox(
             height: 20,
@@ -68,7 +101,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           TextFieldWidget(
             label: 'Email',
             icon: const Icon(Icons.email),
-            text: duser.email!,
+            text: email,
             onChanged: (name) {},
           ),
           SizedBox(
@@ -77,7 +110,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           PasswordWidget(
             icon: const Icon(Icons.lock),
             label: 'Password',
-            text: user.password,
+            text: password,
             onChanged: (name) {},
           ),
           SizedBox(
@@ -86,22 +119,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
           PhoneTextWidget(
             icon: const Icon(Icons.phone),
             label: 'Phone',
-            text: user.phone,
+            text: phonenumber,
             onChanged: (name) {},
           ),
           SizedBox(
             height: 20,
           ),
-          TextFieldWidget(
-            icon: const Icon(Icons.edit),
-            label: 'About',
-            text: user.about,
-            maxLines: 4,
-            onChanged: (name) {},
-          ),
-          SizedBox(
-            height: 20,
-          ),
+          // TextFieldWidget(
+          //   icon: const Icon(Icons.edit),
+          //   label: 'About',
+          //   text: user.about,
+          //   maxLines: 4,
+          //   onChanged: (name) {},
+          // ),
+          // SizedBox(
+          //   height: 20,
+          // ),
           Center(
             child: ElevatedButton(
               child: TextContainer(
