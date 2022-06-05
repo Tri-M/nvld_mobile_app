@@ -32,16 +32,17 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        alignment: Alignment.centerRight,
-        margin: EdgeInsets.only(right: defaultPadding),
-        // padding: EdgeInsets.symmetric(
-        //     horizontal: defaultPadding, vertical: defaultPadding / 2),
-        decoration: BoxDecoration(
-            color: secondaryColor,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            border: Border.all(color: Colors.white10)),
-        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          Image.asset("assets/images/profile_pic.png", height: 36),
-        ]));
+      alignment: Alignment.centerRight,
+      margin: EdgeInsets.only(right: defaultPadding),
+      // padding: EdgeInsets.symmetric(
+      //     horizontal: defaultPadding, vertical: defaultPadding / 2),
+      decoration: BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          border: Border.all(color: Colors.white10)),
+      // child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+      //   Image.asset("assets/images/profile_pic.png", height: 36),
+      // ]
+    );
   }
 }

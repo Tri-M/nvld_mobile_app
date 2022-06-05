@@ -3,6 +3,7 @@ import 'package:nvld_app/constants.dart';
 import 'package:nvld_app/models/my_students.dart';
 import 'package:nvld_app/screens/staff/responsiveness.dart';
 import 'package:nvld_app/screens/staff/student_invite.dart';
+import 'package:nvld_app/screens/staff/upload_question_page.dart';
 import 'info_card.dart';
 
 class MyStudents extends StatelessWidget {
@@ -25,7 +26,7 @@ class MyStudents extends StatelessWidget {
             ElevatedButton.icon(
               style: TextButton.styleFrom(
                 padding: EdgeInsets.symmetric(
-                  horizontal: defaultPadding * 1.5,
+                  horizontal: defaultPadding * 0.5,
                   vertical: defaultPadding /
                       (Responsiveness.isMobile(context) ? 2 : 1),
                 ),
@@ -38,6 +39,23 @@ class MyStudents extends StatelessWidget {
               },
               icon: Icon(Icons.add),
               label: Text("Add New"),
+            ),
+            ElevatedButton.icon(
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.symmetric(
+                  horizontal: defaultPadding * 0.5,
+                  vertical: defaultPadding /
+                      (Responsiveness.isMobile(context) ? 2 : 1),
+                ),
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UploadQuestionPage()));
+              },
+              icon: Icon(Icons.add),
+              label: Text("Upload questions"),
             ),
           ],
         ),
