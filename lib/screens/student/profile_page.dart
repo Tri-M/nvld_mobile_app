@@ -8,6 +8,7 @@ import '../../models/user.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/numbers_widget.dart';
 import '../../widget/profile_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final user = UserPreferences.myUser;
+  final duser = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
           physics: BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-              imagePath: user.imagePath,
+              imagePath: 'assets/user_icon.JPG',
               onClicked: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -49,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget buildName(User user) => Column(
+  Widget buildName(UserData user) => Column(
         children: [
           TextContainer(
             text: user.name,
@@ -60,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           SizedBox(height: 4),
           TextContainer(
-            text: user.email,
+            text: duser.email!,
             style: const TextStyle(
               color: Colors.grey,
             ),
@@ -70,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
       );
 }
 
-Widget buildAbout(User user) {
+Widget buildAbout(UserData user) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 48),
     child: Column(

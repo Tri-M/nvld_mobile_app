@@ -6,6 +6,7 @@ import 'profile_page.dart';
 import 'student_dashboard_drawer.dart';
 import '../../components/performance _graph.dart';
 import '../../constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class StudentDashboard extends StatefulWidget {
   const StudentDashboard({Key? key}) : super(key: key);
@@ -17,6 +18,8 @@ class StudentDashboard extends StatefulWidget {
 class _StudentDashboardState extends State<StudentDashboard> {
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -74,7 +77,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                       ),
                       alignment: Alignment.topLeft,
                       child: TextContainer(
-                        text: "Hello user!",
+                        text: "Hello ${user.email!}!",
                         presetFontSizes: const [24, 22, 20, 18, 16],
                         textAlign: TextAlign.left,
                         style: const TextStyle(

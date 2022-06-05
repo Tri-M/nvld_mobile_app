@@ -10,6 +10,9 @@ import 'package:nvld_app/widget/profile_widget.dart';
 import '../../models/user.dart';
 import '../../widget/textfield_widget.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
 
@@ -18,7 +21,22 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  User user = UserPreferences.myUser;
+  UserData user = UserPreferences.myUser;
+  final duser = FirebaseAuth.instance.currentUser!;
+
+  void getfunction() async {
+    var collection = FirebaseFirestore.instance.collection('users');
+    await FirebaseFirestore.instance
+        .collection("users")
+        .where("Email", isEqualTo: duser.email)
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach(
+        // add data to your list
+        (f) => print(f.id),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +49,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-            imagePath: user.imagePath,
+            imagePath: '/assets/user_icon.JPG',
             isEdit: true,
             onClicked: () async {},
           ),
@@ -50,7 +68,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           TextFieldWidget(
             label: 'Email',
             icon: const Icon(Icons.email),
-            text: user.email,
+            text: duser.email!,
             onChanged: (name) {},
           ),
           SizedBox(
@@ -103,7 +121,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
               autofocus: mounted,
-              onPressed: () {},
+              onPressed: () {
+                getfunction();
+              },
             ),
           ),
         ],
