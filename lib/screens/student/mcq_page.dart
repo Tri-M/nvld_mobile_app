@@ -39,7 +39,7 @@ class _McqPageState extends State<McqPage> {
     ),
     
     Question(
-      question: 'How many Idiots in a cricket team?',
+      question: 'How many Bowlers are there in a cricket team?',
       options: ['2', '12', '3', '4'],
       answer: 1,
       type: "text",

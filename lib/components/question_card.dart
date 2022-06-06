@@ -19,7 +19,6 @@ class _QuestionCardState extends State<QuestionCard> {
   Question question;
   late VideoPlayerController videoController;
   late ChewieController _chewieController;
-  bool showQuestion = true;
   _QuestionCardState({required this.question});
   @override
   void initState() {
@@ -50,10 +49,10 @@ class _QuestionCardState extends State<QuestionCard> {
 
       videoController.play();
     }
-    
   }
+
   @override
-  void didUpdateWidget(QuestionCard oldWidget){
+  void didUpdateWidget(QuestionCard oldWidget) {
     super.didUpdateWidget(oldWidget);
     // print(widget.question.type);
     if (widget.question.type == 'video') {
@@ -83,8 +82,6 @@ class _QuestionCardState extends State<QuestionCard> {
       videoController.play();
     }
   }
-  
-  
 
   @override
   void dispose() {
@@ -94,11 +91,8 @@ class _QuestionCardState extends State<QuestionCard> {
 
   @override
   Widget build(BuildContext context) {
-    
-    
     question = widget.question;
 
-    
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
@@ -121,61 +115,51 @@ class _QuestionCardState extends State<QuestionCard> {
         ),
         child: Column(
           children: [
-            !showQuestion && question.type!='text'?question.type=='video'
-                ? videoController.value.isInitialized
-                    ? AspectRatio(
-                        aspectRatio: videoController.value.aspectRatio,
-                        child: Chewie(
-                          controller: _chewieController,
-                        ),
-                      )
-                    : Container(
-                        child:SpinKitFadingCircle(
-                          color: primaryPurple,
-                          size: width*0.3,
-                        )
-                    ):
-                    Image.network(question.media!
-                    ,width:width*0.9,fit:BoxFit.fill,
-                    loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Container(
-                      height:height*0.2,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color:primaryPurple,
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : null,
-                        ),
+            TextContainer(
+              text: question.question,
+              textAlign: TextAlign.start,
+              presetFontSizes: [18, 16, 14, 12, 10],
+              maxlines: 5,
+              width: width * 0.9,
+              // height: height * 0.16,
+            ),
+            SizedBox(height:height*0.02),
+            if (question.type == 'video')
+              videoController.value.isInitialized
+                  ? AspectRatio(
+                      aspectRatio: videoController.value.aspectRatio,
+                      child: Chewie(
+                        controller: _chewieController,
                       ),
-                    );}                    
-                  )
-                : TextContainer(
-                    text: question.question,
-                    textAlign: TextAlign.start,
-                    presetFontSizes: [22, 20, 18, 16, 14, 12, 10],
-                    maxlines: 5,
+                    )
+                  : Container(
+                      child: SpinKitFadingCircle(
+                      color: primaryPurple,
+                      size: width * 0.3,
+                    )),
+            if (question.type == 'image')
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(question.media!,
                     width: width * 0.9,
-                    height: height * 0.16,
-                  ),
-            if (question.type != 'text') SizedBox(height: height * 0.01),
-            if (question.type != 'text')
-              CommonButton(
-                  height: height * 0.06,
-                  width: width * 0.6,
-                  text: showQuestion
-                      ? question.type == 'video'
-                          ? 'Watch Video'
-                          : 'Show Image'
-                      : 'Show Question',
-                  onTap: () {
-                    setState(() {
-                      showQuestion = !showQuestion;
-                    });
-                  })
+                    
+                    fit: BoxFit.fill, loadingBuilder: (BuildContext context,
+                        Widget child, ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Container(
+                    height: height * 0.2,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: primaryPurple,
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    ),
+                  );
+                }),
+              )
           ],
         ));
   }
