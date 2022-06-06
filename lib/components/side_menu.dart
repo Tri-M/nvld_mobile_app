@@ -51,13 +51,20 @@ class SideMenu extends StatelessWidget {
             },
           ),
           ListTile(
+            leading:Icon(Icons.all_inbox_sharp,
+            size: width * 0.075),
+            title:Text('Courses'),
+            onTap: (){},
+          ),
+          ListTile(
             leading: Icon(
               Icons.help,
               size: width * 0.07,
             ),
             title: Text('Help'),
             onTap: () {},
-          )
+          ),
+          
         ],
       ),
     );
