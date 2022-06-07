@@ -13,13 +13,16 @@ class Admin_addstaff extends StatefulWidget {
 }
 
 class _Admin_addstaffState extends State<Admin_addstaff> {
+
+  final _formKey = GlobalKey<FormState>();
+    final emailEditingController = TextEditingController();
+    final passwordEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    final _formKey = GlobalKey<FormState>();
-    final emailEditingController = TextEditingController();
-    final passwordEditingController = TextEditingController();
+    
 
     return Scaffold(
         appBar: AppBar(
@@ -111,12 +114,14 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
   void create(String email, String password) async {
     late String errorMessage;
     try {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore()})
-          .catchError((e) {
-        Fluttertoast.showToast(msg: e!.message);
-      });
+      UserCredential userCred=await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      print('this is user ID : ${userCred.user!.uid}');
+      postDetailsToFirestore(userCred.user!.uid);
+      //     .then((value) => {postDetailsToFirestore()})
+      //     .catchError((e) {
+      //   Fluttertoast.showToast(msg: e!.message);
+      // });
     } on FirebaseAuthException catch (error) {
       switch (error.code) {
         case "invalid-email":
@@ -145,7 +150,7 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
     }
   }
 
-  void postDetailsToFirestore() async {
+  void postDetailsToFirestore(String uid) async {
     // calling our firestore
     // calling our user model
     // sedning these values
@@ -160,10 +165,11 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
     userModel.uid = user.uid;
     userModel.name = "";
     userModel.dob = "";
+    userModel.userType="staff";
 
     await firebaseFirestore
         .collection("users")
-        .doc(user.uid)
+        .doc(uid)
         .set(userModel.toMap());
 
     print("came");

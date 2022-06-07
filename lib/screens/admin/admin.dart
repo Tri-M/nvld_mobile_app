@@ -110,36 +110,39 @@ class _AdminState extends State<Admin> {
                             ], //<Widget>[]
                           ), //column
                         ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(8)), //rounded rectangel
-                          elevation: 4,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/staff.jpg',
-                                height: 100,
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Admin_addstaff(),
                               ),
-                              TextButton(
-                                style: ButtonStyle(
-                                  foregroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.blue),
+                            );
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    8)), //rounded rectangel
+                            elevation: 4,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Image.asset(
+                                  'assets/staff.jpg',
+                                  height: 100,
                                 ),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Admin_addstaff(),
-                                    ),
-                                  );
-                                },
-                                child: Text('Add Staff'),
-                              ),
-                            ], //<Widget>[]
-                          ), //column
+                                TextButton(
+                                  style: ButtonStyle(
+                                    foregroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Colors.blue),
+                                  ),
+                                  onPressed: () {},
+                                  child: Text('Add Staff'),
+                                ),
+                              ], //<Widget>[]
+                            ), //column
+                          ),
                         ),
                         Card(
                           shape: RoundedRectangleBorder(
