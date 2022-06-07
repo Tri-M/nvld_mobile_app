@@ -18,7 +18,7 @@ class McqPage extends StatefulWidget {
 class _McqPageState extends State<McqPage> {
   int currQuestion = 0;
   late List<Question> questions;
-  
+
   @override
   initState() {
     super.initState();
@@ -47,11 +47,10 @@ class _McqPageState extends State<McqPage> {
     ),
   ];
   }
-  
 
   @override
   Widget build(BuildContext context) {
-    int submittedQuestions=questions.where((q) => q.selected!=null).length;
+    int submittedQuestions = questions.where((q) => q.selected != null).length;
     int questionsLength = questions.length;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -160,7 +159,7 @@ class _McqPageState extends State<McqPage> {
                     ),
                   ]),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: width*0.03),
+                padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -170,27 +169,25 @@ class _McqPageState extends State<McqPage> {
                         width: width * 0.7,
                         lineHeight: 20.0,
                         barRadius: Radius.circular(20),
-                        percent: submittedQuestions /
-                            questionsLength,
+                        percent: submittedQuestions / questionsLength,
                         backgroundColor: Colors.grey[200],
                         progressColor: primaryPurple,
                       ),
                     ),
                     Container(
-                      width:width*0.15,
-                      height:height*0.04,
+                      width: width * 0.15,
+                      height: height * 0.04,
                       decoration: BoxDecoration(
-                        color:submittedQuestions!=questionsLength?Colors.grey[300]:primaryPurple.withOpacity(0.6),
-                        borderRadius: BorderRadius.circular(15)
-                      ),
-                      child:Center(
+                          color: submittedQuestions != questionsLength
+                              ? Colors.grey[300]
+                              : primaryPurple.withOpacity(0.6),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Center(
                         child: TextContainer(
                           textAlign: TextAlign.center,
                           text: '${submittedQuestions}/${questionsLength}',
-                          presetFontSizes: [16,14,12],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold
-                          ),
+                          presetFontSizes: [16, 14, 12],
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),

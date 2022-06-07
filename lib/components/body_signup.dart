@@ -25,6 +25,7 @@ class Body extends StatelessWidget {
     late String password = "";
     late String name = "";
     late String dob = "";
+    late String phonenumber = "";
     final _auth = FirebaseAuth.instance;
 
     void postDetailsToFirestore() async {
@@ -42,6 +43,8 @@ class Body extends StatelessWidget {
       userModel.uid = user.uid;
       userModel.name = name;
       userModel.dob = dob;
+      userModel.phonenumber = phonenumber;
+      userModel.password = password;
 
       await firebaseFirestore
           .collection("users")
@@ -142,6 +145,14 @@ class Body extends StatelessWidget {
                 dob = value;
               },
             ),
+            RoundedInputField(
+              hintText: "Phone Number",
+              icon: Icons.phone,
+              onChanged: (value) {
+                phonenumber = value;
+              },
+            ),
+
             SizedBox(height: size.height * 0.03),
             RoundedButton(
               text: "SIGNUP",

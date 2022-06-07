@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/Screens/login_screen.dart';
 import 'package:nvld_app/Screens/welcome_screen.dart';
+import 'package:nvld_app/screens/staff/individual_performance.dart';
 import 'package:nvld_app/screens/staff/upload_question_page.dart';
 import 'package:nvld_app/screens/student/edit_profile_page.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
@@ -28,18 +29,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(),
-      useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          body:McqPage()
-          // body: StudentDashboard()
-          //  body:LoginScreen()
-          // body: WelcomeScreen()
-          // body:EditProfilePage()
-          ),
-    );
+        theme: ThemeData(),
+        useInheritedMediaQuery: true,
+        locale: DevicePreview.locale(context),
+        builder: DevicePreview.appBuilder,
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(body: WelcomeScreen())
+        //IndividualPerformance()),
+        );
   }
 }
