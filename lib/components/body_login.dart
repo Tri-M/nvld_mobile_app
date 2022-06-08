@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../models/UserModal.dart';
 import '../models/user.dart';
 import '../provider/user_provider.dart';
+import '../screens/admin/admin.dart';
 import './background_login.dart';
 import 'package:nvld_app/screens/signup_screen.dart';
 import 'package:nvld_app/components/account_check.dart';
@@ -56,12 +57,22 @@ class _BodyState extends State<Body> {
             ),
           );
         }
+      
         else if(data['UserType']=='staff'){
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => StaffDashboardScreen(),
             ),
+          );
+        }
+        else if(data['UserType']=='admin'){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Admin(),
+            ),
+          
           );
         }
         // print(myUser.name);

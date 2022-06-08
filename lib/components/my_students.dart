@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/constants.dart';
 import 'package:nvld_app/models/my_students.dart';
 import 'package:nvld_app/screens/staff/responsiveness.dart';
@@ -15,50 +16,81 @@ class MyStudents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size _size = MediaQuery.of(context).size;
-
+    final _size=MediaQuery.of(context).size;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "My Students",
-              style: TextStyle(color: Colors.white),
+            TextContainer(
+              text:"My Students",
+              presetFontSizes: [24,22,20,18,16,14],
+              style:TextStyle(
+                fontWeight: FontWeight.w600,
+                color:Colors.white,
+              )
             ),
-            ElevatedButton.icon(
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(
-                  horizontal: defaultPadding * 0.5,
-                  vertical: defaultPadding /
-                      (Responsiveness.isMobile(context) ? 2 : 1),
-                ),
-              ),
-              onPressed: () {
+            InkWell(
+              onTap:(){
+                
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => StudentInviteScreen()));
               },
-              icon: Icon(Icons.add),
-              label: Text("Add New"),
-            ),
-            ElevatedButton.icon(
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(
-                  horizontal: defaultPadding * 0.5,
-                  vertical: defaultPadding /
-                      (Responsiveness.isMobile(context) ? 2 : 1),
+              child: Container(
+                width: width * 0.25,
+                height:height*0.045,
+                decoration: BoxDecoration(
+                  color:Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.add,size:width*0.04,),
+                    TextContainer(
+                      width:width*0.15,
+                      // textAlign: TextAlign.center,
+                      text:'Invite',
+                      maxlines: 1,
+                      presetFontSizes: [18,16, 14, 12,10,8]
+                    )
+                  ],
                 ),
               ),
-              onPressed: () {
+            ),
+            InkWell(
+              onTap:(){
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => UploadQuestionPage()));
               },
-              icon: Icon(Icons.add),
-              label: Text("Upload questions"),
+              child: Container(
+                width: width * 0.25,
+                height:height*0.045,
+                decoration: BoxDecoration(
+                  color:Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.add,size:width*0.04,),
+                    TextContainer(
+                      width:width*0.2,
+                      text:'Question',
+                      // textAlign: TextAlign.center,
+                      maxlines: 1,
+                      presetFontSizes: [16, 14, 12,10,8]
+                    )
+                  ],
+                ),
+              ),
             ),
           ],
         ),

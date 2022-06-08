@@ -4,6 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nvld_app/Screens/login_screen.dart';
 import 'package:nvld_app/models/UserModal.dart';
 import 'package:nvld_app/screens/student/student_dashboard.dart';
+import 'package:provider/provider.dart';
+import '../provider/user_provider.dart';
 import './background_signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nvld_app/components/account_check.dart';
@@ -56,6 +58,8 @@ class _BodyState extends State<Body> {
           .collection("users")
           .doc(user.uid)
           .set(userModel.toMap());
+
+      Provider.of<UserProvider>(context,listen:false).addUserData(userModel);
 
       print("came");
       Fluttertoast.showToast(msg: "Account created successfully! ");
