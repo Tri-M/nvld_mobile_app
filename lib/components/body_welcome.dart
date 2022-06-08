@@ -16,6 +16,11 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Image.asset(
+              "assets/blackboard.png",
+              height: size.height * 0.25,
+              width: size.width / 1.2,
+            ),
             Text(
               "QUIZ APP",
               style: TextStyle(
@@ -26,11 +31,6 @@ class Body extends StatelessWidget {
                     ..strokeWidth = 6
                     ..color = Color.fromARGB(255, 133, 25, 210)),
             ),
-            SizedBox(height: size.height * 0.05),
-            // SvgPicture.asset(
-            //   "assets/icons/homepageicon.svg",
-            //   height: size.height * 0.25,
-            // ),
             SizedBox(height: size.height * 0.05),
             RoundedButton(
               text: "LOGIN",
