@@ -4,17 +4,43 @@ import 'package:nvld_app/components/my_students.dart';
 import 'package:nvld_app/components/student_details.dart';
 import 'package:nvld_app/constants.dart';
 import 'package:nvld_app/screens/staff/responsiveness.dart';
-
+import 'package:nvld_app/screens/staff/staff_dashboard_drawer.dart';
+import 'package:nvld_app/screens/student/profile_page.dart';
 
 class StaffDashboardScreen extends StatelessWidget {
   const StaffDashboardScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        drawer: StaffDashboardDrawer(),
+        appBar: AppBar(
+          toolbarHeight: height * 0.1,
+          elevation: 0,
+          backgroundColor: Colors.deepPurple,
+          title: Container(
+            alignment: Alignment.centerRight,
+            padding: EdgeInsets.only(right: width * 0.006),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                shape: const CircleBorder(),
+                padding: EdgeInsets.all(width * 0.005),
+              ),
+              child: Icon(
+                Icons.person,
+                size: height * 0.04,
+                color: Colors.deepPurple,
+              ),
+              onPressed: () {},
+            ),
+          ),
+        ),
         body: Container(
-          color:Colors.deepPurple,
+          color: Color.fromARGB(255, 145, 96, 252),
           child: SingleChildScrollView(
             primary: false,
             padding: EdgeInsets.all(defaultPadding),
@@ -33,7 +59,8 @@ class StaffDashboardScreen extends StatelessWidget {
                           SizedBox(height: defaultPadding),
                           if (Responsiveness.isMobile(context))
                             SizedBox(height: defaultPadding),
-                          if (Responsiveness.isMobile(context)) StudentDetails(),
+                          if (Responsiveness.isMobile(context))
+                            StudentDetails(),
                         ],
                       ),
                     ),
