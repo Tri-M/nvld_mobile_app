@@ -18,17 +18,10 @@ class McqPage extends StatefulWidget {
 }
 
 class _McqPageState extends State<McqPage> {
-  int currQuestion = 0;
-  late List<Question> questions;
-
-  @override
-  initState() {
-    super.initState();
-    questions=Provider.of<UserProvider>(context).questions;
-  }
-
+  int currQuestion = 0; 
   @override
   Widget build(BuildContext context) {
+    List <Question> questions=Provider.of<UserProvider>(context).questions;
     int submittedQuestions = questions.where((q) => q.selected != null).length;
     int questionsLength = questions.length;
     double width = MediaQuery.of(context).size.width;
@@ -189,6 +182,8 @@ class _McqPageState extends State<McqPage> {
                       text: questions[currQuestion].options[i],
                       index: i + 1,
                       selected: questions[currQuestion].selected,
+                      submitted: questions[currQuestion].submitted,
+                      answer:questions[currQuestion].answer,
                       onTap: (int value) {
                         setState(() {
                           if (questions[currQuestion].selected != value)
@@ -210,6 +205,11 @@ class _McqPageState extends State<McqPage> {
                 width: width * 0.6,
                 text: 'SUBMIT TEST',
                 onTap: () {
+                  for (int i=0;i<questions.length;i++){
+                    if (questions[i].selected!=null){
+                      questions[i].submitted=true;
+                    }
+                  }
                   Navigator.pop(context);
                 })
           ],

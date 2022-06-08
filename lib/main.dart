@@ -39,7 +39,10 @@ class MyApp extends StatelessWidget {
           locale: DevicePreview.locale(context),
           builder: DevicePreview.appBuilder,
           debugShowCheckedModeBanner: false,
-          home: Scaffold(body: WelcomeScreen())
+          home: Scaffold(
+            // body:StudentDashboard(),
+            body: WelcomeScreen()
+          )
           //IndividualPerformance()),
           ),
     );

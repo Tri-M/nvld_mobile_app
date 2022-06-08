@@ -17,7 +17,7 @@ class QuestionCard extends StatefulWidget {
 
 class _QuestionCardState extends State<QuestionCard> {
   Question question;
-  late VideoPlayerController videoController;
+  VideoPlayerController? videoController;
   late ChewieController _chewieController;
   _QuestionCardState({required this.question});
   @override
@@ -30,7 +30,7 @@ class _QuestionCardState extends State<QuestionCard> {
           setState(() {});
         });
       _chewieController = ChewieController(
-        videoPlayerController: videoController,
+        videoPlayerController: videoController!,
         // aspectRatio: videoController.value.aspectRatio,
         autoPlay: true,
         autoInitialize: true,
@@ -47,7 +47,7 @@ class _QuestionCardState extends State<QuestionCard> {
         },
       );
 
-      videoController.play();
+      videoController!.play();
     }
   }
 
@@ -62,7 +62,7 @@ class _QuestionCardState extends State<QuestionCard> {
           setState(() {});
         });
       _chewieController = ChewieController(
-        videoPlayerController: videoController,
+        videoPlayerController: videoController!,
         // aspectRatio: videoController.value.aspectRatio,
         autoPlay: true,
         autoInitialize: true,
@@ -79,14 +79,15 @@ class _QuestionCardState extends State<QuestionCard> {
         },
       );
 
-      videoController.play();
+      videoController!.play();
     }
   }
 
   @override
   void dispose() {
-    videoController.dispose();
     super.dispose();
+    // videoController!.dispose();
+    
   }
 
   @override
@@ -125,9 +126,9 @@ class _QuestionCardState extends State<QuestionCard> {
             ),
             SizedBox(height:height*0.02),
             if (question.type == 'video')
-              videoController.value.isInitialized
+              videoController!.value.isInitialized
                   ? AspectRatio(
-                      aspectRatio: videoController.value.aspectRatio,
+                      aspectRatio: videoController!.value.aspectRatio,
                       child: Chewie(
                         controller: _chewieController,
                       ),

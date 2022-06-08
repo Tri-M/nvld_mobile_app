@@ -34,8 +34,19 @@ class UserProvider extends ChangeNotifier{
     
   ];
   
+
+
   void addUserData(UserModel user){
     myUser=user;
     notifyListeners();
   }
+  // void calculateScore(){
+  //   for (Question q in questions){
+  //     print('q.selected: ${q.selected}');
+  //     print('q.answer: ${q.answer}');
+  //     if (q.selected == q.answer)
+  //       score++;
+  //   }
+  //   // print(score);
+  // }
 }

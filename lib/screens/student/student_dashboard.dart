@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nvld_app/screens/student/edit_profile_page.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
 import 'package:provider/provider.dart';
+import '../../models/Question.dart';
 import '../../models/UserModal.dart';
 import '../../provider/user_provider.dart';
 import '/components/text_container.dart';
@@ -12,12 +13,28 @@ import '../../components/performance _graph.dart';
 import '../../constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class StudentDashboard extends StatelessWidget {
+class StudentDashboard extends StatefulWidget {
   
   
   @override
+  State<StudentDashboard> createState() => _StudentDashboardState();
+}
+
+class _StudentDashboardState extends State<StudentDashboard> {
+  @override
   Widget build(BuildContext context) {
     UserModel myUser=Provider.of<UserProvider>(context).myUser;
+    // Provider.of<UserProvider>(context).calculateScore();
+    List<Question> questions=Provider.of<UserProvider>(context).questions;
+    int qLen=questions.length;
+    int score=0;
+    for (int i=0; i<qLen; i++) {
+      if (questions[i].answer==questions[i].selected) {
+        score++;
+      }
+    }
+    print('THIS IS SCORE ${score}');
+    
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return WillPopScope(
@@ -162,7 +179,7 @@ class StudentDashboard extends StatelessWidget {
                                       color: Colors.white),
                                 ),
                                 TextContainer(
-                                  text: "13/15",
+                                  text: "${score}/${qLen}",
                                   width: width * 0.2,
                                   presetFontSizes: [20, 18, 16, 14, 12],
                                   textAlign: TextAlign.center,
@@ -237,7 +254,9 @@ class StudentDashboard extends StatelessWidget {
                       ),
                       onPressed: () {
                         Navigator.push((context),
-                            MaterialPageRoute(builder: (context) => McqPage()));
+                            MaterialPageRoute(builder: (context) => McqPage())).then((value)=>
+                              setState(() {})
+                            );
                       },
                     ),
                   ),
