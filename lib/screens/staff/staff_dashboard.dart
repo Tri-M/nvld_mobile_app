@@ -5,7 +5,6 @@ import 'package:nvld_app/components/student_details.dart';
 import 'package:nvld_app/constants.dart';
 import 'package:nvld_app/screens/staff/responsiveness.dart';
 
-
 class StaffDashboardScreen extends StatelessWidget {
   const StaffDashboardScreen({Key? key}) : super(key: key);
 
@@ -13,8 +12,14 @@ class StaffDashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          flexibleSpace: Image(
+            image: AssetImage('assets/logo.jpeg'),
+            fit: BoxFit.fitHeight,
+          ),
+        ),
         body: Container(
-          color:Colors.deepPurple,
+          color: Colors.deepPurple,
           child: SingleChildScrollView(
             primary: false,
             padding: EdgeInsets.all(defaultPadding),
@@ -33,7 +38,8 @@ class StaffDashboardScreen extends StatelessWidget {
                           SizedBox(height: defaultPadding),
                           if (Responsiveness.isMobile(context))
                             SizedBox(height: defaultPadding),
-                          if (Responsiveness.isMobile(context)) StudentDetails(),
+                          if (Responsiveness.isMobile(context))
+                            StudentDetails(),
                         ],
                       ),
                     ),
