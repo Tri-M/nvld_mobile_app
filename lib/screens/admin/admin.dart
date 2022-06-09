@@ -56,10 +56,6 @@ class _AdminState extends State<Admin> {
               },
             ),
           ),
-          flexibleSpace: Image(
-            image: AssetImage('assets/logo.jpeg'),
-            fit: BoxFit.values[2],
-          ),
         ),
         body: Stack(
           children: <Widget>[

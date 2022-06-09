@@ -59,6 +59,17 @@ class Body extends StatelessWidget {
                   ),
                 );
               },
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Text('Powered By'),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Black Board Learning',
+              style: TextStyle(fontSize: 18),
             )
           ],
         ),

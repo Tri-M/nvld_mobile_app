@@ -15,8 +15,6 @@ import '../../constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class StudentDashboard extends StatefulWidget {
-  
-  
   @override
   State<StudentDashboard> createState() => _StudentDashboardState();
 }
@@ -24,18 +22,18 @@ class StudentDashboard extends StatefulWidget {
 class _StudentDashboardState extends State<StudentDashboard> {
   @override
   Widget build(BuildContext context) {
-    UserModel myUser=Provider.of<UserProvider>(context).myUser;
+    UserModel myUser = Provider.of<UserProvider>(context).myUser;
     // Provider.of<UserProvider>(context).calculateScore();
-    List<Question> questions=Provider.of<UserProvider>(context).questions;
-    int qLen=questions.length;
-    int score=0;
-    for (int i=0; i<qLen; i++) {
-      if (questions[i].answer==questions[i].selected) {
+    List<Question> questions = Provider.of<UserProvider>(context).questions;
+    int qLen = questions.length;
+    int score = 0;
+    for (int i = 0; i < qLen; i++) {
+      if (questions[i].answer == questions[i].selected) {
         score++;
       }
     }
     print('THIS IS SCORE ${score}');
-    
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return WillPopScope(
@@ -49,12 +47,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
           appBar: AppBar(
             toolbarHeight: height * 0.07,
             elevation: 0,
-            // backgroundColor: Colors.,
-            flexibleSpace: Image(
-              image: AssetImage('assets/logo.jpeg'),
-              width:width*0.3,
-              
-            ),
+            backgroundColor: Color.fromRGBO(88, 57, 178, 1),
             title: Container(
               alignment: Alignment.centerRight,
               padding: EdgeInsets.only(right: width * 0.006),
@@ -82,7 +75,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding:EdgeInsets.symmetric(vertical:height*0.02),
+              padding: EdgeInsets.symmetric(vertical: height * 0.02),
               child: Container(
                 alignment: Alignment.center,
                 child: Container(
@@ -264,14 +257,13 @@ class _StudentDashboardState extends State<StudentDashboard> {
                             size: 50,
                           ),
                           onPressed: () {
-                          Navigator.push((context),
-                              MaterialPageRoute(builder: (context) => McqPage())).then((value)=>
-                                setState(() {})
-                              );
-                        
+                            Navigator.push(
+                                    (context),
+                                    MaterialPageRoute(
+                                        builder: (context) => McqPage()))
+                                .then((value) => setState(() {}));
                           },
                         ),
-                        
                       ),
                     ],
                   ),
