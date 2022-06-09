@@ -5,6 +5,7 @@ import '../models/UserModal.dart';
 
 class UserProvider extends ChangeNotifier{
   late UserModel myUser;
+  String logoUrl="";
   List<Question> questions=[
     Question(
       question: 'How many players are there in a cricket team?',

@@ -47,6 +47,11 @@ class _StudentDashboardState extends State<StudentDashboard> {
           appBar: AppBar(
             toolbarHeight: height * 0.07,
             elevation: 0,
+            flexibleSpace: Image(
+              image: NetworkImage(
+                Provider.of<UserProvider>(context, listen: true).logoUrl,
+              ),
+            ),
             backgroundColor: Color.fromRGBO(88, 57, 178, 1),
             title: Container(
               alignment: Alignment.centerRight,

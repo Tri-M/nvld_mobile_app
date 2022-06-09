@@ -28,11 +28,11 @@ class StudentInfoCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            SizedBox(
-              height: 20,
-              width: 20,
-              child: SvgPicture.asset("assets/images/logo.png"),
-            ),
+            // SizedBox(
+            //   height: 20,
+            //   width: 20,
+            //   child: SvgPicture.asset("assets/images/logo.png"),
+            // ),
             Expanded(
                 child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: defaultPadding),

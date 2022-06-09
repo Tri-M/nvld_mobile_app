@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nvld_app/Screens/login_screen.dart';
 import 'package:nvld_app/Screens/signup_screen.dart';
+import 'package:provider/provider.dart';
+import '../provider/user_provider.dart';
 import './background_welcome.dart';
 import 'package:nvld_app/components/rounded_button.dart';
 import 'package:nvld_app/constants.dart';
@@ -16,8 +18,9 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset(
-              "assets/blackboard.png",
+            
+            Image.network(
+              Provider.of<UserProvider>(context,listen:true).logoUrl,
               height: size.height * 0.25,
               width: size.width / 1.2,
             ),

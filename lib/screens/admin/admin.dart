@@ -1,12 +1,21 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nvld_app/components/common_layout.dart';
 import 'package:nvld_app/components/performance%20_graph.dart';
+import 'package:nvld_app/constants.dart';
 import 'package:nvld_app/screens/admin/admin_Approve.dart';
 import 'package:nvld_app/screens/admin/admin_addstaff.dart';
 import 'package:nvld_app/screens/admin/admin_performance.dart';
 import 'package:nvld_app/screens/student/student_dashboard_drawer.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/user_provider.dart';
 
 class Admin extends StatefulWidget {
   const Admin({Key? key}) : super(key: key);
@@ -16,6 +25,32 @@ class Admin extends StatefulWidget {
 }
 
 class _AdminState extends State<Admin> {
+  FirebaseStorage storage = FirebaseStorage.instance;
+  final ImagePicker _picker = ImagePicker();
+
+  void getImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      var file = File(image.path);
+      // print(image.path);
+      var snapshot =
+          await storage.ref().child('images/logo').putFile(file);
+      if (snapshot.state==TaskState.success){
+        Fluttertoast.showToast(msg: "Image Uploaded Successfully");
+        var imageUrl = await (snapshot).ref.getDownloadURL();
+        var url = imageUrl.toString();
+        Provider.of<UserProvider>(context,listen:false).logoUrl= url;
+        setState(() {
+          
+        });
+      }
+      // print(url);
+      // var snapshot2= storage.ref().child('images/logo');
+      // var imageUrl = await (snapshot2).getDownloadURL();
+      // print(imageUrl.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -31,6 +66,11 @@ class _AdminState extends State<Admin> {
         appBar: AppBar(
           toolbarHeight: height * 0.1,
           elevation: 0,
+          flexibleSpace: Image(
+            image:NetworkImage(
+              Provider.of<UserProvider>(context,listen:true).logoUrl,
+            ),
+          ),
           backgroundColor: const Color.fromRGBO(118, 72, 216, 1),
           title: Container(
             alignment: Alignment.centerRight,
@@ -185,6 +225,13 @@ class _AdminState extends State<Admin> {
               ), //padding
             ), //SafeArea
           ], // <Widget> []
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            getImage();
+          },
+          backgroundColor: primaryPurple,
+          child: Icon(Icons.upload_file, color: Colors.white),
         ), //stack
       ),
     ); //scaffold

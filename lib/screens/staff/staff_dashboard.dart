@@ -6,6 +6,9 @@ import 'package:nvld_app/constants.dart';
 import 'package:nvld_app/screens/staff/responsiveness.dart';
 import 'package:nvld_app/screens/staff/staff_dashboard_drawer.dart';
 import 'package:nvld_app/screens/student/profile_page.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/user_provider.dart';
 
 class StaffDashboardScreen extends StatelessWidget {
   const StaffDashboardScreen({Key? key}) : super(key: key);
@@ -20,11 +23,18 @@ class StaffDashboardScreen extends StatelessWidget {
         appBar: AppBar(
           toolbarHeight: height * 0.1,
           elevation: 0,
+          flexibleSpace: Image(
+            image:NetworkImage(
+              Provider.of<UserProvider>(context,listen:true).logoUrl,
+            ),
+          ),
           backgroundColor: Colors.deepPurple,
           title: Container(
+            
             alignment: Alignment.centerRight,
             padding: EdgeInsets.only(right: width * 0.006),
             child: ElevatedButton(
+              
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
                 shape: const CircleBorder(),
