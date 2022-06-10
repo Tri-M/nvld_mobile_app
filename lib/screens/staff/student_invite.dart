@@ -40,50 +40,6 @@ class StudentInviteScreen extends StatelessWidget {
                   vertical: height * 0.05, horizontal: width * 0.05),
               child: Column(
                 children: [
-                  // Positioned(
-                  //   child: Container(
-                  //     width: width,
-                  //     height: height * 0.05,
-                  //     decoration: const BoxDecoration(
-                  //       color: Color.fromRGBO(118, 72, 216, 1),
-                  //       borderRadius: BorderRadius.only(
-                  //           bottomRight: Radius.elliptical(450, 100),
-                  //           bottomLeft: Radius.elliptical(450, 100)),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Container(
-                  //   padding: EdgeInsets.only(
-                  //     top: height * 0.02,
-                  //     left: width * 0.05,
-                  //     right: width * 0.05,
-                  //     bottom: height * 0.02,
-                  //   ),
-                  //   // color: Colors.white,
-                  //   child: Column(
-                  //     children: [
-                  //       Container(
-                  //         alignment: Alignment.centerLeft,
-                  //         padding: EdgeInsets.only(
-                  //             bottom: height * 0.015, left: width * 0.03),
-                  //         child: TextContainer(
-                  //           text: "E-mail",
-                  //           presetFontSizes: const [20, 18, 16, 14, 12],
-                  //           style: const TextStyle(
-                  //             fontWeight: FontWeight.bold,
-                  //             color: Colors.black,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       RoundedInputField(
-                  //         hintText: "E-mail",
-                  //         icon: Icons.email_outlined,
-                  //         onChanged: (value) {},
-                  //         controller: emailController,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   TextContainer(
                     text: "Enter the student mail",
                     presetFontSizes: [18, 16, 14, 12, 10],

@@ -43,7 +43,9 @@ class UserModel {
       'Dob': dob,
       'UserType': userType,
       'Phonenumber': phoneNumber,
-      'Password': password
+      'Password': password,
+      'Level': level,
+      'Staff': staff,
     };
   }
 }
