@@ -4,6 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nvld_app/Screens/login_screen.dart';
 import 'package:nvld_app/models/UserModal.dart';
 import 'package:nvld_app/screens/student/student_dashboard.dart';
+import 'package:provider/provider.dart';
+import '../provider/user_provider.dart';
 import './background_signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nvld_app/components/account_check.dart';
@@ -15,18 +17,24 @@ import 'package:nvld_app/components/rounded_password_field.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:nvld_app/components/date_of_birth.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
   final _auth = FirebaseAuth.instance;
+  late String errorMessage;
+  String email = "";
+  String password = "";
+  String name = "";
+  String dob = "";
+  String phonenumber = "";
+  // final _auth = FirebaseAuth.instance;
+
   //final _auth = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
-    late String errorMessage;
-    late String email = "";
-    late String password = "";
-    late String name = "";
-    late String dob = "";
-    final _auth = FirebaseAuth.instance;
-
     void postDetailsToFirestore() async {
       // calling our firestore
       // calling our user model
@@ -42,18 +50,23 @@ class Body extends StatelessWidget {
       userModel.uid = user.uid;
       userModel.name = name;
       userModel.dob = dob;
+      userModel.userType = "student";
+      userModel.phoneNumber = phonenumber;
+      userModel.password = password;
 
       await firebaseFirestore
           .collection("users")
           .doc(user.uid)
           .set(userModel.toMap());
 
+      Provider.of<UserProvider>(context,listen:false).addUserData(userModel);
+
       print("came");
       Fluttertoast.showToast(msg: "Account created successfully! ");
 
       Navigator.pushAndRemoveUntil(
           (context),
-          MaterialPageRoute(builder: (context) => const StudentDashboard()),
+          MaterialPageRoute(builder: (context) => StudentDashboard()),
           (route) => false);
     }
 
@@ -120,28 +133,46 @@ class Body extends StatelessWidget {
               hintText: "Email",
               icon: Icons.mail,
               onChanged: (value) {
-                email = value;
+                setState(() {
+                  email = value;
+                });
               },
             ),
             RoundedPasswordField(
               onChanged: (value) {
-                password = value;
+                setState(() {
+                  password = value;
+                });
               },
             ),
             RoundedInputField(
               hintText: "Name",
               icon: Icons.account_circle,
               onChanged: (value) {
-                name = value;
+                setState(() {
+                  name = value;
+                });
               },
             ),
             DOBField(
               hintText: "Date of Birth",
               icon: Icons.calendar_month,
               onChanged: (value) {
-                dob = value;
+                setState(() {
+                  dob = value;
+                });
               },
             ),
+            RoundedInputField(
+              hintText: "Phone Number",
+              icon: Icons.phone,
+              onChanged: (value) {
+                setState(() {
+                  phonenumber = value;
+                });
+              },
+            ),
+
             SizedBox(height: size.height * 0.03),
             RoundedButton(
               text: "SIGNUP",

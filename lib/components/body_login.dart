@@ -1,7 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nvld_app/screens/staff/staff_dashboard.dart';
 import 'package:nvld_app/screens/student/student_dashboard.dart';
+import 'package:provider/provider.dart';
+import '../models/UserModal.dart';
+import '../models/user.dart';
+import '../provider/user_provider.dart';
+import '../screens/admin/admin.dart';
 import './background_login.dart';
 import 'package:nvld_app/screens/signup_screen.dart';
 import 'package:nvld_app/components/account_check.dart';
@@ -10,23 +17,82 @@ import 'package:nvld_app/components/rounded_input_field.dart';
 import 'package:nvld_app/components/rounded_password_field.dart';
 
 // import 'package:flutter_svg/flutter_svg.dart';
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
   final _auth = FirebaseAuth.instance;
+
   late String email = "";
+
   late String password = "";
 
-  @override
-  Widget build(BuildContext context) {
-    late String errorMessage;
+  late String errorMessage;
+
+  Future<void> _getUserName(String uid) async {
+    
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((value) {
+      
+        Map<String,dynamic>? data = value.data();
+        print(data);
+       
+        Provider.of<UserProvider>(context,listen:false).addUserData(UserModel(
+          name: data!['Name'],
+          email: data['Email'],
+          phoneNumber: data['Phone'],
+          dob: data['Dob'],
+          userType: data['UserType'],
+        ));
+        if (data['UserType']=='student'){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => StudentDashboard(),
+            ),
+          );
+        }
+      
+        else if(data['UserType']=='staff'){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => StaffDashboardScreen(),
+            ),
+          );
+        }
+        else if(data['UserType']=='admin'){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Admin(),
+            ),
+          
+          );
+        }
+        // print(myUser.name);
+        // _userName = value.data['UserName'].toString();
+      });
+   
+  }
+
     void signIn(String email, String password) async {
       try {
-        await _auth
-            .signInWithEmailAndPassword(email: email, password: password)
-            .then((uid) => {
-                  Fluttertoast.showToast(msg: "Login Successful"),
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const StudentDashboard())),
-                });
+        UserCredential userCred=await _auth.signInWithEmailAndPassword(email: email, password: password);
+        _getUserName(userCred.user!.uid);
+        // print('THIS IS USER');
+        
+        
+            // .then((uid) => {
+            //       Fluttertoast.showToast(msg: "Login Successful"),
+            //       Navigator.of(context).pushReplacement(MaterialPageRoute(
+            //           builder: (context) => const StudentDashboard())),
+            //     });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
           case "invalid-email":
@@ -54,6 +120,10 @@ class Body extends StatelessWidget {
         Fluttertoast.showToast(msg: errorMessage);
       }
     }
+
+  @override
+  Widget build(BuildContext context) {
+    
 
     Size size = MediaQuery.of(context).size;
     return Background(

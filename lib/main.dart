@@ -4,22 +4,27 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/Screens/login_screen.dart';
 import 'package:nvld_app/Screens/welcome_screen.dart';
+import 'package:nvld_app/provider/user_provider.dart';
+import 'package:nvld_app/screens/staff/individual_performance.dart';
 import 'package:nvld_app/screens/staff/upload_question_page.dart';
 import 'package:nvld_app/screens/student/edit_profile_page.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
 import 'package:nvld_app/screens/student/student_dashboard.dart';
+import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
+import 'models/user.dart';
 // import 'package:nvld_app/screens/mcq_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(DevicePreview(
+  runApp(/*DevicePreview(
     enabled: !kReleaseMode,
     builder: (context) => MyApp(), // Wrap your app
-  ));
+  ));*/
+  MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -27,13 +32,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(),
-      useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(body: WelcomeScreen()),
+    return ChangeNotifierProvider(
+     create: (context)=>UserProvider(),
+      child: MaterialApp(
+          theme: ThemeData(),
+          useInheritedMediaQuery: true,
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          debugShowCheckedModeBanner: false,
+          home: Scaffold(
+            // body:StudentDashboard(),
+            body: WelcomeScreen()
+          )
+          //IndividualPerformance()),
+          ),
     );
   }
 }

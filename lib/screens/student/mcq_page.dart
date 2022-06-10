@@ -5,10 +5,12 @@ import 'package:nvld_app/components/option_tile.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/constants.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:provider/provider.dart';
 
 import '../../components/question_card.dart';
 import '../../components/question_navigation.dart';
 import '../../models/Question.dart';
+import '../../provider/user_provider.dart';
 
 class McqPage extends StatefulWidget {
   @override
@@ -16,42 +18,11 @@ class McqPage extends StatefulWidget {
 }
 
 class _McqPageState extends State<McqPage> {
-  int currQuestion = 0;
-  late List<Question> questions;
-  
-  @override
-  initState() {
-    super.initState();
-    questions = [
-    Question(
-      question: 'How many players are there in a cricket team?',
-      options: ['11', '12', '13', '14'],
-      answer: 1,
-      type: "image",
-      media:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png'
-    ),
-    Question(
-      question: 'Who is the captain of indian cricket team? ',
-      options: ['MS Dhoni what a great player one of the best of all time', 'Virat Kohli', 'Rohit Sharma', 'Bhumra'],
-      answer: 3,
-      type: "video",
-      media:"https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
-    ),
-    
-    Question(
-      question: 'How many Idiots in a cricket team?',
-      options: ['2', '12', '3', '4'],
-      answer: 1,
-      type: "text",
-      media:''
-    ),
-  ];
-  }
-  
-
+  int currQuestion = 0; 
   @override
   Widget build(BuildContext context) {
-    int submittedQuestions=questions.where((q) => q.selected!=null).length;
+    List <Question> questions=Provider.of<UserProvider>(context).questions;
+    int submittedQuestions = questions.where((q) => q.selected != null).length;
     int questionsLength = questions.length;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -160,7 +131,7 @@ class _McqPageState extends State<McqPage> {
                     ),
                   ]),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: width*0.03),
+                padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -170,27 +141,25 @@ class _McqPageState extends State<McqPage> {
                         width: width * 0.7,
                         lineHeight: 20.0,
                         barRadius: Radius.circular(20),
-                        percent: submittedQuestions /
-                            questionsLength,
+                        percent: submittedQuestions / questionsLength,
                         backgroundColor: Colors.grey[200],
                         progressColor: primaryPurple,
                       ),
                     ),
                     Container(
-                      width:width*0.15,
-                      height:height*0.04,
+                      width: width * 0.15,
+                      height: height * 0.04,
                       decoration: BoxDecoration(
-                        color:submittedQuestions!=questionsLength?Colors.grey[300]:primaryPurple.withOpacity(0.6),
-                        borderRadius: BorderRadius.circular(15)
-                      ),
-                      child:Center(
+                          color: submittedQuestions != questionsLength
+                              ? Colors.grey[300]
+                              : primaryPurple.withOpacity(0.6),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Center(
                         child: TextContainer(
                           textAlign: TextAlign.center,
                           text: '${submittedQuestions}/${questionsLength}',
-                          presetFontSizes: [16,14,12],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold
-                          ),
+                          presetFontSizes: [16, 14, 12],
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -213,6 +182,8 @@ class _McqPageState extends State<McqPage> {
                       text: questions[currQuestion].options[i],
                       index: i + 1,
                       selected: questions[currQuestion].selected,
+                      submitted: questions[currQuestion].submitted,
+                      answer:questions[currQuestion].answer,
                       onTap: (int value) {
                         setState(() {
                           if (questions[currQuestion].selected != value)
@@ -234,6 +205,11 @@ class _McqPageState extends State<McqPage> {
                 width: width * 0.6,
                 text: 'SUBMIT TEST',
                 onTap: () {
+                  for (int i=0;i<questions.length;i++){
+                    if (questions[i].selected!=null){
+                      questions[i].submitted=true;
+                    }
+                  }
                   Navigator.pop(context);
                 })
           ],
