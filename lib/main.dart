@@ -10,6 +10,7 @@ import 'package:nvld_app/screens/staff/upload_question_page.dart';
 import 'package:nvld_app/screens/student/edit_profile_page.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
 import 'package:nvld_app/screens/student/student_dashboard.dart';
+import 'package:nvld_app/screens/test_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -20,11 +21,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(/*DevicePreview(
+  runApp(
+      /*DevicePreview(
     enabled: !kReleaseMode,
     builder: (context) => MyApp(), // Wrap your app
   ));*/
-  MyApp());
+      MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-     create: (context)=>UserProvider(),
+      create: (context) => UserProvider(),
       child: MaterialApp(
           theme: ThemeData(),
           useInheritedMediaQuery: true,
@@ -41,9 +43,8 @@ class MyApp extends StatelessWidget {
           builder: DevicePreview.appBuilder,
           debugShowCheckedModeBanner: false,
           home: Scaffold(
-            // body:StudentDashboard(),
-            body: WelcomeScreen()
-          )
+              // body:StudentDashboard(),
+              body: TestScreen())
           //IndividualPerformance()),
           ),
     );
