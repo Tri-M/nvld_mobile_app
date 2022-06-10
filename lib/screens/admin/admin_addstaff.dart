@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/models/UserModal.dart';
 import 'package:nvld_app/screens/admin/admin.dart';
 
@@ -13,16 +14,14 @@ class Admin_addstaff extends StatefulWidget {
 }
 
 class _Admin_addstaffState extends State<Admin_addstaff> {
-
   final _formKey = GlobalKey<FormState>();
-    final emailEditingController = TextEditingController();
-    final passwordEditingController = TextEditingController();
+  final emailEditingController = TextEditingController();
+  final passwordEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    
 
     return Scaffold(
         appBar: AppBar(
@@ -61,7 +60,11 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Enter the staff mail'),
+                TextContainer(
+                  text: "Enter the staff mail",
+                  presetFontSizes: [18, 16, 14, 12, 10],
+                  width: width,
+                ),
                 TextFormField(
                     controller: emailEditingController,
                     onSaved: (value) {
@@ -76,7 +79,11 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
                       return null;
                     }),
                 SizedBox(height: 30),
-                Text('Enter a password for mail'),
+                TextContainer(
+                  text: "Enter a password for mail",
+                  presetFontSizes: [18, 16, 14, 12, 10],
+                  width: width,
+                ),
                 TextFormField(
                   // The validator receives the text that the user has entered.
                   controller: passwordEditingController,
@@ -114,8 +121,8 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
   void create(String email, String password) async {
     late String errorMessage;
     try {
-      UserCredential userCred=await _auth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCred = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       print('this is user ID : ${userCred.user!.uid}');
       postDetailsToFirestore(userCred.user!.uid);
       //     .then((value) => {postDetailsToFirestore()})
@@ -165,12 +172,9 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
     userModel.uid = user.uid;
     userModel.name = "";
     userModel.dob = "";
-    userModel.userType="staff";
+    userModel.userType = "staff";
 
-    await firebaseFirestore
-        .collection("users")
-        .doc(uid)
-        .set(userModel.toMap());
+    await firebaseFirestore.collection("users").doc(uid).set(userModel.toMap());
 
     print("came");
     Fluttertoast.showToast(msg: "Account created successfully! ");

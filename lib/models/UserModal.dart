@@ -6,6 +6,8 @@ class UserModel {
   String? userType;
   String? phoneNumber;
   String? password;
+  int? level;
+  String? staff;
 
   UserModel(
       {this.uid,
@@ -14,7 +16,9 @@ class UserModel {
       this.dob,
       this.password,
       this.phoneNumber,
-      this.userType});
+      this.userType,
+      this.level,
+      this.staff});
 
   // receiving data from server
   factory UserModel.fromMap(map) {
@@ -25,7 +29,9 @@ class UserModel {
         dob: map['Dob'],
         userType: map['UserType'],
         password: map['Password'],
-        phoneNumber: map['Phonenumber']);
+        phoneNumber: map['Phonenumber'],
+        level: map['Level'],
+        staff: map['Staff']);
   }
 
   // sending data to our server
