@@ -125,16 +125,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SizedBox(
             height: 20,
           ),
-          // TextFieldWidget(
-          //   icon: const Icon(Icons.edit),
-          //   label: 'About',
-          //   text: user.about,
-          //   maxLines: 4,
-          //   onChanged: (name) {},
-          // ),
-          // SizedBox(
-          //   height: 20,
-          // ),
           Center(
             child: ElevatedButton(
               child: TextContainer(
