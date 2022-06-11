@@ -4,6 +4,8 @@ import 'package:nvld_app/components/common_layout.dart';
 import 'package:nvld_app/components/option_tile.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/constants.dart';
+import 'package:nvld_app/screens/student/student_dashboard.dart';
+import 'package:nvld_app/screens/student/test_screen.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
@@ -18,10 +20,10 @@ class McqPage extends StatefulWidget {
 }
 
 class _McqPageState extends State<McqPage> {
-  int currQuestion = 0; 
+  int currQuestion = 0;
   @override
   Widget build(BuildContext context) {
-    List <Question> questions=Provider.of<UserProvider>(context).questions;
+    List<Question> questions = Provider.of<UserProvider>(context).questions;
     int submittedQuestions = questions.where((q) => q.selected != null).length;
     int questionsLength = questions.length;
     double width = MediaQuery.of(context).size.width;
@@ -183,7 +185,7 @@ class _McqPageState extends State<McqPage> {
                       index: i + 1,
                       selected: questions[currQuestion].selected,
                       submitted: questions[currQuestion].submitted,
-                      answer:questions[currQuestion].answer,
+                      answer: questions[currQuestion].answer,
                       onTap: (int value) {
                         setState(() {
                           if (questions[currQuestion].selected != value)
@@ -205,12 +207,15 @@ class _McqPageState extends State<McqPage> {
                 width: width * 0.6,
                 text: 'SUBMIT TEST',
                 onTap: () {
-                  for (int i=0;i<questions.length;i++){
-                    if (questions[i].selected!=null){
-                      questions[i].submitted=true;
+                  for (int i = 0; i < questions.length; i++) {
+                    if (questions[i].selected != null) {
+                      questions[i].submitted = true;
                     }
                   }
-                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => StudentDashboard()));
                 })
           ],
         ),
