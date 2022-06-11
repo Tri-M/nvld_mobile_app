@@ -89,8 +89,11 @@ class StudentInviteScreen extends StatelessWidget {
                         shape: StadiumBorder(),
                       ),
                       onPressed: () {
+                        FirebaseFirestore firebaseFirestore =
+                            FirebaseFirestore.instance;
+                        User? user = _auth.currentUser;
                         create(emailEditingController.text,
-                            passwordEditingController.text);
+                            passwordEditingController.text, user?.email);
                       },
                       child: Padding(
                         padding: EdgeInsets.all(8),
@@ -113,15 +116,13 @@ class StudentInviteScreen extends StatelessWidget {
 
   final _auth = FirebaseAuth.instance;
 
-  void create(String email, String password) async {
+  void create(String email, String password, String? staffmail) async {
     late String errorMessage;
     try {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       print('this is user ID : ${userCred.user!.uid}');
-      postDetailsToFirestore(
-        userCred.user!.uid,
-      );
+      postDetailsToFirestore(userCred.user!.uid, staffmail);
       //     .then((value) => {postDetailsToFirestore()})
       //     .catchError((e) {
       //   Fluttertoast.showToast(msg: e!.message);
@@ -154,7 +155,7 @@ class StudentInviteScreen extends StatelessWidget {
     }
   }
 
-  void postDetailsToFirestore(String uid) async {
+  void postDetailsToFirestore(String uid, String? staffmail) async {
     // calling our firestore
     // calling our user model
     // sedning these values
@@ -171,7 +172,7 @@ class StudentInviteScreen extends StatelessWidget {
     userModel.dob = "";
     userModel.userType = "student";
     userModel.level = 0;
-    userModel.staff = "staff";
+    userModel.staff = staffmail;
     userModel.password = passwordEditingController.text;
 
     await firebaseFirestore.collection("users").doc(uid).set(userModel.toMap());
