@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/components/common_layout.dart';
 import 'package:nvld_app/screens/student/edit_profile_page.dart';
+import 'package:nvld_app/screens/student/main_mcq.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
 import 'package:provider/provider.dart';
 import '../../models/Question.dart';
@@ -33,28 +34,6 @@ class _StudentDashboardState extends State<StudentDashboard> {
       }
     }
     print('THIS IS SCORE ${score}');
-
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final uid = user?.uid;
-    int? level = -1;
-    FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) {
-      Map<String, dynamic>? data = value.data();
-      level = data!['Level'];
-    });
-
-    final userdoc = FirebaseFirestore.instance.collection('users').doc(uid);
-
-    double percent = score / qLen;
-    if (percent <= 0.25) {
-      level = 1;
-    } else if (percent > 0.25 && percent <= 0.75) {
-      level = 2;
-    } else if (percent > 0.75) {
-      level = 3;
-    }
-
-    userdoc.update({'Level': level});
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -287,7 +266,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                             Navigator.push(
                                     (context),
                                     MaterialPageRoute(
-                                        builder: (context) => McqPage()))
+                                        builder: (context) => MainMcqPage()))
                                 .then((value) => setState(() {}));
                           },
                         ),

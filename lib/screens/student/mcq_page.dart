@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/components/common_button.dart';
 import 'package:nvld_app/components/common_layout.dart';
@@ -207,6 +209,7 @@ class _McqPageState extends State<McqPage> {
                 width: width * 0.6,
                 text: 'SUBMIT TEST',
                 onTap: () {
+                  submitquiz(questions);
                   for (int i = 0; i < questions.length; i++) {
                     if (questions[i].selected != null) {
                       questions[i].submitted = true;
@@ -221,5 +224,38 @@ class _McqPageState extends State<McqPage> {
         ),
       ),
     );
+  }
+
+  submitquiz(List<Question> questions) async {
+    int qLen = questions.length;
+    int score = 0;
+    for (int i = 0; i < qLen; i++) {
+      if (questions[i].answer == questions[i].selected) {
+        score++;
+      }
+    }
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    int? level = -1;
+    FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) {
+      Map<String, dynamic>? data = value.data();
+      level = data!['Level'];
+    });
+
+    final userdoc = FirebaseFirestore.instance.collection('users').doc(uid);
+
+    double percent = score / qLen;
+    if (percent <= 0.25) {
+      level = 1;
+    } else if (percent > 0.25 && percent <= 0.75) {
+      level = 2;
+    } else if (percent > 0.75) {
+      level = 3;
+    }
+
+    userdoc.update({'Level': level});
+
+    return score;
   }
 }
