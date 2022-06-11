@@ -10,7 +10,7 @@ import 'package:nvld_app/screens/staff/upload_question_page.dart';
 import 'package:nvld_app/screens/student/edit_profile_page.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
 import 'package:nvld_app/screens/student/student_dashboard.dart';
-import 'package:nvld_app/screens/test_screen.dart';
+import 'package:nvld_app/screens/student/test_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           home: Scaffold(
               // body:StudentDashboard(),
-              body: TestScreen())
+              body: WelcomeScreen())
           //IndividualPerformance()),
           ),
     );

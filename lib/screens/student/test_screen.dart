@@ -27,13 +27,40 @@ class _mainPageState extends State<mainPage> {
   List<PageViewModel> getPages() {
     return [
       PageViewModel(
-        image: Image.asset("assets/welcome.jpg"),
-        title: "Welcome Student!",
-        body: "Can you give a try Quiz?",
+        image: Padding(
+          padding: const EdgeInsets.only(top: 40),
+          child: Image.asset(
+            "assets/welcome.jpg",
+            scale: 5,
+          ),
+        ),
+        titleWidget: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Text(
+            "Welcome Student!",
+            style: TextStyle(fontSize: 30),
+          ),
+        ),
+        body: "Can you give a try?",
       ),
       PageViewModel(
-          image: Image.asset("images/demo3.png"),
-          title: "Give It a Try",
+          image: Column(
+            children: [
+              const SizedBox(height: 50),
+              Image.asset(
+                "assets/allthebest.jpg",
+                width: 300,
+                height: 180,
+              ),
+            ],
+          ),
+          titleWidget: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Text(
+              "Give it a Try",
+              style: TextStyle(fontSize: 25),
+            ),
+          ),
           bodyWidget: Column(
             children: [
               ElevatedButton.icon(
@@ -59,17 +86,20 @@ class _mainPageState extends State<mainPage> {
       //   title: Text("Introduction Screen"),
       //   backgroundColor: Colors.deepPurple,
       // ),
-      body: IntroductionScreen(
-        globalBackgroundColor: Colors.white,
-        pages: getPages(),
-        showNextButton: false,
-        showSkipButton: true,
-        skip: Text("Next"),
-        done: Text("Attempt "),
-        onDone: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => McqPage()));
-        },
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: IntroductionScreen(
+          globalBackgroundColor: Colors.white,
+          pages: getPages(),
+          showNextButton: false,
+          showSkipButton: true,
+          skip: Text("Next"),
+          done: Text("Attempt "),
+          onDone: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => McqPage()));
+          },
+        ),
       ),
     );
   }
