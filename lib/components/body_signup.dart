@@ -52,6 +52,8 @@ class _BodyState extends State<Body> {
       userModel.name = name;
       userModel.dob = dob;
       userModel.userType = "student";
+      userModel.level = 0;
+      userModel.staff = "";
       userModel.phoneNumber = phonenumber;
       userModel.password = password;
 
