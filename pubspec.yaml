@@ -54,6 +54,7 @@ dependencies:
   google_fonts: ^3.0.1
   image_picker: ^0.8.5+3
   firebase_storage: ^10.2.17
+  introduction_screen: ^3.0.2
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/components/common_layout.dart';
 import 'package:nvld_app/screens/student/edit_profile_page.dart';
+import 'package:nvld_app/screens/student/main_mcq.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
 import 'package:provider/provider.dart';
 import '../../models/Question.dart';
@@ -265,7 +266,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                             Navigator.push(
                                     (context),
                                     MaterialPageRoute(
-                                        builder: (context) => McqPage()))
+                                        builder: (context) => MainMcqPage()))
                                 .then((value) => setState(() {}));
                           },
                         ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nvld_app/screens/staff/staff_dashboard.dart';
 import 'package:nvld_app/screens/student/student_dashboard.dart';
+import 'package:nvld_app/screens/student/test_screen.dart';
 import 'package:provider/provider.dart';
 import '../models/UserModal.dart';
 import '../models/user.dart';
@@ -32,24 +33,27 @@ class _BodyState extends State<Body> {
   late String errorMessage;
 
   Future<void> _getUserName(String uid) async {
-    
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .get()
-        .then((value) {
-      
-        Map<String,dynamic>? data = value.data();
-        print(data);
-       
-        Provider.of<UserProvider>(context,listen:false).addUserData(UserModel(
+    FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) {
+      Map<String, dynamic>? data = value.data();
+      print(data);
+
+      Provider.of<UserProvider>(context, listen: false).addUserData(UserModel(
           name: data!['Name'],
           email: data['Email'],
           phoneNumber: data['Phone'],
           dob: data['Dob'],
           userType: data['UserType'],
-        ));
-        if (data['UserType']=='student'){
+          level: data['Level']));
+      if (data['UserType'] == 'student') {
+        print(data['Level']);
+        if (data['Level'] == 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TestScreen(),
+            ),
+          );
+        } else {
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -57,74 +61,68 @@ class _BodyState extends State<Body> {
             ),
           );
         }
-      
-        else if(data['UserType']=='staff'){
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => StaffDashboardScreen(),
-            ),
-          );
-        }
-        else if(data['UserType']=='admin'){
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Admin(),
-            ),
-          
-          );
-        }
-        // print(myUser.name);
-        // _userName = value.data['UserName'].toString();
-      });
-   
+      } else if (data['UserType'] == 'staff') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => StaffDashboardScreen(),
+          ),
+        );
+      } else if (data['UserType'] == 'admin') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Admin(),
+          ),
+        );
+      }
+      // print(myUser.name);
+      // _userName = value.data['UserName'].toString();
+    });
   }
 
-    void signIn(String email, String password) async {
-      try {
-        UserCredential userCred=await _auth.signInWithEmailAndPassword(email: email, password: password);
-        _getUserName(userCred.user!.uid);
-        // print('THIS IS USER');
-        
-        
-            // .then((uid) => {
-            //       Fluttertoast.showToast(msg: "Login Successful"),
-            //       Navigator.of(context).pushReplacement(MaterialPageRoute(
-            //           builder: (context) => const StudentDashboard())),
-            //     });
-      } on FirebaseAuthException catch (error) {
-        switch (error.code) {
-          case "invalid-email":
-            errorMessage = "Your email address appears to be malformed.";
+  void signIn(String email, String password) async {
+    try {
+      UserCredential userCred = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      _getUserName(userCred.user!.uid);
+      // print('THIS IS USER');
 
-            break;
-          case "wrong-password":
-            errorMessage = "Your password is wrong.";
-            break;
-          case "user-not-found":
-            errorMessage = "User with this email doesn't exist.";
-            break;
-          case "user-disabled":
-            errorMessage = "User with this email has been disabled.";
-            break;
-          case "too-many-requests":
-            errorMessage = "Too many requests";
-            break;
-          case "operation-not-allowed":
-            errorMessage = "Signing in with Email and Password is not enabled.";
-            break;
-          default:
-            errorMessage = "An undefined Error happened.";
-        }
-        Fluttertoast.showToast(msg: errorMessage);
+      // .then((uid) => {
+      //       Fluttertoast.showToast(msg: "Login Successful"),
+      //       Navigator.of(context).pushReplacement(MaterialPageRoute(
+      //           builder: (context) => const StudentDashboard())),
+      //     });
+    } on FirebaseAuthException catch (error) {
+      switch (error.code) {
+        case "invalid-email":
+          errorMessage = "Your email address appears to be malformed.";
+
+          break;
+        case "wrong-password":
+          errorMessage = "Your password is wrong.";
+          break;
+        case "user-not-found":
+          errorMessage = "User with this email doesn't exist.";
+          break;
+        case "user-disabled":
+          errorMessage = "User with this email has been disabled.";
+          break;
+        case "too-many-requests":
+          errorMessage = "Too many requests";
+          break;
+        case "operation-not-allowed":
+          errorMessage = "Signing in with Email and Password is not enabled.";
+          break;
+        default:
+          errorMessage = "An undefined Error happened.";
       }
+      Fluttertoast.showToast(msg: errorMessage);
     }
+  }
 
   @override
   Widget build(BuildContext context) {
-    
-
     Size size = MediaQuery.of(context).size;
     return Background(
       child: SingleChildScrollView(

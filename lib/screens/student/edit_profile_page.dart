@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/constants.dart';
+import 'package:nvld_app/models/UserModal.dart';
 import 'package:nvld_app/utils/user_preferences.dart';
 import 'package:nvld_app/widget/appbar_widget.dart';
 import 'package:nvld_app/widget/password_widget.dart';
@@ -22,6 +23,7 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   UserData user = UserPreferences.myUser;
+  UserModel model = UserModel();
   final duser = FirebaseAuth.instance.currentUser!;
   late String name = "";
   late String dob = "";
@@ -36,28 +38,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   void getfunction() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
     var collection = FirebaseFirestore.instance.collection('users');
-    late Iterator<QueryDocumentSnapshot<Object?>> objiter;
 
-    await FirebaseFirestore.instance
-        .collection("users")
-        .where("Email", isEqualTo: "s@gmail.com")
-        .get()
-        .then((QuerySnapshot snapshot) {
-      objiter = snapshot.docs.iterator;
+    FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) {
+      Map<String, dynamic>? data = value.data();
+      print(data);
+      model.name = data!['Name'];
+      model.email = data['Email'];
+      model.phoneNumber = data['Phone'];
+      model.dob = data['Dob'];
+      model.password = data['Password'];
+
+      print(model);
     });
-    while (objiter.moveNext()) {
-      name = objiter.current.get("Name");
-      dob = objiter.current.get("Dob");
-      email = objiter.current.get("Email");
-      password = objiter.current.get("Password");
-      phonenumber = objiter.current.get("Phonenumber");
-    }
-    print(name);
-    print(dob);
-    print(email);
-    print(password);
-    print(phonenumber);
   }
 
   @override
@@ -125,16 +121,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SizedBox(
             height: 20,
           ),
-          // TextFieldWidget(
-          //   icon: const Icon(Icons.edit),
-          //   label: 'About',
-          //   text: user.about,
-          //   maxLines: 4,
-          //   onChanged: (name) {},
-          // ),
-          // SizedBox(
-          //   height: 20,
-          // ),
           Center(
             child: ElevatedButton(
               child: TextContainer(
