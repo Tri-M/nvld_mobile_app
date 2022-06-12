@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nvld_app/components/common_layout.dart';
 import 'package:nvld_app/components/rounded_input_field.dart';
 import 'package:nvld_app/components/text_container.dart';
+import 'package:nvld_app/models/ScoreModal.dart';
 import 'package:nvld_app/models/UserModal.dart';
 import 'package:nvld_app/provider/user_provider.dart';
 import 'package:nvld_app/utils/user_preferences.dart';
@@ -164,6 +165,7 @@ class StudentInviteScreen extends StatelessWidget {
     User? user = _auth.currentUser;
 
     UserModel userModel = UserModel();
+    ScoreModel scoreModel = ScoreModel();
 
     // writing all the values
     userModel.email = user!.email;
@@ -176,6 +178,15 @@ class StudentInviteScreen extends StatelessWidget {
     userModel.password = passwordEditingController.text;
 
     await firebaseFirestore.collection("users").doc(uid).set(userModel.toMap());
+
+    scoreModel.email = user.email;
+    scoreModel.uid = user.uid;
+    scoreModel.score = [];
+
+    await firebaseFirestore
+        .collection("scores")
+        .doc(uid)
+        .set(scoreModel.toMap());
 
     print("came");
     Fluttertoast.showToast(msg: "Account created successfully! ");
