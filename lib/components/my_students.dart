@@ -23,7 +23,7 @@ class MyStudents extends StatelessWidget {
       children: [
         SizedBox(
           width: width * 0.9,
-          height: height * 0.18,
+          height: (height + width) * 0.1,
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
@@ -49,18 +49,14 @@ class MyStudents extends StatelessWidget {
                 ),
                 SizedBox(height: defaultPadding),
                 Container(
-                  height: height * 0.05,
-                  width: width * 0.3,
+                  height: (height + width) * 0.03,
+                  width: (height + width) * 0.14,
                   alignment: Alignment.center,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: const StadiumBorder(),
                       onPrimary: kPrimaryLightColor,
                       primary: kPrimaryColor,
-                      padding: EdgeInsets.symmetric(
-                        vertical: height * 0.01,
-                        horizontal: width * 0.02,
-                      ),
                     ),
                     onPressed: () {
                       Navigator.push(
@@ -75,7 +71,7 @@ class MyStudents extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.add,
-                          size: (height + width) * 0.02,
+                          size: (height + width) * 0.015,
                           color: kPrimaryLightColor,
                         ),
                         TextContainer(
@@ -94,10 +90,12 @@ class MyStudents extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: defaultPadding),
+        SizedBox(
+          height: defaultPadding,
+        ),
         SizedBox(
           width: width * 0.9,
-          height: height * 0.18,
+          height: (height + width) * 0.1,
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
@@ -123,18 +121,14 @@ class MyStudents extends StatelessWidget {
                 ),
                 SizedBox(height: defaultPadding),
                 Container(
-                  height: height * 0.05,
-                  width: width * 0.35,
+                  height: (height + width) * 0.03,
+                  width: (height + width) * 0.14,
                   alignment: Alignment.center,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: const StadiumBorder(),
                       onPrimary: kPrimaryLightColor,
                       primary: kPrimaryColor,
-                      padding: EdgeInsets.symmetric(
-                        vertical: height * 0.01,
-                        horizontal: width * 0.02,
-                      ),
                     ),
                     onPressed: () {
                       Navigator.push(
@@ -149,7 +143,7 @@ class MyStudents extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.add,
-                          size: (height + width) * 0.02,
+                          size: (height + width) * 0.015,
                           color: kPrimaryLightColor,
                         ),
                         TextContainer(
@@ -217,8 +211,8 @@ class StudentCard extends StatelessWidget {
           height: defaultPadding,
         ),
         Container(
-          height: height * 0.1,
-          width: width * 0.89,
+          height: (height + width) * 0.065,
+          width: (width + height) * 0.45,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: kPrimaryLightColor,
