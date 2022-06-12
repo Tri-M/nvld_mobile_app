@@ -80,7 +80,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-            imagePath: './assets/user_icon.JPG',
+            imagePath: '/assets/images/profile.png',
             isEdit: true,
             onClicked: () async {},
           ),
