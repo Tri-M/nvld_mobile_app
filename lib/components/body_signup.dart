@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nvld_app/Screens/login_screen.dart';
+import 'package:nvld_app/models/Question.dart';
 import 'package:nvld_app/models/UserModal.dart';
 import 'package:nvld_app/screens/student/student_dashboard.dart';
 import 'package:nvld_app/screens/student/test_screen.dart';
@@ -36,6 +37,21 @@ class _BodyState extends State<Body> {
   //final _auth = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
+    Future<void> getQuestions(int cat) async {
+    FirebaseFirestore.instance.collection('category$cat').get().then((value) {
+      value.docs.forEach((element) {
+        Map questionData=element.data();
+        List<String> tempOptions=[];
+        for (String op in questionData["options"]){
+          tempOptions.add(op);
+        }
+        Question tempQuestion=Question(question: questionData["question"], answer: questionData["answer"], options: tempOptions , type: questionData["type"],media: questionData["url"]);
+        Provider.of<UserProvider>(context,listen:false).questions.add(
+          tempQuestion
+        );
+      });
+    });
+  }
     void postDetailsToFirestore() async {
       // calling our firestore
       // calling our user model
@@ -66,12 +82,13 @@ class _BodyState extends State<Body> {
 
       print("came");
       Fluttertoast.showToast(msg: "Account created successfully! ");
-
+      getQuestions(1);
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => TestScreen()),
           (route) => false);
     }
+    
 
     void signUp(String email, String password) async {
       print(email);

@@ -25,10 +25,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       if (Provider.of<UserProvider>(context,listen:false).logoUrl!="")
         setState(() {
           imageLoaded=true;
-        
+          
         });
     }
-    if (!imageLoaded)
+    if(!imageLoaded)
       getLogoUrl();
     
     return Scaffold(

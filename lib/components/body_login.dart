@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nvld_app/models/Question.dart';
 import 'package:nvld_app/screens/staff/staff_dashboard.dart';
 import 'package:nvld_app/screens/student/student_dashboard.dart';
 import 'package:nvld_app/screens/student/test_screen.dart';
@@ -80,12 +81,27 @@ class _BodyState extends State<Body> {
       // _userName = value.data['UserName'].toString();
     });
   }
-
+  Future<void> getQuestions(int cat) async {
+    FirebaseFirestore.instance.collection('category$cat').get().then((value) {
+      value.docs.forEach((element) {
+        Map questionData=element.data();
+        List<String> tempOptions=[];
+        for (String op in questionData["options"]){
+          tempOptions.add(op);
+        }
+        Question tempQuestion=Question(question: questionData["question"], answer: questionData["answer"], options: tempOptions , type: questionData["type"],media: questionData["url"]);
+        Provider.of<UserProvider>(context,listen:false).questions.add(
+          tempQuestion
+        );
+      });
+    });
+  }
   void signIn(String email, String password) async {
     try {
       UserCredential userCred = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       _getUserName(userCred.user!.uid);
+      getQuestions(1);
       // print('THIS IS USER');
 
       // .then((uid) => {
