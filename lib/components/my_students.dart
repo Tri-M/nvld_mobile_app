@@ -36,7 +36,7 @@ class MyStudents extends StatelessWidget {
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(
-                    top: height * 0.025,
+                    top: height * 0.0025,
                     left: width * 0.05,
                   ),
                   child: TextContainer(
