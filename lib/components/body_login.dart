@@ -80,7 +80,7 @@ class _BodyState extends State<Body> {
       // _userName = value.data['UserName'].toString();
     });
   }
-
+  
   void signIn(String email, String password) async {
     try {
       UserCredential userCred = await _auth.signInWithEmailAndPassword(

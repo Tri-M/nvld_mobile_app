@@ -6,7 +6,7 @@ class PasswordWidget extends StatefulWidget {
   final int maxLines;
   final String label;
   final Icon icon;
-  final String text;
+  final String? text;
   final ValueChanged<String> onChanged;
 
   const PasswordWidget({
