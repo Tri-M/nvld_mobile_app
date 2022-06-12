@@ -21,7 +21,6 @@ class MyStudents extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return Column(
       children: [
-        SizedBox(height: defaultPadding),
         SizedBox(
           width: width * 0.9,
           height: height * 0.18,
@@ -178,6 +177,12 @@ class MyStudents extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+        StudentCard(name: 'Abishek', email: 'abishek@gmail.com'),
+        StudentCard(name: 'Trisha', email: 'trisha@gmail.com'),
+        StudentCard(name: 'Karthik', email: 'karthik@gmail.com'),
+        const SizedBox(
+          height: defaultPadding,
+        ),
         Responsiveness(
           mobile: StudentInfoCardGridView(
             crossAxisCount: _size.width < 650 ? 2 : 4,
@@ -193,17 +198,77 @@ class MyStudents extends StatelessWidget {
   }
 }
 
-class StudentCard extends StatefulWidget {
-  const StudentCard({Key? key}) : super(key: key);
+class StudentCard extends StatelessWidget {
+  final String name;
+  final String email;
+  const StudentCard({
+    Key? key,
+    required this.name,
+    required this.email,
+  }) : super(key: key);
 
-  @override
-  State<StudentCard> createState() => _StudentCardState();
-}
-
-class _StudentCardState extends State<StudentCard> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    return Column(
+      children: [
+        SizedBox(
+          height: defaultPadding,
+        ),
+        Container(
+          height: height * 0.1,
+          width: width * 0.89,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: kPrimaryLightColor,
+            boxShadow: [
+              BoxShadow(
+                color: kPrimaryColor,
+                offset: Offset(
+                  0,
+                  height * 0.005,
+                ),
+                blurRadius: 8,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.only(
+              left: width * 0.05,
+              top: height * 0.025,
+            ),
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextContainer(
+                      text: name,
+                      presetFontSizes: [18, 16, 14],
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: kPrimaryColor,
+                      ),
+                    ),
+                    TextContainer(
+                      text: email,
+                      presetFontSizes: [18, 16, 14],
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 
