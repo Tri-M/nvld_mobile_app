@@ -21,81 +21,168 @@ class MyStudents extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TextContainer(
-                text: "My Students",
-                presetFontSizes: [24, 22, 20, 18, 16, 14],
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                )),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => StudentInviteScreen()));
-              },
-              child: Container(
-                width: width * 0.25,
-                height: height * 0.045,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.add,
-                      size: width * 0.04,
-                    ),
-                    TextContainer(
-                        width: width * 0.15,
-                        // textAlign: TextAlign.center,
-                        text: 'Invite',
-                        maxlines: 1,
-                        presetFontSizes: [18, 16, 14, 12, 10, 8])
-                  ],
-                ),
-              ),
+        SizedBox(
+          width: width * 0.9,
+          height: height * 0.18,
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
             ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => UploadQuestionPage()));
-              },
-              child: Container(
-                width: width * 0.25,
-                height: height * 0.045,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.add,
-                      size: width * 0.04,
+            color: kPrimaryLightColor,
+            elevation: 10,
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(
+                    top: height * 0.025,
+                    left: width * 0.05,
+                  ),
+                  child: TextContainer(
+                    text: 'Add new students',
+                    presetFontSizes: [18, 16, 14],
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: kPrimaryColor,
                     ),
-                    TextContainer(
-                        width: width * 0.2,
-                        text: 'Question',
-                        // textAlign: TextAlign.center,
-                        maxlines: 1,
-                        presetFontSizes: [16, 14, 12, 10, 8])
-                  ],
+                  ),
                 ),
-              ),
+                SizedBox(height: defaultPadding),
+                Container(
+                  height: height * 0.05,
+                  width: width * 0.3,
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: const StadiumBorder(),
+                      onPrimary: kPrimaryLightColor,
+                      primary: kPrimaryColor,
+                      padding: EdgeInsets.symmetric(
+                        vertical: height * 0.01,
+                        horizontal: width * 0.02,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StudentInviteScreen(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.add,
+                          size: (height + width) * 0.02,
+                          color: kPrimaryLightColor,
+                        ),
+                        TextContainer(
+                          text: "Invite",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: kPrimaryLightColor,
+                          ),
+                          presetFontSizes: [18, 16, 14, 12],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
         SizedBox(height: defaultPadding),
+        SizedBox(
+          width: width * 0.9,
+          height: height * 0.18,
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            color: kPrimaryLightColor,
+            elevation: 10,
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(
+                    top: height * 0.025,
+                    left: width * 0.05,
+                  ),
+                  child: TextContainer(
+                    text: 'Upload new question',
+                    presetFontSizes: [18, 16, 14],
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                ),
+                SizedBox(height: defaultPadding),
+                Container(
+                  height: height * 0.05,
+                  width: width * 0.35,
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: const StadiumBorder(),
+                      onPrimary: kPrimaryLightColor,
+                      primary: kPrimaryColor,
+                      padding: EdgeInsets.symmetric(
+                        vertical: height * 0.01,
+                        horizontal: width * 0.02,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UploadQuestionPage(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.add,
+                          size: (height + width) * 0.02,
+                          color: kPrimaryLightColor,
+                        ),
+                        TextContainer(
+                          text: "Question",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: kPrimaryLightColor,
+                          ),
+                          presetFontSizes: [18, 16, 14, 12],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: defaultPadding),
+        TextContainer(
+          text: "My Students",
+          presetFontSizes: [24, 22, 20, 18, 16],
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        StudentCard(name: 'Abishek', email: 'abishek@gmail.com'),
+        StudentCard(name: 'Trisha', email: 'trisha@gmail.com'),
+        StudentCard(name: 'Karthik', email: 'karthik@gmail.com'),
+        const SizedBox(
+          height: defaultPadding,
+        ),
         Responsiveness(
           mobile: StudentInfoCardGridView(
             crossAxisCount: _size.width < 650 ? 2 : 4,
@@ -111,11 +198,85 @@ class MyStudents extends StatelessWidget {
   }
 }
 
+class StudentCard extends StatelessWidget {
+  final String name;
+  final String email;
+  const StudentCard({
+    Key? key,
+    required this.name,
+    required this.email,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    return Column(
+      children: [
+        SizedBox(
+          height: defaultPadding,
+        ),
+        Container(
+          height: height * 0.1,
+          width: width * 0.89,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: kPrimaryLightColor,
+            boxShadow: [
+              BoxShadow(
+                color: kPrimaryColor,
+                offset: Offset(
+                  0,
+                  height * 0.005,
+                ),
+                blurRadius: 8,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.only(
+              left: width * 0.05,
+              top: height * 0.025,
+            ),
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextContainer(
+                      text: name,
+                      presetFontSizes: [18, 16, 14],
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: kPrimaryColor,
+                      ),
+                    ),
+                    TextContainer(
+                      text: email,
+                      presetFontSizes: [18, 16, 14],
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class StudentInfoCardGridView extends StatelessWidget {
   const StudentInfoCardGridView({
     Key? key,
-    this.crossAxisCount = 4,
-    this.childAspectRatio = 1,
+    this.crossAxisCount = 6,
+    this.childAspectRatio = 2,
   }) : super(key: key);
 
   final int crossAxisCount;
