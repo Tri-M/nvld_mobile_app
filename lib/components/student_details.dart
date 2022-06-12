@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:nvld_app/components/my_students.dart';
 
 import '../../../constants.dart';
 import 'chart.dart';
 import 'student_info_card.dart';
+// import 'student_card.dart';
 
 class StudentDetails extends StatelessWidget {
   const StudentDetails({
@@ -30,6 +32,10 @@ class StudentDetails extends StatelessWidget {
           ),
           SizedBox(height: defaultPadding),
           Chart(),
+          // StudentCard(
+          //   name: "Abishek",
+          //   email: "abishek@gmail.com",
+          // ),
           StudentInfoCard(
             //SvgPicture.asset("assets/images/logo.png"),
             title: "5-7 years",
