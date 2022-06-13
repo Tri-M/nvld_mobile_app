@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:nvld_app/Screens/login_screen.dart';
+import 'package:nvld_app/components/text_field_container.dart';
+import 'package:nvld_app/constants.dart';
 import 'package:nvld_app/models/Question.dart';
 import 'package:nvld_app/models/UserModal.dart';
 import 'package:nvld_app/screens/student/student_dashboard.dart';
@@ -38,20 +41,26 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     Future<void> getQuestions(int cat) async {
-    FirebaseFirestore.instance.collection('category$cat').get().then((value) {
-      value.docs.forEach((element) {
-        Map questionData=element.data();
-        List<String> tempOptions=[];
-        for (String op in questionData["options"]){
-          tempOptions.add(op);
-        }
-        Question tempQuestion=Question(question: questionData["question"], answer: questionData["answer"], options: tempOptions , type: questionData["type"],media: questionData["url"]);
-        Provider.of<UserProvider>(context,listen:false).questions.add(
-          tempQuestion
-        );
+      FirebaseFirestore.instance.collection('category$cat').get().then((value) {
+        value.docs.forEach((element) {
+          Map questionData = element.data();
+          List<String> tempOptions = [];
+          for (String op in questionData["options"]) {
+            tempOptions.add(op);
+          }
+          Question tempQuestion = Question(
+              question: questionData["question"],
+              answer: questionData["answer"],
+              options: tempOptions,
+              type: questionData["type"],
+              media: questionData["url"]);
+          Provider.of<UserProvider>(context, listen: false)
+              .questions
+              .add(tempQuestion);
+        });
       });
-    });
-  }
+    }
+
     void postDetailsToFirestore() async {
       // calling our firestore
       // calling our user model
@@ -88,7 +97,6 @@ class _BodyState extends State<Body> {
           MaterialPageRoute(builder: (context) => TestScreen()),
           (route) => false);
     }
-    
 
     void signUp(String email, String password) async {
       print(email);
@@ -174,14 +182,34 @@ class _BodyState extends State<Body> {
                 });
               },
             ),
-            DOBField(
-              hintText: "Date of Birth",
-              icon: Icons.calendar_month,
-              onChanged: (value) {
-                setState(() {
-                  dob = value;
-                });
-              },
+            TextFieldContainer(
+              child: TextField(
+                cursorColor: kPrimaryColor,
+                decoration: const InputDecoration(
+                  icon: Icon(
+                    Icons.calendar_month,
+                    color: kPrimaryColor,
+                  ),
+                  hintText: "Date of Birth",
+                  border: InputBorder.none,
+                ),
+                readOnly: true,
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2101));
+
+                  if (pickedDate != null) {
+                    String formattedDate =
+                        DateFormat('yyyy-MM-dd').format(pickedDate);
+                    setState(() {
+                      dob = formattedDate;
+                    });
+                  }
+                },
+              ),
             ),
             RoundedInputField(
               hintText: "Phone Number",
