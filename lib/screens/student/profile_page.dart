@@ -10,6 +10,7 @@ import '../../widget/appbar_widget.dart';
 import '../../widget/numbers_widget.dart';
 import '../../widget/profile_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../components/body_login.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     await FirebaseFirestore.instance
         .collection("users")
-        .where("Email", isEqualTo: "s@gmail.com")
+        .where("Email", isEqualTo: duser.email!)
         .get()
         .then((QuerySnapshot snapshot) {
       objiter = snapshot.docs.iterator;
@@ -45,15 +46,16 @@ class _ProfilePageState extends State<ProfilePage> {
       password = objiter.current.get("Password");
       phonenumber = objiter.current.get("Phonenumber");
     }
-    print(name);
-    print(dob);
-    print(email);
-    print(password);
-    print(phonenumber);
+    // print(name);
+    // print(dob);
+    // print(email);
+    // print(password);
+    // print(phonenumber);
   }
 
   @override
   Widget build(BuildContext context) {
+    
     return CommonLayout(
       child: Scaffold(
         appBar: buildAppBar(context),
@@ -61,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
           physics: BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-              imagePath: 'assets/user_icon.JPG',
+              imagePath: '/assets/images/profile.png',
               onClicked: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -124,14 +126,6 @@ Widget buildAbout(UserData user) {
             fontSize: 24,
           ),
         ),
-        // TextContainer(
-        //   textAlign: TextAlign.left,
-        //   text: "About",
-        //   style: TextStyle(
-        //     fontWeight: FontWeight.bold,
-        //   ),
-        //   presetFontSizes: [24, 22, 20, 18, 16],
-        // ),
         SizedBox(height: 15),
         Text(
           user.about,

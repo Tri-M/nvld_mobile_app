@@ -1,9 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:nvld_app/components/common_layout.dart';
-import 'package:nvld_app/screens/student/edit_profile_page.dart';
 import 'package:nvld_app/screens/student/main_mcq.dart';
-import 'package:nvld_app/screens/student/mcq_page.dart';
 import 'package:provider/provider.dart';
 import '../../models/Question.dart';
 import '../../models/UserModal.dart';
@@ -13,7 +9,6 @@ import 'profile_page.dart';
 import 'student_dashboard_drawer.dart';
 import '../../components/performance _graph.dart';
 import '../../constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class StudentDashboard extends StatefulWidget {
   @override
@@ -79,15 +74,17 @@ class _StudentDashboardState extends State<StudentDashboard> {
               ),
             ),
           ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: height * 0.02),
-              child: Container(
+          body: ListView(
+            physics: BouncingScrollPhysics(),
+            children: [
+              SizedBox(
+                height: defaultPadding,
+              ),
+              Container(
                 alignment: Alignment.center,
                 child: Container(
                   height: height * 0.75,
                   width: width * 0.85,
-                  // padding:EdgeInsets.symmetric(vertical:height*0.02),
                   decoration: BoxDecoration(
                     color: background,
                     borderRadius: BorderRadius.circular(15),
@@ -119,11 +116,6 @@ class _StudentDashboardState extends State<StudentDashboard> {
                               bottom: height * 0.03,
                               right: width * 0.06,
                             ),
-                            // child: TextContainer(
-                            //   text: "Level 3",
-                            //   presetFontSizes: const [20, 18, 16, 14, 12],
-                            //   style: TextStyle(fontSize: 2),
-                            // ),
                           ),
                         ],
                       ),
@@ -275,7 +267,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                   ),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ),
