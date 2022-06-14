@@ -97,8 +97,9 @@ class _QuestionCardState extends State<QuestionCard> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
+      // height:height*2,
         padding: EdgeInsets.symmetric(
-            horizontal: width * 0.03, vertical: height * 0.01),
+            horizontal: width * 0.03, vertical: height*0.01),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
