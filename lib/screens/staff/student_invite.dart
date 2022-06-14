@@ -29,86 +29,89 @@ class StudentInviteScreen extends StatelessWidget {
 
     return CommonLayout(
       child: Scaffold(
+        resizeToAvoidBottomInset : false,
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(118, 72, 216, 1),
           elevation: 0,
         ),
-        body: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(
-                  vertical: height * 0.05, horizontal: width * 0.05),
-              child: Column(
-                children: [
-                  TextContainer(
-                    text: "Enter the student mail",
-                    presetFontSizes: [18, 16, 14, 12, 10],
-                    width: width,
-                  ),
-                  TextFormField(
-                      cursorColor: kPrimaryColor,
-                      controller: emailEditingController,
-                      onSaved: (value) {
-                        emailEditingController.text = value!;
-                      },
-
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(
+                    vertical: height * 0.05, horizontal: width * 0.05),
+                child: Column(
+                  children: [
+                    TextContainer(
+                      text: "Enter the student mail",
+                      presetFontSizes: [18, 16, 14, 12, 10],
+                      width: width,
+                    ),
+                    TextFormField(
+                        cursorColor: kPrimaryColor,
+                        controller: emailEditingController,
+                        onSaved: (value) {
+                          emailEditingController.text = value!;
+                        },
+        
+                        // The validator receives the text that the user has entered.
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        }),
+                    SizedBox(height: 15),
+                    TextContainer(
+                      text: "Enter a password for mail",
+                      presetFontSizes: [18, 16, 14, 12, 10],
+                      width: width,
+                    ),
+                    TextFormField(
                       // The validator receives the text that the user has entered.
+                      controller: passwordEditingController,
+                      obscureText: true,
+        
+                      onSaved: (value) {
+                        passwordEditingController.text = value!;
+                      },
+        
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
                         }
                         return null;
-                      }),
-                  SizedBox(height: 30),
-                  TextContainer(
-                    text: "Enter a password for mail",
-                    presetFontSizes: [18, 16, 14, 12, 10],
-                    width: width,
-                  ),
-                  TextFormField(
-                    // The validator receives the text that the user has entered.
-                    controller: passwordEditingController,
-                    obscureText: true,
-
-                    onSaved: (value) {
-                      passwordEditingController.text = value!;
-                    },
-
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: height * 0.08),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: kPrimaryColor,
-                        shape: StadiumBorder(),
-                      ),
-                      onPressed: () {
-                        FirebaseFirestore firebaseFirestore =
-                            FirebaseFirestore.instance;
-                        User? user = _auth.currentUser;
-                        create(emailEditingController.text,
-                            passwordEditingController.text, user?.email);
                       },
-                      child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: TextContainer(
-                          textAlign: TextAlign.center,
-                          text: 'Submit',
-                          presetFontSizes: [16, 14, 12, 10],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: height * 0.08),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: kPrimaryColor,
+                          shape: StadiumBorder(),
+                        ),
+                        onPressed: () {
+                          FirebaseFirestore firebaseFirestore =
+                              FirebaseFirestore.instance;
+                          User? user = _auth.currentUser;
+                          create(emailEditingController.text,
+                              passwordEditingController.text, user?.email);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: TextContainer(
+                            textAlign: TextAlign.center,
+                            text: 'Submit',
+                            presetFontSizes: [16, 14, 12, 10],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
