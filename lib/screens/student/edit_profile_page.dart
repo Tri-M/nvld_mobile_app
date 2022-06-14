@@ -25,35 +25,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
   UserData user = UserPreferences.myUser;
   UserModel model = UserModel();
   final duser = FirebaseAuth.instance.currentUser!;
-  late String name = "";
-  late String dob = "";
-  late String email = "";
-  late String password = "";
-  late String phonenumber = "";
+  TextEditingController name = TextEditingController();
+  TextEditingController dob = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController phonenumber = TextEditingController();
 
   @override
   void initState() {
     super.initState;
-    getfunction();
+    getsome();
   }
 
-  void getfunction() async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final uid = user?.uid;
-    var collection = FirebaseFirestore.instance.collection('users');
-
-    FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) {
-      Map<String, dynamic>? data = value.data();
-      print(data);
-      model.name = data!['Name'];
-      model.email = data['Email'];
-      model.phoneNumber = data['Phone'];
-      model.dob = data['Dob'];
-      model.password = data['Password'];
-
-      print(model);
-    });
+  void getsome() {
+    print("some");
   }
 
   @override
@@ -74,49 +59,77 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SizedBox(
             height: 20,
           ),
-          TextFieldWidget(
-            label: 'Name',
-            icon: const Icon(Icons.person),
-            text: name,
-            onChanged: (Name) {
-              print(name);
-            },
+          TextField(
+            controller: name,
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.person),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                filled: true,
+                hintStyle: TextStyle(color: Colors.grey[800]),
+                hintText: "Name",
+                fillColor: Colors.white70),
           ),
           SizedBox(
             height: 20,
           ),
-          TextFieldWidget(
-            label: 'Dob',
-            icon: const Icon(Icons.person),
-            text: dob,
-            onChanged: (Name) {},
+          TextField(
+            controller: dob,
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.calendar_month),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                filled: true,
+                hintStyle: TextStyle(color: Colors.grey[800]),
+                hintText: "Dob",
+                fillColor: Colors.white70),
           ),
           SizedBox(
             height: 20,
           ),
-          TextFieldWidget(
-            label: 'Email',
-            icon: const Icon(Icons.email),
-            text: email,
-            onChanged: (name) {},
+          TextField(
+            controller: email,
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.email),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                filled: true,
+                hintStyle: TextStyle(color: Colors.grey[800]),
+                hintText: "Email",
+                fillColor: Colors.white70),
           ),
           SizedBox(
             height: 20,
           ),
-          PasswordWidget(
-            icon: const Icon(Icons.lock),
-            label: 'Password',
-            text: password,
-            onChanged: (name) {},
+          TextField(
+            controller: password,
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.lock),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                filled: true,
+                hintStyle: TextStyle(color: Colors.grey[800]),
+                hintText: "Password",
+                fillColor: Colors.white70),
           ),
           SizedBox(
             height: 20,
           ),
-          PhoneTextWidget(
-            icon: const Icon(Icons.phone),
-            label: 'Phone',
-            text: phonenumber,
-            onChanged: (name) {},
+          TextField(
+            controller: phonenumber,
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.phone),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                filled: true,
+                hintStyle: TextStyle(color: Colors.grey[800]),
+                hintText: "Phone",
+                fillColor: Colors.white70),
           ),
           SizedBox(
             height: 20,
@@ -141,12 +154,40 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
               autofocus: mounted,
               onPressed: () {
-                getfunction();
+                submit();
               },
             ),
           ),
         ],
       ),
     );
+  }
+
+  void submit() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    var collection = FirebaseFirestore.instance.collection('users').doc(uid);
+
+    await collection.get().then((value) {
+      Map<String, dynamic>? data = value.data();
+      print(data);
+      model.name = data!['Name'];
+      model.email = data['Email'];
+      model.phoneNumber = data['Phonenumber'];
+      model.dob = data['Dob'];
+      model.password = data['Password'];
+
+      print(model);
+    });
+
+    collection.update({
+      'Name': name.text == "" ? model.name : name.text,
+      'Email': email.text == "" ? model.email : email.text,
+      'Phonenumber':
+          phonenumber.text == "" ? model.phoneNumber : phonenumber.text,
+      'Dob': dob.text == "" ? model.dob : dob.text,
+      'Password': password.text == "" ? model.password : password.text,
+    });
   }
 }
