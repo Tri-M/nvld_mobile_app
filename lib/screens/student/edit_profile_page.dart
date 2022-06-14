@@ -34,11 +34,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void initState() {
     super.initState;
-    getsome();
-  }
-
-  void getsome() {
-    print("some");
   }
 
   @override
