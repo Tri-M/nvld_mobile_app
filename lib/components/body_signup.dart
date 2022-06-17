@@ -36,29 +36,34 @@ class _BodyState extends State<Body> {
   String dob = "";
   String phonenumber = "";
   // final _auth = FirebaseAuth.instance;
-
-  //final _auth = Firebase.initializeApp();
-  @override
-  Widget build(BuildContext context) {
-    Future<void> getQuestions(int cat) async {
+  Future<void> getQuestions(int cat) async {
+    // print('HI');
       FirebaseFirestore.instance.collection('category$cat').get().then((value) {
         value.docs.forEach((element) {
           Map questionData = element.data();
+          // print("Questionsdata :- $questionData");
           List<String> tempOptions = [];
           for (String op in questionData["options"]) {
             tempOptions.add(op);
           }
+          // print('ALL FINE TILL HERE');
           Question tempQuestion = Question(
               question: questionData["question"],
               answer: questionData["answer"],
               options: tempOptions,
               type: questionData["type"],
               media: questionData["url"]);
+          // print('ALL FINE TILL HERE2');
           Provider.of<UserProvider>(context, listen: false)
               .questions
               .add(tempQuestion);
+          
+          // print('ALL FINE TILL HERE3');
+
+          // print(tempQuestion);
         });
       });
+      // print(Provider.of<UserProvider>(context, listen: false).questions);
     }
 
     void postDetailsToFirestore() async {
@@ -89,9 +94,11 @@ class _BodyState extends State<Body> {
 
       Provider.of<UserProvider>(context, listen: false).addUserData(userModel);
 
-      print("came");
+      // print("came");
       Fluttertoast.showToast(msg: "Account created successfully! ");
       getQuestions(1);
+      // print('Get Questions done');
+      
       Navigator.pushAndRemoveUntil(
           (context),
           MaterialPageRoute(builder: (context) => TestScreen()),
@@ -136,6 +143,10 @@ class _BodyState extends State<Body> {
       }
     }
 
+  //final _auth = Firebase.initializeApp();
+  @override
+  Widget build(BuildContext context) {
+    
     Size size = MediaQuery.of(context).size;
     return Background(
       child: SingleChildScrollView(
