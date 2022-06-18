@@ -21,7 +21,7 @@ class QuestionTypeTile extends StatelessWidget {
       },
       child: Container(
         height:height*0.06,
-        width:width*0.3,
+        width:width*0.2,
         decoration:BoxDecoration(
           color:currIndex==index?primaryPurple:Colors.grey[200],
           borderRadius: BorderRadius.circular(20),
@@ -30,7 +30,7 @@ class QuestionTypeTile extends StatelessWidget {
           child: TextContainer(
             text:type,
             presetFontSizes: [20,18,16,14],
-            width:width*0.2,
+            width:width*0.18,
             textAlign: TextAlign.center,
             style: TextStyle(
               color:currIndex==index?Colors.white:Colors.black,
