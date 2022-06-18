@@ -2,9 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
+import 'package:nvld_app/api/google_auth.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/models/UserModal.dart';
 import 'package:nvld_app/screens/admin/admin.dart';
+import 'package:slidable_button/slidable_button.dart';
 
 class Admin_addstaff extends StatefulWidget {
   const Admin_addstaff({Key? key}) : super(key: key);
@@ -17,6 +21,7 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
   final _formKey = GlobalKey<FormState>();
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
+  bool slide = false;
 
   @override
   Widget build(BuildContext context) {
@@ -100,12 +105,57 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
                     return null;
                   },
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: HorizontalSlidableButton(
+                    width: MediaQuery.of(context).size.width / 3,
+                    buttonWidth: 60.0,
+                    color: Theme.of(context).accentColor.withOpacity(0.5),
+                    buttonColor: Theme.of(context).primaryColor,
+                    dismissible: false,
+                    label: Center(
+                        child: Text(
+                      'Slide',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Don't"),
+                          Text('Notify'),
+                        ],
+                      ),
+                    ),
+                    onChanged: (position) {
+                      setState(() {
+                        if (position == SlidableButtonPosition.end) {
+                          slide = true;
+                        } else {
+                          slide = false;
+                        }
+                      });
+                    },
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      create(emailEditingController.text,
-                          passwordEditingController.text);
+                      if (emailEditingController.text != "" &&
+                          passwordEditingController.text != "") {
+                        // create(emailEditingController.text,
+                        //     passwordEditingController.text);4
+                        sendEmail();
+                        // if (slide) {
+
+                        // }
+                      } else {
+                        showAlertDialog(context);
+                      }
                     },
                     child: const Text('Submit'),
                   ),
@@ -114,6 +164,33 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
             ),
           ),
         ));
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Not Valid"),
+      content: Text("Fill the email and password correctly"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   final _auth = FirebaseAuth.instance;
@@ -178,5 +255,42 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
 
     print("came");
     Fluttertoast.showToast(msg: "Account created successfully! ");
+  }
+
+  Future sendEmail() async {
+    final user = await GoogleAuthApi.signIn();
+
+    if (user == null) return;
+    final auth = await user.authentication;
+    final token = auth.accessToken!;
+    final smtpServer = gmailSaslXoauth2(user.email, token);
+    final message = Message();
+    message.from = Address('sanjayprasad682001@gmail.com', 'sanjay');
+    message.recipients = [emailEditingController.text];
+    message.subject = 'Welcome to NVLD Quiz App';
+    message.text = 'We have created an account for you username:' +
+        emailEditingController.text;
+
+    try {
+      await send(message, smtpServer);
+    } on MailerException catch (e) {
+      print(e);
+    }
+  }
+
+  void showSnackBar(String text) {
+    final snackBar = SnackBar(
+      content: const Text('Yay! A SnackBar!'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          // Some code to undo the change.
+        },
+      ),
+    );
+
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(snackBar);
   }
 }
