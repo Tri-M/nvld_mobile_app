@@ -1,11 +1,21 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
 import 'package:nvld_app/components/question_type_tile.dart';
+import 'package:nvld_app/components/set_correct_option_tile.dart';
 import 'package:nvld_app/components/upload_file.dart';
 import 'package:nvld_app/components/upload_question_text_field.dart';
+import 'package:provider/provider.dart';
 
 import '../../components/common_layout.dart';
 import '../../components/text_container.dart';
 import '../../constants.dart';
+import '../../provider/user_provider.dart';
 
 class UploadQuestionPage extends StatefulWidget {
   const UploadQuestionPage({Key? key}) : super(key: key);
@@ -20,6 +30,78 @@ class _UploadQuestionPageState extends State<UploadQuestionPage> {
   TextEditingController optionBController = TextEditingController();
   TextEditingController optionCController = TextEditingController();
   TextEditingController optionDController = TextEditingController();
+  File file = File("");
+
+  final ImagePicker _picker = ImagePicker();
+
+  Future<File> getImage() async {
+    try {
+      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+      if (image != null) {
+        File file = File(image.path);
+        return file;
+        // print(image.path);
+        // var snapshot =
+        //     await storage.ref().child('images/logo').putFile(file);
+        // if (snapshot.state==TaskState.success){
+        //   Fluttertoast.showToast(msg: "Image Uploaded Successfully");
+        //   var imageUrl = await (snapshot).ref.getDownloadURL();
+        //   var url = imageUrl.toString();
+        //   Provider.of<UserProvider>(context,listen:false).logoUrl= url;
+        //   setState(() {
+
+        //   });
+        // }
+        // print(url);
+        // var snapshot2= storage.ref().child('images/logo');
+        // var imageUrl = await (snapshot2).getDownloadURL();
+        // print(imageUrl.toString());
+      } else {
+        throw ("Invalid");
+      }
+    } catch (e) {
+      throw (e);
+    }
+    // return null;
+  }
+
+  void uploadQuestion(Map<String, dynamic> questionMap, int cat) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    FirebaseStorage storage = FirebaseStorage.instance;
+    if (questionMap["type"] == "text") {
+      await firebaseFirestore
+          .collection("mCategory$cat")
+          .doc()
+          .set(questionMap);
+      Fluttertoast.showToast(msg: "Question Uploaded Success");
+    } else {
+      DateTime currentPhoneDate = DateTime.now(); //DateTime
+      Timestamp myTimeStamp = Timestamp.fromDate(currentPhoneDate);
+      String? mimeStr = lookupMimeType(file.path);
+      var fileType = mimeStr!.split('/');
+      // print('file type ${fileType}');
+      var snapshot = await storage
+          .ref()
+          .child('images/mCategory$cat/$myTimeStamp')
+          .putFile(file);
+      if (snapshot.state == TaskState.success) {
+        Fluttertoast.showToast(msg: "Image Uploaded Successfully");
+        var imageUrl = await (snapshot).ref.getDownloadURL();
+        var url = imageUrl.toString();
+        questionMap["url"] = url;
+        questionMap["type"] = fileType[0] == 'image' ? 'image' : 'video';
+        await firebaseFirestore
+            .collection("mCategory$cat")
+            .doc()
+            .set(questionMap);
+        Fluttertoast.showToast(msg: "Question Uploaded Success");
+      }
+    }
+  }
+
+  int correctOption = -1;
+
   int currIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -60,136 +142,241 @@ class _UploadQuestionPageState extends State<UploadQuestionPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      QuestionTypeTile(
-                        type: 'TEXT',
-                        currIndex: currIndex,
-                        index: 0,
-                        onTap: () {
-                          setState(() {
-                            currIndex = 0;
-                          });
-                        },
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          QuestionTypeTile(
+                            type: 'Ques',
+                            currIndex: currIndex,
+                            index: 0,
+                            onTap: () {
+                              setState(() {
+                                currIndex = 0;
+                              });
+                            },
+                          ),
+                          SizedBox(width: width * 0.05),
+                          QuestionTypeTile(
+                            type: 'Media',
+                            currIndex: currIndex,
+                            index: 1,
+                            onTap: () {
+                              setState(() {
+                                currIndex = 1;
+                              });
+                            },
+                          ),
+                        ],
                       ),
-                      QuestionTypeTile(
-                        type: 'IMAGE',
-                        currIndex: currIndex,
-                        index: 1,
-                        onTap: () {
-                          setState(() {
-                            currIndex = 1;
-                          });
-                        },
+                      Container(
+                        height: height * 0.05,
+                        color: Colors.black,
+                        width: 2,
                       ),
-                      QuestionTypeTile(
-                        type: 'VIDEO',
-                        currIndex: currIndex,
-                        index: 2,
-                        onTap: () {
-                          setState(() {
-                            currIndex = 2;
-                          });
-                        },
-                      ),
+                      SetCorrectOptionTile(onTap: (value) {
+                        setState(() {
+                          correctOption = value;
+                        });
+                      })
                     ],
                   ),
                   SizedBox(height: height * 0.02),
-                  if (currIndex==0)
-                  UploadQuestionTextField(
-                      controller: questionController,
-                      maxlines: 5,
-                      hintText: 'Enter your question...'),
-                  if (currIndex!=0)
-                    SizedBox(height:height*0.03),
-                  if (currIndex!=0)
-                  Center(
-                    child: UploadFileButton(
-                      height:height*0.12,
-                      width:height*0.12,
-                      buttonBackgroundColor: primaryPurple,
-                      glowColor: lightPurple,
-                      child: Center(
-                        child: Icon(
-                          Icons.upload,
-                          color: Colors.white,
-                          size: height*0.06,
+                  if (currIndex == 0)
+                    UploadQuestionTextField(
+                        controller: questionController,
+                        maxlines: 5,
+                        hintText: 'Enter your question...'),
+                  if (currIndex != 0)
+                    Column(
+                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: height * 0.04),
+                        TextContainer(
+                          text: 'Do you want to upload a file?',
+                          presetFontSizes: [24, 22, 20, 18],
+                          maxlines: 1,
+                          style:const TextStyle(
+                              // color: ,
+                              fontWeight: FontWeight.w500),
+                          width: width * 0.8,
                         ),
-                      ),
-                      onTap: (){},
+                        SizedBox(height: height * 0.03),
+                        file.path == ""
+                            ? Center(
+                                child: UploadFileButton(
+                                  height: height * 0.12,
+                                  width: height * 0.12,
+                                  buttonBackgroundColor: primaryPurple,
+                                  glowColor: lightPurple,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.upload,
+                                      color: Colors.white,
+                                      size: height * 0.06,
+                                    ),
+                                  ),
+                                  onTap: () async {
+                                    File imageFile = await getImage();
+                                    print(imageFile.path);
+                                    String? mimeStr =
+                                        lookupMimeType(imageFile.path);
+                                    var fileType = mimeStr!.split('/');
+                                    print('file type ${fileType}');
+
+                                    setState(() {
+                                      file = imageFile;
+                                    });
+                                  },
+                                ),
+                              )
+                            : Center(
+                                child: UploadFileButton(
+                                  height: height * 0.12,
+                                  width: height * 0.12,
+                                  buttonBackgroundColor: Colors.green,
+                                  glowColor: Colors.green[100],
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: height * 0.06,
+                                    ),
+                                  ),
+                                  onTap: () async {
+                                    File imageFile = await getImage();
+                                    print(imageFile.path);
+
+                                    setState(() {
+                                      file = imageFile;
+                                    });
+                                  },
+                                ),
+                              ),
+                        SizedBox(height: height * 0.02),
+                      ],
                     ),
-                  ),
-                  if (currIndex!=0)
-                    SizedBox(height:height*0.02),
-                  SizedBox(height: height * 0.01),
-                  TextContainer(
-                    text: 'Option A',
-                    presetFontSizes: [16, 14, 12, 10],
-                    style: TextStyle(
-                      color: primaryPurple,
+                  if (currIndex == 0)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextContainer(
+                          text: 'Option A',
+                          presetFontSizes: [16, 14, 12, 10],
+                          style: TextStyle(
+                            color: primaryPurple,
+                          ),
+                        ),
+                        SizedBox(height: height * 0.005),
+                        Padding(
+                          padding: EdgeInsets.only(left: width * 0.02),
+                          child: UploadQuestionTextField(
+                              controller: optionAController,
+                              maxlines: 2,
+                              hintText: 'Enter option A...'),
+                        ),
+                        SizedBox(height: height * 0.01),
+                        TextContainer(
+                          text: 'Option B',
+                          presetFontSizes: [16, 14, 12, 10],
+                          style: TextStyle(
+                            color: primaryPurple,
+                          ),
+                        ),
+                        SizedBox(height: height * 0.005),
+                        Padding(
+                          padding: EdgeInsets.only(left: width * 0.02),
+                          child: UploadQuestionTextField(
+                              controller: optionBController,
+                              maxlines: 2,
+                              hintText: 'Enter option B...'),
+                        ),
+                        SizedBox(height: height * 0.01),
+                        TextContainer(
+                          text: 'Option C',
+                          presetFontSizes: [16, 14, 12, 10],
+                          style: TextStyle(
+                            color: primaryPurple,
+                          ),
+                        ),
+                        SizedBox(height: height * 0.005),
+                        Padding(
+                          padding: EdgeInsets.only(left: width * 0.02),
+                          child: UploadQuestionTextField(
+                              controller: optionCController,
+                              maxlines: 2,
+                              hintText: 'Enter option C...'),
+                        ),
+                        TextContainer(
+                          text: 'Option D',
+                          presetFontSizes: [16, 14, 12, 10],
+                          style: TextStyle(
+                            color: primaryPurple,
+                          ),
+                        ),
+                        SizedBox(height: height * 0.005),
+                        Padding(
+                          padding: EdgeInsets.only(left: width * 0.02),
+                          child: UploadQuestionTextField(
+                              controller: optionDController,
+                              maxlines: 2,
+                              hintText: 'Enter option D...'),
+                        ),
+                        SizedBox(height: height * 0.01),
+                      ],
                     ),
-                  ),
-                  SizedBox(height: height * 0.005),
-                  Padding(
-                    padding: EdgeInsets.only(left: width * 0.02),
-                    child: UploadQuestionTextField(
-                        controller: optionAController,
-                        maxlines: 2,
-                        hintText: 'Enter option A...'),
-                  ),
-                  SizedBox(height: height * 0.01),
-                  TextContainer(
-                    text: 'Option B',
-                    presetFontSizes: [16, 14, 12, 10],
-                    style: TextStyle(
-                      color: primaryPurple,
-                    ),
-                  ),
-                  SizedBox(height: height * 0.005),
-                  Padding(
-                    padding: EdgeInsets.only(left: width * 0.02),
-                    child: UploadQuestionTextField(
-                        controller: optionBController,
-                        maxlines: 2,
-                        hintText: 'Enter option B...'),
-                  ),
-                  SizedBox(height: height * 0.01),
-                  TextContainer(
-                    text: 'Option C',
-                    presetFontSizes: [16, 14, 12, 10],
-                    style: TextStyle(
-                      color: primaryPurple,
-                    ),
-                  ),
-                  SizedBox(height: height * 0.005),
-                  Padding(
-                    padding: EdgeInsets.only(left: width * 0.02),
-                    child: UploadQuestionTextField(
-                        controller: optionCController,
-                        maxlines: 2,
-                        hintText: 'Enter option C...'),
-                  ),
-                  TextContainer(
-                    text: 'Option D',
-                    presetFontSizes: [16, 14, 12, 10],
-                    style: TextStyle(
-                      color: primaryPurple,
-                    ),
-                  ),
-                  SizedBox(height: height * 0.005),
-                  Padding(
-                    padding: EdgeInsets.only(left: width * 0.02),
-                    child: UploadQuestionTextField(
-                        controller: optionDController,
-                        maxlines: 2,
-                        hintText: 'Enter option D...'),
-                  ),
-                  SizedBox(height: height * 0.01),
                 ],
               ),
             )),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            if (questionController.text!="")
-              print('hi');
+            if (optionAController.text != '' &&
+                optionBController.text != '' &&
+                optionCController.text != '' &&
+                optionDController.text != '') {
+              if (questionController.text != "" &&
+                  correctOption != -1 &&
+                  file.path == "") {
+                Map<String, dynamic> questionMap = {
+                  'question': questionController.text,
+                  'options': <String>[
+                    optionAController.text,
+                    optionBController.text,
+                    optionDController.text
+                  ],
+                  'type': "text",
+                  'answer': correctOption,
+                  'url': ""
+                };
+                uploadQuestion(questionMap, 1);
+              }
+              if (questionController.text != "" &&
+                  correctOption != -1 &&
+                  file.path != "") {
+                // uploadQuestion();
+
+                Map<String, dynamic> questionMap = {
+                  'question': questionController.text,
+                  'options': <String>[
+                    optionAController.text,
+                    optionBController.text,
+                    optionCController.text,
+                    optionDController.text
+                  ],
+                  'answer': correctOption,
+                  'type':'not-text',
+                  'url':'',
+                };
+                uploadQuestion(questionMap, 1);
+              }
+              if (correctOption == -1) {
+                Fluttertoast.showToast(msg: "Please choose the correct option");
+              }
+              if (questionController.text == "") {
+                Fluttertoast.showToast(msg: "Please enter the question");
+              }
+            } else {
+              Fluttertoast.showToast(msg: "Please fill all the options");
+            }
           },
           backgroundColor: primaryPurple,
           child: Transform.rotate(
