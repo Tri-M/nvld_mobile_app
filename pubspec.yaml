@@ -56,7 +56,13 @@ dependencies:
   firebase_storage: ^10.2.17
   introduction_screen: ^3.0.2
   intl: ^0.17.0
+
+  slidable_button: ^2.0.0+1
+  snackbar_extension: ^0.0.1
+  google_sign_in: ^5.3.3
+
   mime: ^1.0.2
+
 
 dev_dependencies:
   flutter_test:

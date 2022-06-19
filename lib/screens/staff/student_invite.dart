@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mailer/mailer.dart';
 import 'package:nvld_app/components/common_layout.dart';
 import 'package:nvld_app/components/rounded_input_field.dart';
 import 'package:nvld_app/components/text_container.dart';
@@ -11,14 +15,48 @@ import 'package:nvld_app/utils/user_preferences.dart';
 import 'package:provider/provider.dart';
 import '../../models/to_student.dart';
 import '../../constants.dart';
+import 'package:http/http.dart' as http;
 
 class StudentInviteScreen extends StatelessWidget {
   StudentInviteScreen({Key? key}) : super(key: key);
 
-  final emailController = TextEditingController();
+  //final emailController = TextEditingController();
 
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
+  final duser = FirebaseAuth.instance.currentUser!;
+  Future sendEmail({
+    required String name,
+    required String email,
+    required String subject,
+    required String message,
+  }) async {
+    final serviceId = 'service_px2ny82';
+    final templateId = 'template_tnnh6vu';
+    final userId = 'hmFFOdBu4fKyItB0_';
+
+    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+    final response = await http.post(
+      url,
+      headers: {
+        'origin': 'http://localhost',
+        'Content-Type': 'application/json'
+      },
+      body: json.encode({
+        'service_id': serviceId,
+        'template_id': templateId,
+        'user_id': userId,
+        'template_params': {
+          'user_name': name,
+          'user_email': 'abishek20030324@gmail.com',
+          'to_email': email,
+          'user_subject': subject,
+          'user_message': message,
+        }
+      }),
+    );
+    print(response.body);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +67,7 @@ class StudentInviteScreen extends StatelessWidget {
 
     return CommonLayout(
       child: Scaffold(
-        resizeToAvoidBottomInset : false,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(118, 72, 216, 1),
           elevation: 0,
@@ -53,7 +91,7 @@ class StudentInviteScreen extends StatelessWidget {
                         onSaved: (value) {
                           emailEditingController.text = value!;
                         },
-        
+
                         // The validator receives the text that the user has entered.
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -71,11 +109,11 @@ class StudentInviteScreen extends StatelessWidget {
                       // The validator receives the text that the user has entered.
                       controller: passwordEditingController,
                       obscureText: true,
-        
+
                       onSaved: (value) {
                         passwordEditingController.text = value!;
                       },
-        
+
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
@@ -124,6 +162,12 @@ class StudentInviteScreen extends StatelessWidget {
     try {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      sendEmail(
+          name: 'BlackBoard Learning',
+          email: emailEditingController.text,
+          subject: 'You are invited to Blackboard learning',
+          message:
+              'Welcome, You are invited to BlackBoard learning \npassword :${passwordEditingController.text},\n your staff : ${duser.email}');
       print('this is user ID : ${userCred.user!.uid}');
       postDetailsToFirestore(userCred.user!.uid, staffmail);
       //     .then((value) => {postDetailsToFirestore()})

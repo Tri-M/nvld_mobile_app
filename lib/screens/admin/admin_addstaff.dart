@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/models/UserModal.dart';
 import 'package:nvld_app/screens/admin/admin.dart';
+import 'package:http/http.dart' as http;
 
 class Admin_addstaff extends StatefulWidget {
   const Admin_addstaff({Key? key}) : super(key: key);
@@ -17,6 +20,39 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
   final _formKey = GlobalKey<FormState>();
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
+
+  Future sendEmail({
+    required String name,
+    required String email,
+    required String subject,
+    required String message,
+  }) async {
+    final serviceId = 'service_px2ny82';
+    final templateId = 'template_tnnh6vu';
+    final userId = 'hmFFOdBu4fKyItB0_';
+
+    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+    final response = await http.post(
+      url,
+      headers: {
+        'origin': 'http://localhost',
+        'Content-Type': 'application/json'
+      },
+      body: json.encode({
+        'service_id': serviceId,
+        'template_id': templateId,
+        'user_id': userId,
+        'template_params': {
+          'user_name': name,
+          'user_email': 'abishek20030324@gmail.com',
+          'to_email': email,
+          'user_subject': subject,
+          'user_message': message,
+        }
+      }),
+    );
+    print(response.body);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,6 +159,12 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
     try {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      sendEmail(
+          name: 'BlackBoard Learning',
+          email: emailEditingController.text,
+          subject: 'Staff Role',
+          message:
+              'Welcome, You are invited to BlackBoard learning \npassword :${passwordEditingController.text}');
       print('this is user ID : ${userCred.user!.uid}');
       postDetailsToFirestore(userCred.user!.uid);
       //     .then((value) => {postDetailsToFirestore()})
