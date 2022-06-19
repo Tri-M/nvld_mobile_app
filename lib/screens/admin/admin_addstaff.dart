@@ -1,14 +1,13 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
-import 'package:nvld_app/api/google_auth.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/models/UserModal.dart';
 import 'package:nvld_app/screens/admin/admin.dart';
-import 'package:slidable_button/slidable_button.dart';
+import 'package:http/http.dart' as http;
 
 class Admin_addstaff extends StatefulWidget {
   const Admin_addstaff({Key? key}) : super(key: key);
@@ -21,7 +20,39 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
   final _formKey = GlobalKey<FormState>();
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
-  bool slide = false;
+
+  Future sendEmail({
+    required String name,
+    required String email,
+    required String subject,
+    required String message,
+  }) async {
+    final serviceId = 'service_px2ny82';
+    final templateId = 'template_tnnh6vu';
+    final userId = 'hmFFOdBu4fKyItB0_';
+
+    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+    final response = await http.post(
+      url,
+      headers: {
+        'origin': 'http://localhost',
+        'Content-Type': 'application/json'
+      },
+      body: json.encode({
+        'service_id': serviceId,
+        'template_id': templateId,
+        'user_id': userId,
+        'template_params': {
+          'user_name': name,
+          'user_email': 'abishek20030324@gmail.com',
+          'to_email': email,
+          'user_subject': subject,
+          'user_message': message,
+        }
+      }),
+    );
+    print(response.body);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,57 +136,12 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
                     return null;
                   },
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Center(
-                  child: HorizontalSlidableButton(
-                    width: MediaQuery.of(context).size.width / 3,
-                    buttonWidth: 60.0,
-                    color: Theme.of(context).accentColor.withOpacity(0.5),
-                    buttonColor: Theme.of(context).primaryColor,
-                    dismissible: false,
-                    label: Center(
-                        child: Text(
-                      'Slide',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Don't"),
-                          Text('Notify'),
-                        ],
-                      ),
-                    ),
-                    onChanged: (position) {
-                      setState(() {
-                        if (position == SlidableButtonPosition.end) {
-                          slide = true;
-                        } else {
-                          slide = false;
-                        }
-                      });
-                    },
-                  ),
-                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      if (emailEditingController.text != "" &&
-                          passwordEditingController.text != "") {
-                        // create(emailEditingController.text,
-                        //     passwordEditingController.text);4
-                        sendEmail();
-                        // if (slide) {
-
-                        // }
-                      } else {
-                        showAlertDialog(context);
-                      }
+                      create(emailEditingController.text,
+                          passwordEditingController.text);
                     },
                     child: const Text('Submit'),
                   ),
@@ -166,33 +152,6 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
         ));
   }
 
-  showAlertDialog(BuildContext context) {
-    // set up the button
-    Widget okButton = TextButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Not Valid"),
-      content: Text("Fill the email and password correctly"),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   final _auth = FirebaseAuth.instance;
 
   void create(String email, String password) async {
@@ -200,6 +159,12 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
     try {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      sendEmail(
+          name: 'BlackBoard Learning',
+          email: emailEditingController.text,
+          subject: 'Staff Role',
+          message:
+              'Welcome, You are invited to BlackBoard learning \npassword :${passwordEditingController.text}');
       print('this is user ID : ${userCred.user!.uid}');
       postDetailsToFirestore(userCred.user!.uid);
       //     .then((value) => {postDetailsToFirestore()})
@@ -255,42 +220,5 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
 
     print("came");
     Fluttertoast.showToast(msg: "Account created successfully! ");
-  }
-
-  Future sendEmail() async {
-    final user = await GoogleAuthApi.signIn();
-
-    if (user == null) return;
-    final auth = await user.authentication;
-    final token = auth.accessToken!;
-    final smtpServer = gmailSaslXoauth2(user.email, token);
-    final message = Message();
-    message.from = Address('sanjayprasad682001@gmail.com', 'sanjay');
-    message.recipients = [emailEditingController.text];
-    message.subject = 'Welcome to NVLD Quiz App';
-    message.text = 'We have created an account for you username:' +
-        emailEditingController.text;
-
-    try {
-      await send(message, smtpServer);
-    } on MailerException catch (e) {
-      print(e);
-    }
-  }
-
-  void showSnackBar(String text) {
-    final snackBar = SnackBar(
-      content: const Text('Yay! A SnackBar!'),
-      action: SnackBarAction(
-        label: 'Undo',
-        onPressed: () {
-          // Some code to undo the change.
-        },
-      ),
-    );
-
-    ScaffoldMessenger.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(snackBar);
   }
 }
