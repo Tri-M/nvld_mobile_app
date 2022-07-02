@@ -441,7 +441,7 @@ class _UploadQuestionPageState extends State<UploadQuestionPage> {
                   'type': 'not-text',
                   'url': '',
                 };
-                // print()
+                // print(cat);
                 uploadQuestion(questionMap, cat);
               }
               if (correctOption == -1) {
