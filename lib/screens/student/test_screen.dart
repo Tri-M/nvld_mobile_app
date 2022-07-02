@@ -1,6 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/Question.dart';
+import '../../provider/user_provider.dart';
 
 class TestScreen extends StatefulWidget {
   const TestScreen({Key? key}) : super(key: key);
@@ -10,8 +16,11 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
+  
   @override
   Widget build(BuildContext context) {
+    
+    
     return MaterialApp(
       home: mainPage(),
     );
@@ -24,6 +33,42 @@ class mainPage extends StatefulWidget {
 }
 
 class _mainPageState extends State<mainPage> {
+  final _auth = FirebaseAuth.instance;
+  @override
+  initState(){
+    super.initState();
+    print(Provider.of<UserProvider>(context,listen:false).myUser);
+    getQuestions(1);
+  }
+  Future<void> getQuestions(int cat) async {
+    // print('HI');
+      await FirebaseFirestore.instance.collection('category$cat').get().then((value) {
+        value.docs.forEach((element) {
+          Map questionData = element.data();
+          // print("Questionsdata :- $questionData");
+          List<String> tempOptions = [];
+          for (String op in questionData["options"]) {
+            tempOptions.add(op);
+          }
+          // print('ALL FINE TILL HERE');
+          Question tempQuestion = Question(
+              question: questionData["question"],
+              answer: questionData["answer"],
+              options: tempOptions,
+              type: questionData["type"],
+              media: questionData["url"]);
+          // print('ALL FINE TILL HERE2');
+          Provider.of<UserProvider>(context, listen: false)
+              .questions
+              .add(tempQuestion);
+          
+          // print('ALL FINE TILL HERE3');
+
+          print(tempQuestion);
+        });
+      });
+      // print(Provider.of<UserProvider>(context, listen: false).questions);
+    }
   List<PageViewModel> getPages() {
     return [
       PageViewModel(
@@ -65,6 +110,8 @@ class _mainPageState extends State<mainPage> {
             children: [
               ElevatedButton.icon(
                 onPressed: () {
+                  print('this is questions');
+                  print(Provider.of<UserProvider>(context,listen:false).questions);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => McqPage()));
                 },
@@ -96,7 +143,9 @@ class _mainPageState extends State<mainPage> {
           skip: Text("Next"),
           done: Text("Attempt "),
           onDone: () {
+            print(Provider.of<UserProvider>(context,listen:false).questions);
             Navigator.push(
+
                 context, MaterialPageRoute(builder: (context) => McqPage()));
           },
         ),

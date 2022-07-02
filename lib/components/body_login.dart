@@ -45,6 +45,8 @@ class _BodyState extends State<Body> {
           dob: data['Dob'],
           userType: data['UserType'],
           level: data['Level']));
+      // print("data level ${data['Level']}");
+      getQuestions(data['Level']==0?1:data['Level']);
       if (data['UserType'] == 'student') {
         print(data['Level']);
         if (data['Level'] == 0) {
@@ -82,7 +84,7 @@ class _BodyState extends State<Body> {
     });
   }
   Future<void> getQuestions(int cat) async {
-    FirebaseFirestore.instance.collection('category$cat').get().then((value) {
+    FirebaseFirestore.instance.collection('mCategory$cat').get().then((value) {
       value.docs.forEach((element) {
         Map questionData=element.data();
         List<String> tempOptions=[];
@@ -101,7 +103,7 @@ class _BodyState extends State<Body> {
       UserCredential userCred = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       _getUserName(userCred.user!.uid);
-      getQuestions(1);
+      
       // print('THIS IS USER');
 
       // .then((uid) => {
