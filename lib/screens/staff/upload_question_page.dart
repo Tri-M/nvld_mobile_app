@@ -12,6 +12,7 @@ import 'package:nvld_app/components/upload_file.dart';
 import 'package:nvld_app/components/upload_question_text_field.dart';
 import 'package:provider/provider.dart';
 
+import '../../components/common_button.dart';
 import '../../components/common_layout.dart';
 import '../../components/text_container.dart';
 import '../../constants.dart';
@@ -66,7 +67,7 @@ class _UploadQuestionPageState extends State<UploadQuestionPage> {
     // return null;
   }
 
-  void uploadQuestion(Map<String, dynamic> questionMap, int cat) async {
+  void uploadQuestion(Map<String, dynamic> questionMap, String cat) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     FirebaseStorage storage = FirebaseStorage.instance;
     if (questionMap["type"] == "text") {
@@ -100,8 +101,11 @@ class _UploadQuestionPageState extends State<UploadQuestionPage> {
     }
   }
 
-  int correctOption = -1;
-
+  int correctOption = 0;
+  String catValue = 'Nursery';
+  String optionsValue='A';
+  List<String> catItems = ['Nursery', '2-5', '6-9', '10-12'];
+  List<String> optionsItems= ['A','B','C','D'];
   int currIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -142,42 +146,101 @@ class _UploadQuestionPageState extends State<UploadQuestionPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          QuestionTypeTile(
-                            type: 'Ques',
-                            currIndex: currIndex,
-                            index: 0,
-                            onTap: () {
+                      Container(
+                        width:width*0.3,
+                        // height:height*0.06,
+                        child: DropdownButtonFormField(
+                          isExpanded: true,
+                          
+                            decoration: InputDecoration(
+
+                              enabledBorder: OutlineInputBorder(
+                                // borderSide:
+                                    // BorderSide(color: , width: 2),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              border: OutlineInputBorder(
+                                // borderSide:
+                                    // BorderSide(color: Colors.blue, width: 2),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              filled: true,
+                              fillColor: primaryPurple,
+                            ),
+                            dropdownColor: primaryPurple.withOpacity(1),
+                            value: catValue,
+                            onChanged: (String? newValue) {
                               setState(() {
-                                currIndex = 0;
+                                catValue = newValue!;
                               });
                             },
-                          ),
-                          SizedBox(width: width * 0.05),
-                          QuestionTypeTile(
-                            type: 'Media',
-                            currIndex: currIndex,
-                            index: 1,
-                            onTap: () {
-                              setState(() {
-                                currIndex = 1;
-                              });
-                            },
-                          ),
-                        ],
+                            items: catItems.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Center(child: Text(value,style: TextStyle(color:Colors.white),textAlign: TextAlign.center,)),
+                              );
+                            }).toList()),
+                      ),
+                      // SizedBox(width: width * 0.05),
+                      QuestionTypeTile(
+                        type: 'Media',
+                        currIndex: currIndex,
+                        index: 1,
+                        onTap: () {
+                          setState(() {
+                            if (currIndex == 0)
+                              currIndex = 1;
+                            else
+                              currIndex = 0;
+                          });
+                        },
                       ),
                       Container(
-                        height: height * 0.05,
-                        color: Colors.black,
-                        width: 2,
-                      ),
-                      SetCorrectOptionTile(onTap: (value) {
-                        setState(() {
-                          correctOption = value;
-                        });
-                      })
+                            width:width*0.3,
+                            // height:height*0.06,
+                            child: DropdownButtonFormField(
+                              isExpanded: true,
+                              
+                                decoration: InputDecoration(
+
+                                  enabledBorder: OutlineInputBorder(
+                                    // borderSide:
+                                        // BorderSide(color: , width: 2),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    // borderSide:
+                                        // BorderSide(color: Colors.blue, width: 2),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  filled: true,
+                                  fillColor: primaryPurple,
+                                ),
+                                dropdownColor: primaryPurple.withOpacity(1),
+                                value: optionsValue,
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    optionsValue = newValue!;
+                                  });
+                                },
+                                items: optionsItems.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Center(child: Text(value,style: TextStyle(color:Colors.white),textAlign: TextAlign.center,)),
+                                  );
+                                }).toList()),
+                          ),
+                      // Container(
+                      //   height: height * 0.05,
+                      //   color: Colors.black,
+                      //   width: 2,
+                      // ),
+
+                      // SetCorrectOptionTile(onTap: (value) {
+                      //   setState(() {
+                      //     correctOption = value;
+                      //   });
+                      // })
                     ],
                   ),
                   SizedBox(height: height * 0.02),
@@ -195,7 +258,7 @@ class _UploadQuestionPageState extends State<UploadQuestionPage> {
                           text: 'Do you want to upload a file?',
                           presetFontSizes: [24, 22, 20, 18],
                           maxlines: 1,
-                          style:const TextStyle(
+                          style: const TextStyle(
                               // color: ,
                               fontWeight: FontWeight.w500),
                           width: width * 0.8,
@@ -252,7 +315,16 @@ class _UploadQuestionPageState extends State<UploadQuestionPage> {
                                   },
                                 ),
                               ),
-                        SizedBox(height: height * 0.02),
+                        SizedBox(height: height * 0.1),
+                        CommonButton(
+                            height: height * 0.06,
+                            width: width * 0.8,
+                            text: 'Back to Question',
+                            onTap: () {
+                              setState(() {
+                                currIndex = 0;
+                              });
+                            })
                       ],
                     ),
                   if (currIndex == 0)
@@ -329,6 +401,9 @@ class _UploadQuestionPageState extends State<UploadQuestionPage> {
             )),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            String cat=catValue=='Nursery'?'1':catValue=='2-5'?'2':catValue=='6-9'?'3':'4';
+            int cOp=optionsValue=='A'?0:optionsValue=='B'?1:optionsValue=='C'?2:3;
+            
             if (optionAController.text != '' &&
                 optionBController.text != '' &&
                 optionCController.text != '' &&
@@ -344,10 +419,10 @@ class _UploadQuestionPageState extends State<UploadQuestionPage> {
                     optionDController.text
                   ],
                   'type': "text",
-                  'answer': correctOption,
+                  'answer': cOp,
                   'url': ""
                 };
-                uploadQuestion(questionMap, 1);
+                uploadQuestion(questionMap, cat);
               }
               if (questionController.text != "" &&
                   correctOption != -1 &&
@@ -363,10 +438,11 @@ class _UploadQuestionPageState extends State<UploadQuestionPage> {
                     optionDController.text
                   ],
                   'answer': correctOption,
-                  'type':'not-text',
-                  'url':'',
+                  'type': 'not-text',
+                  'url': '',
                 };
-                uploadQuestion(questionMap, 1);
+                // print()
+                uploadQuestion(questionMap, cat);
               }
               if (correctOption == -1) {
                 Fluttertoast.showToast(msg: "Please choose the correct option");
