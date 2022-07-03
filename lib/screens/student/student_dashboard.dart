@@ -261,7 +261,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                                           color: Colors.white),
                                     ),
                                     TextContainer(
-                                        text: "$score/$qLen",
+                                        text: "${myUser.level}",
                                         textAlign: TextAlign.center,
                                         width: width * 0.2,
                                         presetFontSizes: [20, 18, 16, 14, 12],
