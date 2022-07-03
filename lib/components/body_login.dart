@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nvld_app/components/forget_password.dart';
+import 'package:nvld_app/constants.dart';
 import 'package:nvld_app/models/Question.dart';
 import 'package:nvld_app/screens/staff/staff_dashboard.dart';
 import 'package:nvld_app/screens/student/student_dashboard.dart';
@@ -128,6 +130,7 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Background(
       child: SingleChildScrollView(
         child: Column(
@@ -183,7 +186,23 @@ class _BodyState extends State<Body> {
                 );
               },
             ),
-            Text("Forget Password?")
+            const SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ForgetPassword(),
+                  ),
+                );
+              },
+              child: Text(
+                "Forget Password ? ",
+                style: TextStyle(color: kPrimaryColor),
+              ),
+            )
           ],
         ),
       ),
