@@ -259,7 +259,9 @@ class _McqPageState extends State<McqPage> {
       level = 3;
     }
 
-    userdoc.update({'Level': level});
+    // userdoc.update({'Level': level});
+    print(" this is level $level");
+    Provider.of<UserProvider>(context, listen:false).myUser.level=level;
 
     return score;
   }

@@ -57,7 +57,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
     
     List<Question> questions = Provider.of<UserProvider>(context,listen:false).questions;
     // print();
-    print('questions length: ${Provider.of<UserProvider>(context,listen:false).questions.length}');
+    // print('questions length: ${Provider.of<UserProvider>(context,listen:false).questions.length}');
     int qLen = questions.length;
     int score = 0;
     for (int i = 0; i < qLen; i++) {
@@ -66,7 +66,6 @@ class _StudentDashboardState extends State<StudentDashboard> {
       }
     }
     if (score/qLen*100 >=75){
-      print('gi');
       myUser.level = myUser.level!+1;
       FirebaseFirestore.instance.collection('users').doc(myUser.uid).update({
         'Level': myUser.level
@@ -182,7 +181,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: Center(child: Image.asset('quiz.jpg')),
+                            child: Center(child: Image.asset('assets/quiz.jpg')),
                           ),
                         ),
                       ),
