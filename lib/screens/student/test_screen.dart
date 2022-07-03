@@ -16,11 +16,8 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  
   @override
   Widget build(BuildContext context) {
-    
-    
     return MaterialApp(
       home: mainPage(),
     );
@@ -35,40 +32,85 @@ class mainPage extends StatefulWidget {
 class _mainPageState extends State<mainPage> {
   final _auth = FirebaseAuth.instance;
   @override
-  initState(){
+  initState() {
     super.initState();
-    print(Provider.of<UserProvider>(context,listen:false).myUser);
-    getQuestions(1);
+    print(Provider.of<UserProvider>(context, listen: false).myUser);
+    getCategory();
   }
+
+  void getCategory() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    String? dob;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((value) {
+      Map<String, dynamic>? data = value.data();
+      dob = data!['Dob'];
+    });
+
+    List<String> date = dob!.split("-");
+    DateTime currentDate = DateTime.now();
+    num age = currentDate.year - int.parse(date[0]);
+    int month1 = currentDate.month;
+    int month2 = int.parse(date[1]);
+    if (month2 > month1) {
+      age--;
+    } else if (month1 == month2) {
+      int day1 = currentDate.day;
+      int day2 = int.parse(date[2]);
+      if (day2 > day1) {
+        age--;
+      }
+    }
+    if (age <= 6)
+      getQuestions(1);
+    else if (age > 6 && age <= 11)
+      getQuestions(2);
+    else if (age > 11 && age <= 15)
+      getQuestions(3);
+    else if (age > 15)
+      getQuestions(4);
+    else
+      getQuestions(5);
+  }
+
   Future<void> getQuestions(int cat) async {
     // print('HI');
-      await FirebaseFirestore.instance.collection('category$cat').get().then((value) {
-        value.docs.forEach((element) {
-          Map questionData = element.data();
-          // print("Questionsdata :- $questionData");
-          List<String> tempOptions = [];
-          for (String op in questionData["options"]) {
-            tempOptions.add(op);
-          }
-          // print('ALL FINE TILL HERE');
-          Question tempQuestion = Question(
-              question: questionData["question"],
-              answer: questionData["answer"],
-              options: tempOptions,
-              type: questionData["type"],
-              media: questionData["url"]);
-          // print('ALL FINE TILL HERE2');
-          Provider.of<UserProvider>(context, listen: false)
-              .questions
-              .add(tempQuestion);
-          
-          // print('ALL FINE TILL HERE3');
+    await FirebaseFirestore.instance
+        .collection('category$cat')
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        Map questionData = element.data();
+        // print("Questionsdata :- $questionData");
+        List<String> tempOptions = [];
+        for (String op in questionData["options"]) {
+          tempOptions.add(op);
+        }
+        // print('ALL FINE TILL HERE');
+        Question tempQuestion = Question(
+            question: questionData["question"],
+            answer: questionData["answer"],
+            options: tempOptions,
+            type: questionData["type"],
+            media: questionData["url"]);
+        // print('ALL FINE TILL HERE2');
+        Provider.of<UserProvider>(context, listen: false)
+            .questions
+            .add(tempQuestion);
 
-          print(tempQuestion);
-        });
+        // print('ALL FINE TILL HERE3');
+
+        print(tempQuestion);
       });
-      // print(Provider.of<UserProvider>(context, listen: false).questions);
-    }
+    });
+    // print(Provider.of<UserProvider>(context, listen: false).questions);
+  }
+
   List<PageViewModel> getPages() {
     return [
       PageViewModel(
@@ -111,7 +153,8 @@ class _mainPageState extends State<mainPage> {
               ElevatedButton.icon(
                 onPressed: () {
                   print('this is questions');
-                  print(Provider.of<UserProvider>(context,listen:false).questions);
+                  print(Provider.of<UserProvider>(context, listen: false)
+                      .questions);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => McqPage()));
                 },
@@ -143,9 +186,8 @@ class _mainPageState extends State<mainPage> {
           skip: Text("Next"),
           done: Text("Attempt "),
           onDone: () {
-            print(Provider.of<UserProvider>(context,listen:false).questions);
+            print(Provider.of<UserProvider>(context, listen: false).questions);
             Navigator.push(
-
                 context, MaterialPageRoute(builder: (context) => McqPage()));
           },
         ),
