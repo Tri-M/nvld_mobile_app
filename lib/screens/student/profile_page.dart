@@ -43,7 +43,8 @@ class _ProfilePageState extends State<ProfilePage> {
           physics: BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-              imagePath: '/assets/images/profile.png',
+              imagePath:
+                  'https://firebasestorage.googleapis.com/v0/b/nvldapp.appspot.com/o/images%2Fuser.jpg?alt=media&token=122e6751-ee88-4171-81c3-3aea4f243637',
               onClicked: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
