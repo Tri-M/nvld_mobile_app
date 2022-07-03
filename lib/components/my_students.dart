@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/constants.dart';
@@ -9,10 +10,26 @@ import 'package:nvld_app/screens/staff/upload_question_page.dart';
 import 'info_card.dart';
 import 'dart:convert';
 
-class MyStudents extends StatelessWidget {
-  const MyStudents({
-    Key? key,
-  }) : super(key: key);
+class MyStudents extends StatefulWidget {
+  const MyStudents({Key? key}) : super(key: key);
+
+  @override
+  State<MyStudents> createState() => _MyStudentsState();
+}
+
+class _MyStudentsState extends State<MyStudents> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+  late Stream<QuerySnapshot> _usersStream;
+
+  @override
+  void initState() {
+    User? user = _auth.currentUser;
+    _usersStream = FirebaseFirestore.instance
+        .collection('users')
+        .where("Staff", isEqualTo: user!.email)
+        .snapshots();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -171,9 +188,48 @@ class MyStudents extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        StudentCard(name: 'Abishek', email: 'abishek@gmail.com'),
-        StudentCard(name: 'Trisha', email: 'trisha@gmail.com'),
-        StudentCard(name: 'Karthik', email: 'karthik@gmail.com'),
+        StreamBuilder<QuerySnapshot>(
+          stream: _usersStream,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text("Loading...");
+            }
+
+            if (snapshot.data == null) {
+              return Text("0");
+            }
+
+            return Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 200, // constrain height
+                  child: ListView(
+                    children:
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                          document.data()! as Map<String, dynamic>;
+                      String Name;
+                      if (data['Name'] == "") {
+                        Name = data['Email'].split("@")[0];
+                      } else {
+                        Name = data['Name'];
+                      }
+                      return StudentCard(name: Name, email: data['Email']);
+                    }).toList(),
+                  ),
+                )
+              ],
+            );
+          },
+        ),
+        // StudentCard(name: 'Abishek', email: 'abishek@gmail.com'),
+        // StudentCard(name: 'Trisha', email: 'trisha@gmail.com'),
+        // StudentCard(name: 'Karthik', email: 'karthik@gmail.com'),
         const SizedBox(
           height: defaultPadding,
         ),
@@ -246,6 +302,9 @@ class StudentCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: kPrimaryColor,
                       ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     TextContainer(
                       text: email,
