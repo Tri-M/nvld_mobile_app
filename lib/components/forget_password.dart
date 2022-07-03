@@ -83,6 +83,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     } on FirebaseAuthException catch (e) {
       print(e);
       Fluttertoast.showToast(msg: e.message.toString());
+      Navigator.of(context).pop();
     }
   }
 }
