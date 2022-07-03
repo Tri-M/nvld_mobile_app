@@ -65,6 +65,18 @@ class _StudentDashboardState extends State<StudentDashboard> {
         score++;
       }
     }
+    if (score/qLen*100 >=75){
+      print('gi');
+      myUser.level = myUser.level!+1;
+      FirebaseFirestore.instance.collection('users').doc(myUser.uid).update({
+        'Level': myUser.level
+      });
+      Provider.of<UserProvider>(context, listen: false).questions=[];
+      getQuestions(myUser.level!);
+      setState(() {
+        score=0;
+      });
+    } 
     print('THIS IS SCORE ${score}');
 
     double width = MediaQuery.of(context).size.width;
