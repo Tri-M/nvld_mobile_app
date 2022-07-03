@@ -20,42 +20,22 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final user = UserPreferences.myUser;
-  final duser = FirebaseAuth.instance.currentUser!;
-  late String name = "";
-  late String dob = "";
-  late String email = "";
-  late String password = "";
-  late String phonenumber = "";
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
 
-  void getfunction() async {
-    var collection = FirebaseFirestore.instance.collection('users');
-    late Iterator<QueryDocumentSnapshot<Object?>> objiter;
+  late Stream<QuerySnapshot> _usersStream;
 
-    await FirebaseFirestore.instance
-        .collection("users")
-        .where("Email", isEqualTo: duser.email!)
-        .get()
-        .then((QuerySnapshot snapshot) {
-      objiter = snapshot.docs.iterator;
-    });
-    while (objiter.moveNext()) {
-      name = objiter.current.get("Name");
-      dob = objiter.current.get("Dob");
-      email = objiter.current.get("Email");
-      password = objiter.current.get("Password");
-      phonenumber = objiter.current.get("Phonenumber");
-    }
-    // print(name);
-    // print(dob);
-    // print(email);
-    // print(password);
-    // print(phonenumber);
+  @override
+  void initState() {
+    User? user = _auth.currentUser;
+    _usersStream = FirebaseFirestore.instance
+        .collection('users')
+        .where("Email", isEqualTo: user!.email)
+        .snapshots();
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return CommonLayout(
       child: Scaffold(
         appBar: buildAppBar(context),
@@ -73,68 +53,107 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
             SizedBox(height: 20),
-            buildName(user),
-            SizedBox(height: 25),
-            NumbersWidget(),
-            SizedBox(height: 20),
-            buildAbout(user),
+            // buildName(user),
+            Center(
+              child: Text(
+                "Profile Details",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+            StreamBuilder<QuerySnapshot>(
+              stream: _usersStream,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                }
+
+                return Column(
+                  children: <Widget>[
+                    SizedBox(
+                        height: 500, // constrain height
+                        child: ListView(
+                            children: snapshot.data!.docs
+                                .map((DocumentSnapshot document) {
+                          Map<String, dynamic> data =
+                              document.data()! as Map<String, dynamic>;
+                          String Name, phone;
+                          if (data['Staff'] == "") {
+                            Name = "No Mentor assigned";
+                          } else {
+                            Name = data['Staff'];
+                          }
+
+                          if (data['Phonenumber'] == "") {
+                            phone = "No Phonenumber Given";
+                          } else {
+                            phone = data['Phonenumber'];
+                          }
+
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 30),
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: Text(
+                                    'Name',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  subtitle: Text(
+                                    data['Name'],
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text('Email',
+                                      style: TextStyle(fontSize: 20)),
+                                  subtitle: Text(data['Email'],
+                                      style: TextStyle(fontSize: 18)),
+                                ),
+                                ListTile(
+                                  title: Text('Date of birth',
+                                      style: TextStyle(fontSize: 20)),
+                                  subtitle: Text(data['Dob'],
+                                      style: TextStyle(fontSize: 18)),
+                                ),
+                                ListTile(
+                                  title: Text('Level',
+                                      style: TextStyle(fontSize: 20)),
+                                  subtitle: Text("${data['Level']}",
+                                      style: TextStyle(fontSize: 18)),
+                                ),
+                                ListTile(
+                                  title: Text('Phone Number',
+                                      style: TextStyle(fontSize: 20)),
+                                  subtitle: Text(phone,
+                                      style: TextStyle(fontSize: 18)),
+                                ),
+                                ListTile(
+                                  title: Text('Mentor',
+                                      style: TextStyle(fontSize: 20)),
+                                  subtitle: Text(Name,
+                                      style: TextStyle(fontSize: 18)),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList()))
+                  ],
+                );
+              },
+            ),
           ],
         ),
       ),
     );
   }
-
-  Widget buildName(UserData user) => Column(
-        children: [
-          TextContainer(
-            text: name,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-            presetFontSizes: [24, 22, 20, 18, 16],
-          ),
-          SizedBox(height: 4),
-          TextContainer(
-            text: duser.email!,
-            style: const TextStyle(
-              color: Colors.grey,
-            ),
-            presetFontSizes: [16, 15, 14, 13, 12],
-          ),
-        ],
-      );
-}
-
-Widget buildAbout(UserData user) {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 48),
-    child: Column(
-      children: [
-        Container(
-          width: 200,
-          child: Divider(
-            color: dividerColor,
-            thickness: 0.8,
-          ),
-        ),
-        SizedBox(height: 15),
-        Text(
-          "About",
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
-        ),
-        SizedBox(height: 15),
-        Text(
-          user.about,
-          style: TextStyle(
-            fontSize: 17,
-            height: 1.5,
-          ),
-        ),
-      ],
-    ),
-  );
 }

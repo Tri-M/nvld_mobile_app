@@ -292,12 +292,13 @@ class _Staff_addstudState extends State<Staff_addstud> {
     // writing all the values
     userModel.email = user!.email;
     userModel.uid = user.uid;
-    userModel.name = "";
+    userModel.name = user.email!.split("@")[0];
     userModel.dob = dob.text;
     userModel.userType = "student";
     userModel.level = 0;
     userModel.staff = staffmail;
     userModel.password = passwordEditingController.text;
+    userModel.phoneNumber = "";
 
     await firebaseFirestore.collection("users").doc(uid).set(userModel.toMap());
 
