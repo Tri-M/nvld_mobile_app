@@ -166,14 +166,9 @@ class _StudentDashboardState extends State<StudentDashboard> {
                             borderRadius: BorderRadius.circular(15),
                             color: Colors.grey[100],
                           ),
-                          child: Container(
-                            padding: EdgeInsets.only(
-                              top: height * 0.01,
-                              bottom: height * 0.01,
-                              right: width * 0.06,
-                              left: width * 0.02,
-                            ),
-                            child: Image.asset('quiz.jpg'),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Center(child: Image.asset('quiz.jpg')),
                           ),
                         ),
                       ),
