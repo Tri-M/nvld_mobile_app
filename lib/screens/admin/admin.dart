@@ -33,16 +33,13 @@ class _AdminState extends State<Admin> {
     if (image != null) {
       var file = File(image.path);
       // print(image.path);
-      var snapshot =
-          await storage.ref().child('images/logo').putFile(file);
-      if (snapshot.state==TaskState.success){
+      var snapshot = await storage.ref().child('images/logo').putFile(file);
+      if (snapshot.state == TaskState.success) {
         Fluttertoast.showToast(msg: "Image Uploaded Successfully");
         var imageUrl = await (snapshot).ref.getDownloadURL();
         var url = imageUrl.toString();
-        Provider.of<UserProvider>(context,listen:false).logoUrl= url;
-        setState(() {
-          
-        });
+        Provider.of<UserProvider>(context, listen: false).logoUrl = url;
+        setState(() {});
       }
       // print(url);
       // var snapshot2= storage.ref().child('images/logo');
@@ -67,8 +64,8 @@ class _AdminState extends State<Admin> {
           toolbarHeight: height * 0.1,
           elevation: 0,
           flexibleSpace: Image(
-            image:NetworkImage(
-              Provider.of<UserProvider>(context,listen:true).logoUrl,
+            image: NetworkImage(
+              Provider.of<UserProvider>(context, listen: true).logoUrl,
             ),
           ),
           backgroundColor: const Color.fromRGBO(118, 72, 216, 1),
@@ -121,37 +118,37 @@ class _AdminState extends State<Admin> {
                         primary: false,
                         crossAxisCount: 2,
                         children: <Widget>[
-                          Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    8)), //rounded rectangel
-                            elevation: 4,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Image.asset(
-                                  'assets/upload.jpg',
-                                  height: 100,
-                                ),
-                                TextButton(
-                                  style: ButtonStyle(
-                                    foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Colors.blue),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => Approve(),
-                                      ),
-                                    );
-                                  },
-                                  child: Text('Confirm Upload'),
-                                ),
-                              ], //<Widget>[]
-                            ), //column
-                          ),
+                          // Card(
+                          //   shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(
+                          //           8)), //rounded rectangel
+                          //   elevation: 4,
+                          //   child: Column(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: <Widget>[
+                          //       Image.asset(
+                          //         'assets/upload.jpg',
+                          //         height: 100,
+                          //       ),
+                          //       TextButton(
+                          //         style: ButtonStyle(
+                          //           foregroundColor:
+                          //               MaterialStateProperty.all<Color>(
+                          //                   Colors.blue),
+                          //         ),
+                          //         onPressed: () {
+                          //           Navigator.push(
+                          //             context,
+                          //             MaterialPageRoute(
+                          //               builder: (context) => Approve(),
+                          //             ),
+                          //           );
+                          //         },
+                          //         child: Text('Confirm Upload'),
+                          //       ),
+                          //     ], //<Widget>[]
+                          //   ), //column
+                          // ),
                           InkWell(
                             onTap: () {
                               Navigator.push(
@@ -186,37 +183,37 @@ class _AdminState extends State<Admin> {
                               ), //column
                             ),
                           ),
-                          Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    8)), //rounded rectangel
-                            elevation: 4,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Image.asset(
-                                  'assets/performance.png',
-                                  height: 100,
-                                ),
-                                TextButton(
-                                  style: ButtonStyle(
-                                    foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Colors.blue),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => Performance(),
-                                      ),
-                                    );
-                                  },
-                                  child: Text('Performance'),
-                                ),
-                              ], //<Widget>[]
-                            ), //column
-                          ), //Card
+                          // Card(
+                          //   shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(
+                          //           8)), //rounded rectangel
+                          //   elevation: 4,
+                          //   child: Column(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: <Widget>[
+                          //       Image.asset(
+                          //         'assets/performance.png',
+                          //         height: 100,
+                          //       ),
+                          //       TextButton(
+                          //         style: ButtonStyle(
+                          //           foregroundColor:
+                          //               MaterialStateProperty.all<Color>(
+                          //                   Colors.blue),
+                          //         ),
+                          //         onPressed: () {
+                          //           Navigator.push(
+                          //             context,
+                          //             MaterialPageRoute(
+                          //               builder: (context) => Performance(),
+                          //             ),
+                          //           );
+                          //         },
+                          //         child: Text('Performance'),
+                          //       ),
+                          //     ], //<Widget>[]
+                          //   ), //column
+                          // ), //Card
                         ], //<Widget>[]
                       ), //gridview count
                     ), //Expanded
