@@ -180,7 +180,7 @@ class _MainMcqPageState extends State<MainMcqPage> {
                   i++)
                 OptionTile(
                   text: questions[currQuestion].options[i],
-                  index: i + 1,
+                  index: i,
                   selected: questions[currQuestion].selected,
                   submitted: questions[currQuestion].submitted,
                   answer: questions[currQuestion].answer,

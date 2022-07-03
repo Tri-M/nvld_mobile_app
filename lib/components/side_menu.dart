@@ -3,6 +3,9 @@ import "package:flutter_svg/flutter_svg.dart";
 import 'package:nvld_app/screens/staff/staff_dashboard.dart';
 import 'package:nvld_app/screens/student/profile_page.dart';
 import 'package:nvld_app/screens/welcome_screen.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/user_provider.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -46,6 +49,7 @@ class SideMenu extends StatelessWidget {
             ),
             title: Text('Logout'),
             onTap: () {
+              Provider.of<UserProvider>(context, listen: false).logout();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => WelcomeScreen()));
             },

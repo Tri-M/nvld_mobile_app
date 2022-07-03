@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
 import 'package:provider/provider.dart';
@@ -37,8 +38,22 @@ class _mainPageState extends State<mainPage> {
   @override
   initState(){
     super.initState();
-    print(Provider.of<UserProvider>(context,listen:false).myUser);
-    getQuestions(1);
+    String? dobString=Provider.of<UserProvider>(context,listen:false).myUser.dob;
+    DateTime dob=DateFormat('y-MM-dd').parse(dobString!);
+    print('this is dob : $dob');
+    DateTime now=DateTime.now();
+    print(now.year-dob.year);
+    int cat=0;
+    if (now.year-dob.year<7)
+      cat=1;
+    else if (now.year-dob.year<11)
+      cat=2;
+    else if (now.year-dob.year<15)
+      cat=3;
+    else 
+      cat=4;
+    // print(dob);
+    getQuestions(cat);
   }
   Future<void> getQuestions(int cat) async {
     // print('HI');
@@ -110,8 +125,8 @@ class _mainPageState extends State<mainPage> {
             children: [
               ElevatedButton.icon(
                 onPressed: () {
-                  print('this is questions');
-                  print(Provider.of<UserProvider>(context,listen:false).questions);
+                  
+                  // print(Provider.of<UserProvider>(context,listen:false).questions);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => McqPage()));
                 },
@@ -143,9 +158,8 @@ class _mainPageState extends State<mainPage> {
           skip: Text("Next"),
           done: Text("Attempt "),
           onDone: () {
-            print(Provider.of<UserProvider>(context,listen:false).questions);
+            // print(Provider.of<UserProvider>(context,listen:false).questions);
             Navigator.push(
-
                 context, MaterialPageRoute(builder: (context) => McqPage()));
           },
         ),

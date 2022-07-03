@@ -48,7 +48,7 @@ class _BodyState extends State<Body> {
       // print("data level ${data['Level']}");
       if (data['UserType'] == 'student') {
         print(data['Level']);
-        getQuestions(data['Level'] == 0 ? 1 : data['Level']);
+        // getQuestions(data['Level'] == 0 ? 1 : data['Level']);
         if (data['Level'] == 0) {
           Navigator.push(
             context,
@@ -84,26 +84,7 @@ class _BodyState extends State<Body> {
     });
   }
 
-  Future<void> getQuestions(int cat) async {
-    FirebaseFirestore.instance.collection('mCategory$cat').get().then((value) {
-      value.docs.forEach((element) {
-        Map questionData = element.data();
-        List<String> tempOptions = [];
-        for (String op in questionData["options"]) {
-          tempOptions.add(op);
-        }
-        Question tempQuestion = Question(
-            question: questionData["question"],
-            answer: questionData["answer"],
-            options: tempOptions,
-            type: questionData["type"],
-            media: questionData["url"]);
-        Provider.of<UserProvider>(context, listen: false)
-            .questions
-            .add(tempQuestion);
-      });
-    });
-  }
+  
 
   void signIn(String email, String password) async {
     try {
