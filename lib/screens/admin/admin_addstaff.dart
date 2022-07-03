@@ -91,114 +91,119 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
             ),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextContainer(
-                  text: "Enter the staff mail",
-                  presetFontSizes: [18, 16, 14, 12, 10],
-                  width: width,
-                ),
-                TextFormField(
-                    controller: emailEditingController,
-                    onSaved: (value) {
-                      emailEditingController.text = value!;
-                    },
+        body: ListView(
+          physics: BouncingScrollPhysics(),
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextContainer(
+                      text: "Enter the staff mail",
+                      presetFontSizes: [18, 16, 14, 12, 10],
+                      width: width,
+                    ),
+                    TextFormField(
+                        controller: emailEditingController,
+                        onSaved: (value) {
+                          emailEditingController.text = value!;
+                        },
 
-                    // The validator receives the text that the user has entered.
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    }),
-                SizedBox(height: 30),
-                TextContainer(
-                  text: "Enter a password for mail",
-                  presetFontSizes: [18, 16, 14, 12, 10],
-                  width: width,
-                ),
-                TextFormField(
-                  // The validator receives the text that the user has entered.
-                  controller: passwordEditingController,
-                  obscureText: true,
+                        // The validator receives the text that the user has entered.
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        }),
+                    SizedBox(height: 30),
+                    TextContainer(
+                      text: "Enter a password for mail",
+                      presetFontSizes: [18, 16, 14, 12, 10],
+                      width: width,
+                    ),
+                    TextFormField(
+                      // The validator receives the text that the user has entered.
+                      controller: passwordEditingController,
+                      obscureText: true,
 
-                  onSaved: (value) {
-                    passwordEditingController.text = value!;
-                  },
+                      onSaved: (value) {
+                        passwordEditingController.text = value!;
+                      },
 
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Center(
-                  child: HorizontalSlidableButton(
-                    width: MediaQuery.of(context).size.width / 3,
-                    buttonWidth: 60.0,
-                    color: Theme.of(context).accentColor.withOpacity(0.5),
-                    buttonColor: Theme.of(context).primaryColor,
-                    dismissible: false,
-                    label: Center(
-                        child: Text(
-                      'Slide',
-                      style: TextStyle(color: Colors.white),
-                    )),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Don't"),
-                          Text('Notify'),
-                        ],
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: HorizontalSlidableButton(
+                        width: MediaQuery.of(context).size.width / 3,
+                        buttonWidth: 60.0,
+                        color: Theme.of(context).accentColor.withOpacity(0.5),
+                        buttonColor: Theme.of(context).primaryColor,
+                        dismissible: false,
+                        label: Center(
+                            child: Text(
+                          'Slide',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Don't"),
+                              Text('Notify'),
+                            ],
+                          ),
+                        ),
+                        onChanged: (position) {
+                          setState(() {
+                            if (position == SlidableButtonPosition.end) {
+                              slide = true;
+                            } else {
+                              slide = false;
+                            }
+                            print(slide);
+                          });
+                        },
                       ),
                     ),
-                    onChanged: (position) {
-                      setState(() {
-                        if (position == SlidableButtonPosition.end) {
-                          slide = true;
-                        } else {
-                          slide = false;
-                        }
-                        print(slide);
-                      });
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      create(emailEditingController.text,
-                          passwordEditingController.text);
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          create(emailEditingController.text,
+                              passwordEditingController.text);
 
-                      print(slide);
+                          print(slide);
 
-                      if (slide) {
-                        sendEmail(
-                            name: 'BlackBoard Learning',
-                            email: emailEditingController.text,
-                            subject: 'Staff Role',
-                            message:
-                                'Welcome, You are invited to BlackBoard learning \npassword :${passwordEditingController.text}');
-                      }
-                    },
-                    child: const Text('Submit'),
-                  ),
+                          if (slide) {
+                            sendEmail(
+                                name: 'BlackBoard Learning',
+                                email: emailEditingController.text,
+                                subject: 'Staff Role',
+                                message:
+                                    'Welcome, You are invited to BlackBoard learning \npassword :${passwordEditingController.text}');
+                          }
+                        },
+                        child: const Text('Submit'),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ));
   }
 
