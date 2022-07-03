@@ -62,7 +62,7 @@ class MyStudents extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => StudentInviteScreen(),
+                          builder: (context) => Staff_addstud(),
                         ),
                       );
                     },

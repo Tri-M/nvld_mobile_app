@@ -1,30 +1,28 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mailer/mailer.dart';
-import 'package:nvld_app/components/common_layout.dart';
-import 'package:nvld_app/components/rounded_input_field.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/models/UserModal.dart';
-import 'package:nvld_app/provider/user_provider.dart';
-import 'package:nvld_app/utils/user_preferences.dart';
-import 'package:provider/provider.dart';
-import '../../models/to_student.dart';
-import '../../constants.dart';
+import 'package:nvld_app/screens/admin/admin.dart';
 import 'package:http/http.dart' as http;
+import 'package:slidable_button/slidable_button.dart';
 
-class StudentInviteScreen extends StatelessWidget {
-  StudentInviteScreen({Key? key}) : super(key: key);
+class Staff_addstud extends StatefulWidget {
+  const Staff_addstud({Key? key}) : super(key: key);
 
-  //final emailController = TextEditingController();
+  @override
+  State<Staff_addstud> createState() => _Staff_addstudState();
+}
 
+class _Staff_addstudState extends State<Staff_addstud> {
+  final _formKey = GlobalKey<FormState>();
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
-  final duser = FirebaseAuth.instance.currentUser!;
+  bool slide = false;
+
   Future sendEmail({
     required String name,
     required String email,
@@ -63,96 +61,148 @@ class StudentInviteScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    UserModel myUser = Provider.of<UserProvider>(context).myUser;
-
-    return CommonLayout(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
+    return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(118, 72, 216, 1),
+          toolbarHeight: height * 0.1,
           elevation: 0,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: height * 0.05, horizontal: width * 0.05),
-                child: Column(
-                  children: [
-                    TextContainer(
-                      text: "Enter the student mail",
-                      presetFontSizes: [18, 16, 14, 12, 10],
-                      width: width,
-                    ),
-                    TextFormField(
-                        cursorColor: kPrimaryColor,
-                        controller: emailEditingController,
-                        onSaved: (value) {
-                          emailEditingController.text = value!;
-                        },
-
-                        // The validator receives the text that the user has entered.
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        }),
-                    SizedBox(height: 15),
-                    TextContainer(
-                      text: "Enter a password for mail",
-                      presetFontSizes: [18, 16, 14, 12, 10],
-                      width: width,
-                    ),
-                    TextFormField(
-                      // The validator receives the text that the user has entered.
-                      controller: passwordEditingController,
-                      obscureText: true,
-
-                      onSaved: (value) {
-                        passwordEditingController.text = value!;
-                      },
-
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: height * 0.08),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: kPrimaryColor,
-                          shape: StadiumBorder(),
-                        ),
-                        onPressed: () {
-                          FirebaseFirestore firebaseFirestore =
-                              FirebaseFirestore.instance;
-                          User? user = _auth.currentUser;
-                          create(emailEditingController.text,
-                              passwordEditingController.text, user?.email);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: TextContainer(
-                            textAlign: TextAlign.center,
-                            text: 'Submit',
-                            presetFontSizes: [16, 14, 12, 10],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+          backgroundColor: const Color.fromRGBO(118, 72, 216, 1),
+          title: Container(
+            alignment: Alignment.centerRight,
+            padding: EdgeInsets.only(right: width * 0.006),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                shape: const CircleBorder(),
+                padding: EdgeInsets.all(width * 0.005),
               ),
-            ],
+              child: Icon(
+                Icons.person,
+                size: height * 0.04,
+                color: const Color.fromRGBO(88, 57, 178, 1),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Admin(),
+                  ),
+                );
+              },
+            ),
           ),
         ),
-      ),
-    );
+        body: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextContainer(
+                  text: "Enter the student mail",
+                  presetFontSizes: [18, 16, 14, 12, 10],
+                  width: width,
+                ),
+                TextFormField(
+                    controller: emailEditingController,
+                    onSaved: (value) {
+                      emailEditingController.text = value!;
+                    },
+
+                    // The validator receives the text that the user has entered.
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    }),
+                SizedBox(height: 30),
+                TextContainer(
+                  text: "Enter a password for mail",
+                  presetFontSizes: [18, 16, 14, 12, 10],
+                  width: width,
+                ),
+                TextFormField(
+                  // The validator receives the text that the user has entered.
+                  controller: passwordEditingController,
+                  obscureText: true,
+
+                  onSaved: (value) {
+                    passwordEditingController.text = value!;
+                  },
+
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: HorizontalSlidableButton(
+                    width: MediaQuery.of(context).size.width / 3,
+                    buttonWidth: 60.0,
+                    color: Theme.of(context).accentColor.withOpacity(0.5),
+                    buttonColor: Theme.of(context).primaryColor,
+                    dismissible: false,
+                    label: Center(
+                        child: Text(
+                      'Slide',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Don't"),
+                          Text('Notify'),
+                        ],
+                      ),
+                    ),
+                    onChanged: (position) {
+                      setState(() {
+                        if (position == SlidableButtonPosition.end) {
+                          slide = true;
+                        } else {
+                          slide = false;
+                        }
+                        print(slide);
+                      });
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      FirebaseFirestore firebaseFirestore =
+                          FirebaseFirestore.instance;
+                      User? user = _auth.currentUser;
+                      create(emailEditingController.text,
+                          passwordEditingController.text, user?.email);
+
+                      print(slide);
+
+                      if (slide) {
+                        sendEmail(
+                            name: 'BlackBoard Learning',
+                            email: emailEditingController.text,
+                            subject: 'Student Role',
+                            message:
+                                'Welcome, You are invited to BlackBoard learning \npassword :${passwordEditingController.text}');
+                      }
+                    },
+                    child: const Text('Submit'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 
   final _auth = FirebaseAuth.instance;
@@ -162,12 +212,7 @@ class StudentInviteScreen extends StatelessWidget {
     try {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      sendEmail(
-          name: 'BlackBoard Learning',
-          email: emailEditingController.text,
-          subject: 'You are invited to Blackboard learning',
-          message:
-              'Welcome, You are invited to BlackBoard learning \npassword :${passwordEditingController.text},\n your staff : ${duser.email}');
+
       print('this is user ID : ${userCred.user!.uid}');
       postDetailsToFirestore(userCred.user!.uid, staffmail);
       //     .then((value) => {postDetailsToFirestore()})

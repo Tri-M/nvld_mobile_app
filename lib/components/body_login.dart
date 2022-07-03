@@ -46,9 +46,9 @@ class _BodyState extends State<Body> {
           userType: data['UserType'],
           level: data['Level']));
       // print("data level ${data['Level']}");
-      getQuestions(data['Level']==0?1:data['Level']);
       if (data['UserType'] == 'student') {
         print(data['Level']);
+        getQuestions(data['Level'] == 0 ? 1 : data['Level']);
         if (data['Level'] == 0) {
           Navigator.push(
             context,
@@ -83,27 +83,34 @@ class _BodyState extends State<Body> {
       // _userName = value.data['UserName'].toString();
     });
   }
+
   Future<void> getQuestions(int cat) async {
     FirebaseFirestore.instance.collection('mCategory$cat').get().then((value) {
       value.docs.forEach((element) {
-        Map questionData=element.data();
-        List<String> tempOptions=[];
-        for (String op in questionData["options"]){
+        Map questionData = element.data();
+        List<String> tempOptions = [];
+        for (String op in questionData["options"]) {
           tempOptions.add(op);
         }
-        Question tempQuestion=Question(question: questionData["question"], answer: questionData["answer"], options: tempOptions , type: questionData["type"],media: questionData["url"]);
-        Provider.of<UserProvider>(context,listen:false).questions.add(
-          tempQuestion
-        );
+        Question tempQuestion = Question(
+            question: questionData["question"],
+            answer: questionData["answer"],
+            options: tempOptions,
+            type: questionData["type"],
+            media: questionData["url"]);
+        Provider.of<UserProvider>(context, listen: false)
+            .questions
+            .add(tempQuestion);
       });
     });
   }
+
   void signIn(String email, String password) async {
     try {
       UserCredential userCred = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       _getUserName(userCred.user!.uid);
-      
+
       // print('THIS IS USER');
 
       // .then((uid) => {

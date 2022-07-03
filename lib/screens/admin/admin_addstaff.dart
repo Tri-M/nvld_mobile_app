@@ -8,6 +8,7 @@ import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/models/UserModal.dart';
 import 'package:nvld_app/screens/admin/admin.dart';
 import 'package:http/http.dart' as http;
+import 'package:slidable_button/slidable_button.dart';
 
 class Admin_addstaff extends StatefulWidget {
   const Admin_addstaff({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
   final _formKey = GlobalKey<FormState>();
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
+  bool slide = false;
 
   Future sendEmail({
     required String name,
@@ -136,12 +138,60 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
                     return null;
                   },
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: HorizontalSlidableButton(
+                    width: MediaQuery.of(context).size.width / 3,
+                    buttonWidth: 60.0,
+                    color: Theme.of(context).accentColor.withOpacity(0.5),
+                    buttonColor: Theme.of(context).primaryColor,
+                    dismissible: false,
+                    label: Center(
+                        child: Text(
+                      'Slide',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Don't"),
+                          Text('Notify'),
+                        ],
+                      ),
+                    ),
+                    onChanged: (position) {
+                      setState(() {
+                        if (position == SlidableButtonPosition.end) {
+                          slide = true;
+                        } else {
+                          slide = false;
+                        }
+                        print(slide);
+                      });
+                    },
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
                     onPressed: () {
                       create(emailEditingController.text,
                           passwordEditingController.text);
+
+                      print(slide);
+
+                      if (slide) {
+                        sendEmail(
+                            name: 'BlackBoard Learning',
+                            email: emailEditingController.text,
+                            subject: 'Staff Role',
+                            message:
+                                'Welcome, You are invited to BlackBoard learning \npassword :${passwordEditingController.text}');
+                      }
                     },
                     child: const Text('Submit'),
                   ),
@@ -159,12 +209,7 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
     try {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      sendEmail(
-          name: 'BlackBoard Learning',
-          email: emailEditingController.text,
-          subject: 'Staff Role',
-          message:
-              'Welcome, You are invited to BlackBoard learning \npassword :${passwordEditingController.text}');
+
       print('this is user ID : ${userCred.user!.uid}');
       postDetailsToFirestore(userCred.user!.uid);
       //     .then((value) => {postDetailsToFirestore()})
