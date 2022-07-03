@@ -11,16 +11,21 @@ import 'info_card.dart';
 import 'dart:convert';
 
 class MyStudents extends StatefulWidget {
-  const MyStudents({Key? key}) : super(key: key);
+  String? staffmail;
+  MyStudents({Key? key, required this.staffmail}) : super(key: key);
 
   @override
-  State<MyStudents> createState() => _MyStudentsState();
+  State<MyStudents> createState() => _MyStudentsState(staffmail);
 }
 
 class _MyStudentsState extends State<MyStudents> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   late Stream<QuerySnapshot> _usersStream;
+  String? staffmail;
+  _MyStudentsState(String? staffmail) {
+    this.staffmail = staffmail;
+  }
 
   @override
   void initState() {
@@ -86,7 +91,7 @@ class _MyStudentsState extends State<MyStudents> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => Staff_addstud(
-                            staffmail: user!.email,
+                            staffmail: staffmail,
                           ),
                         ),
                       );

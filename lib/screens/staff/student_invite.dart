@@ -31,6 +31,7 @@ class _Staff_addstudState extends State<Staff_addstud> {
   late String? staffmail;
   _Staff_addstudState(String? staffmail) {
     this.staffmail = staffmail;
+    print(this.staffmail);
   }
 
   Future sendEmail({

@@ -84,8 +84,6 @@ class _BodyState extends State<Body> {
     });
   }
 
-  
-
   void signIn(String email, String password) async {
     try {
       UserCredential userCred = await _auth.signInWithEmailAndPassword(
@@ -185,6 +183,7 @@ class _BodyState extends State<Body> {
                 );
               },
             ),
+            Text("Forget Password?")
           ],
         ),
       ),

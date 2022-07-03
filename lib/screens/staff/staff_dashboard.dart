@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/components/header.dart';
 import 'package:nvld_app/components/my_students.dart';
@@ -11,10 +13,14 @@ import 'package:provider/provider.dart';
 import '../../provider/user_provider.dart';
 
 class StaffDashboardScreen extends StatelessWidget {
-  const StaffDashboardScreen({Key? key}) : super(key: key);
+  StaffDashboardScreen({Key? key}) : super(key: key);
+
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
+    User? user = _auth.currentUser;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -66,7 +72,9 @@ class StaffDashboardScreen extends StatelessWidget {
                           flex: 5,
                           child: Column(
                             children: [
-                              MyStudents(),
+                              MyStudents(
+                                staffmail: user?.email,
+                              ),
                               SizedBox(height: defaultPadding),
                               if (Responsiveness.isMobile(context))
                                 SizedBox(height: defaultPadding),
