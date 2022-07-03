@@ -27,7 +27,7 @@ class _McqPageState extends State<McqPage> {
   @override
   Widget build(BuildContext context) {
     List<Question> questions =
-        Provider.of<UserProvider>(context, listen: true).questions;
+        Provider.of<UserProvider>(context, listen: true).welcomeQuestions;
     // print('Working file till');
     // print('QUESTIONS IS $questions');
     int submittedQuestions = questions.where((q) => q.selected != null).length;
@@ -217,8 +217,8 @@ class _McqPageState extends State<McqPage> {
                         questions[i].submitted = true;
                       }
                     }
-                    Provider.of<UserProvider>(context, listen: false)
-                        .questions = [];
+                    // Provider.of<UserProvider>(context, listen: false)
+                    //     .questions = [];
                     Navigator.push(
                         context,
                         MaterialPageRoute(

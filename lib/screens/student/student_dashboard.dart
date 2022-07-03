@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/screens/student/main_mcq.dart';
+import 'package:nvld_app/screens/student/mcq_page.dart';
 import 'package:provider/provider.dart';
 import '../../models/Question.dart';
 import '../../models/UserModal.dart';
@@ -53,6 +54,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
   Widget build(BuildContext context) {
     UserModel myUser = Provider.of<UserProvider>(context).myUser;
     // Provider.of<UserProvider>(context).calculateScore();
+    print('welcome Ques ${Provider.of<UserProvider>(context, listen:false).welcomeQuestions}');
     List<Question> questions = Provider.of<UserProvider>(context).questions;
     int qLen = questions.length;
     int score = 0;
@@ -273,29 +275,80 @@ class _StudentDashboardState extends State<StudentDashboard> {
                           ],
                         ),
                       ),
+                      Provider.of<UserProvider>(context).welcomeQuestions.isNotEmpty?
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          
+                          Container(
+                            width:width*0.3,
+                            padding: EdgeInsets.only(left: width * 0.07),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                        (context),
+                                        MaterialPageRoute(
+                                            builder: (context) => McqPage()))
+                                    .then((value) => setState(() {}));
+                              },
+                              child: Icon(
+                                Icons.document_scanner,
+                                size:height*0.07,
+                                color:primaryPurple
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width:width*0.3,
+                            margin: EdgeInsets.only(
+                              top: (height * 0.03),
+                            ),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: const Color.fromRGBO(88, 57, 178, 1),
+                                shape: const CircleBorder(),
+                                padding: EdgeInsets.all(width * 0.05),
+                              ),
+                              child: const Icon(
+                                Icons.play_arrow,
+                                size: 50,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                        (context),
+                                        MaterialPageRoute(
+                                            builder: (context) => MainMcqPage()))
+                                    .then((value) => setState(() {}));
+                              },
+                            ),
+                          ),
+                        ],
+                      ):
+                      
                       Container(
-                        margin: EdgeInsets.only(
-                          top: (height * 0.03),
-                        ),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color.fromRGBO(88, 57, 178, 1),
-                            shape: const CircleBorder(),
-                            padding: EdgeInsets.all(width * 0.05),
+                            width:width*0.3,
+                            margin: EdgeInsets.only(
+                              top: (height * 0.03),
+                            ),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: const Color.fromRGBO(88, 57, 178, 1),
+                                shape: const CircleBorder(),
+                                padding: EdgeInsets.all(width * 0.05),
+                              ),
+                              child: const Icon(
+                                Icons.play_arrow,
+                                size: 50,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                        (context),
+                                        MaterialPageRoute(
+                                            builder: (context) => MainMcqPage()))
+                                    .then((value) => setState(() {}));
+                              },
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.play_arrow,
-                            size: 50,
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                    (context),
-                                    MaterialPageRoute(
-                                        builder: (context) => MainMcqPage()))
-                                .then((value) => setState(() {}));
-                          },
-                        ),
-                      ),
                     ],
                   ),
                 ),

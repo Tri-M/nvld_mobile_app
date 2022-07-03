@@ -6,6 +6,7 @@ import '../models/UserModal.dart';
 class UserProvider extends ChangeNotifier{
   late UserModel myUser;
   String logoUrl="";
+  List<Question> welcomeQuestions=[];
   List<Question> questions=[
     // Question(
     //   question: 'How many players are there in a cricket team?',
@@ -45,6 +46,7 @@ class UserProvider extends ChangeNotifier{
   void logout(){
     myUser=UserModel();
     questions=[];
+    welcomeQuestions=[];
     notifyListeners();
   }
   // void calculateScore(){

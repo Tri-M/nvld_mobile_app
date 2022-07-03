@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nvld_app/Screens/welcome_screen.dart';
+import 'package:provider/provider.dart';
+import '../../provider/user_provider.dart';
 import 'profile_page.dart';
 
 class StudentDashboardDrawer extends StatelessWidget {
@@ -44,6 +46,7 @@ class StudentDashboardDrawer extends StatelessWidget {
             ),
             title: Text('Logout'),
             onTap: () {
+              Provider.of<UserProvider>(context, listen: false).logout();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => WelcomeScreen()));
             },

@@ -76,7 +76,7 @@ class _mainPageState extends State<mainPage> {
             media: questionData["url"]);
         // print('ALL FINE TILL HERE2');
         Provider.of<UserProvider>(context, listen: false)
-            .questions
+            .welcomeQuestions
             .add(tempQuestion);
 
         // print('ALL FINE TILL HERE3');
