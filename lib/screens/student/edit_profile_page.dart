@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nvld_app/components/text_container.dart';
 import 'package:nvld_app/constants.dart';
 import 'package:nvld_app/models/UserModal.dart';
@@ -27,7 +28,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final duser = FirebaseAuth.instance.currentUser!;
   TextEditingController name = TextEditingController();
   TextEditingController dob = TextEditingController();
-  TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController phonenumber = TextEditingController();
 
@@ -79,21 +79,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 filled: true,
                 hintStyle: TextStyle(color: Colors.grey[800]),
                 hintText: "Dob",
-                fillColor: Colors.white70),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextField(
-            controller: email,
-            decoration: InputDecoration(
-                prefixIcon: Icon(Icons.email),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                filled: true,
-                hintStyle: TextStyle(color: Colors.grey[800]),
-                hintText: "Email",
                 fillColor: Colors.white70),
           ),
           SizedBox(
@@ -168,7 +153,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
       Map<String, dynamic>? data = value.data();
       print(data);
       model.name = data!['Name'];
-      model.email = data['Email'];
       model.phoneNumber = data['Phonenumber'];
       model.dob = data['Dob'];
       model.password = data['Password'];
@@ -178,11 +162,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     collection.update({
       'Name': name.text == "" ? model.name : name.text,
-      'Email': email.text == "" ? model.email : email.text,
       'Phonenumber':
           phonenumber.text == "" ? model.phoneNumber : phonenumber.text,
       'Dob': dob.text == "" ? model.dob : dob.text,
       'Password': password.text == "" ? model.password : password.text,
     });
+
+    Fluttertoast.showToast(msg: "Updated successfully");
   }
 }

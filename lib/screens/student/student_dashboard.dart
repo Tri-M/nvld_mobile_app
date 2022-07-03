@@ -19,11 +19,10 @@ class StudentDashboard extends StatefulWidget {
 }
 
 class _StudentDashboardState extends State<StudentDashboard> {
-
   @override
   void initState() {
-    int? level=Provider.of<UserProvider>(context, listen: false).myUser.level;
-    getQuestions(level==0?1:level!);
+    int? level = Provider.of<UserProvider>(context, listen: false).myUser.level;
+    getQuestions(level == 0 ? 1 : level!);
     super.initState();
   }
 
@@ -54,7 +53,8 @@ class _StudentDashboardState extends State<StudentDashboard> {
   Widget build(BuildContext context) {
     UserModel myUser = Provider.of<UserProvider>(context).myUser;
     // Provider.of<UserProvider>(context).calculateScore();
-    print('welcome Ques ${Provider.of<UserProvider>(context, listen:false).welcomeQuestions}');
+    print(
+        'welcome Ques ${Provider.of<UserProvider>(context, listen: false).welcomeQuestions}');
     List<Question> questions = Provider.of<UserProvider>(context).questions;
     int qLen = questions.length;
     int score = 0;
@@ -206,7 +206,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     TextContainer(
-                                      text: "Best Score",
+                                      text: "Latest Score",
                                       width: width * 0.25,
                                       presetFontSizes: [22, 20, 18, 16, 14, 12],
                                       textAlign: TextAlign.center,
@@ -251,7 +251,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     TextContainer(
-                                      text: "Best Score",
+                                      text: "Level",
                                       width: width * 0.25,
                                       presetFontSizes: [22, 20, 18, 16, 14, 12],
                                       textAlign: TextAlign.center,
@@ -275,80 +275,91 @@ class _StudentDashboardState extends State<StudentDashboard> {
                           ],
                         ),
                       ),
-                      Provider.of<UserProvider>(context).welcomeQuestions.isNotEmpty?
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          
-                          Container(
-                            width:width*0.3,
-                            padding: EdgeInsets.only(left: width * 0.07),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                        (context),
-                                        MaterialPageRoute(
-                                            builder: (context) => McqPage()))
-                                    .then((value) => setState(() {}));
-                              },
-                              child: Icon(
-                                Icons.document_scanner,
-                                size:height*0.07,
-                                color:primaryPurple
+                      Provider.of<UserProvider>(context)
+                              .welcomeQuestions
+                              .isNotEmpty
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: width * 0.3,
+                                  margin: EdgeInsets.only(
+                                    top: (height * 0.03),
+                                  ),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary:
+                                          const Color.fromRGBO(88, 57, 178, 1),
+                                      shape: const CircleBorder(),
+                                      padding: EdgeInsets.all(width * 0.05),
+                                    ),
+                                    child: const Icon(
+                                      Icons.document_scanner,
+                                      size: 50,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                              (context),
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      McqPage()))
+                                          .then((value) => setState(() {}));
+                                    },
+                                  ),
+                                ),
+                                Container(
+                                  width: width * 0.3,
+                                  margin: EdgeInsets.only(
+                                    top: (height * 0.03),
+                                  ),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary:
+                                          const Color.fromRGBO(88, 57, 178, 1),
+                                      shape: const CircleBorder(),
+                                      padding: EdgeInsets.all(width * 0.05),
+                                    ),
+                                    child: const Icon(
+                                      Icons.play_arrow,
+                                      size: 50,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                              (context),
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MainMcqPage()))
+                                          .then((value) => setState(() {}));
+                                    },
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(
+                              width: width * 0.3,
+                              margin: EdgeInsets.only(
+                                top: (height * 0.03),
+                              ),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: const Color.fromRGBO(88, 57, 178, 1),
+                                  shape: const CircleBorder(),
+                                  padding: EdgeInsets.all(width * 0.05),
+                                ),
+                                child: const Icon(
+                                  Icons.play_arrow,
+                                  size: 50,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                          (context),
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MainMcqPage()))
+                                      .then((value) => setState(() {}));
+                                },
                               ),
                             ),
-                          ),
-                          Container(
-                            width:width*0.3,
-                            margin: EdgeInsets.only(
-                              top: (height * 0.03),
-                            ),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: const Color.fromRGBO(88, 57, 178, 1),
-                                shape: const CircleBorder(),
-                                padding: EdgeInsets.all(width * 0.05),
-                              ),
-                              child: const Icon(
-                                Icons.play_arrow,
-                                size: 50,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                        (context),
-                                        MaterialPageRoute(
-                                            builder: (context) => MainMcqPage()))
-                                    .then((value) => setState(() {}));
-                              },
-                            ),
-                          ),
-                        ],
-                      ):
-                      
-                      Container(
-                            width:width*0.3,
-                            margin: EdgeInsets.only(
-                              top: (height * 0.03),
-                            ),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: const Color.fromRGBO(88, 57, 178, 1),
-                                shape: const CircleBorder(),
-                                padding: EdgeInsets.all(width * 0.05),
-                              ),
-                              child: const Icon(
-                                Icons.play_arrow,
-                                size: 50,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                        (context),
-                                        MaterialPageRoute(
-                                            builder: (context) => MainMcqPage()))
-                                    .then((value) => setState(() {}));
-                              },
-                            ),
-                          ),
                     ],
                   ),
                 ),
