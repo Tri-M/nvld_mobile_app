@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import 'package:nvld_app/screens/staff/staff_dashboard.dart';
 import 'package:nvld_app/screens/student/profile_page.dart';
-import 'package:nvld_app/screens/welcome_screen.dart';
+import 'package:nvld_app/utils/welcome_screen.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);
