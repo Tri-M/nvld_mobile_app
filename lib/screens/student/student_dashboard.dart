@@ -22,7 +22,8 @@ class _StudentDashboardState extends State<StudentDashboard> {
   @override
   void initState() {
     int? level = Provider.of<UserProvider>(context, listen: false).myUser.level;
-    getQuestions(level == 0 ? 1 : level!);
+    if (Provider.of<UserProvider>(context,listen:false).questions.isEmpty)
+      getQuestions(level == 0 ? 1 : level!);
     super.initState();
   }
 
@@ -53,9 +54,10 @@ class _StudentDashboardState extends State<StudentDashboard> {
   Widget build(BuildContext context) {
     UserModel myUser = Provider.of<UserProvider>(context).myUser;
     // Provider.of<UserProvider>(context).calculateScore();
-    print(
-        'welcome Ques ${Provider.of<UserProvider>(context, listen: false).welcomeQuestions}');
-    List<Question> questions = Provider.of<UserProvider>(context).questions;
+    
+    List<Question> questions = Provider.of<UserProvider>(context,listen:false).questions;
+    // print();
+    print('questions length: ${Provider.of<UserProvider>(context,listen:false).questions.length}');
     int qLen = questions.length;
     int score = 0;
     for (int i = 0; i < qLen; i++) {
@@ -63,6 +65,18 @@ class _StudentDashboardState extends State<StudentDashboard> {
         score++;
       }
     }
+    if (score/qLen*100 >=75){
+      print('gi');
+      myUser.level = myUser.level!+1;
+      FirebaseFirestore.instance.collection('users').doc(myUser.uid).update({
+        'Level': myUser.level
+      });
+      Provider.of<UserProvider>(context, listen: false).questions=[];
+      getQuestions(myUser.level!);
+      setState(() {
+        score=0;
+      });
+    } 
     print('THIS IS SCORE ${score}');
 
     double width = MediaQuery.of(context).size.width;

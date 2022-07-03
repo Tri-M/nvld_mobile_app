@@ -45,6 +45,7 @@ class _BodyState extends State<Body> {
           email: data['Email'],
           phoneNumber: data['Phone'],
           dob: data['Dob'],
+          uid:data['uid'],
           userType: data['UserType'],
           level: data['Level']));
       // print("data level ${data['Level']}");

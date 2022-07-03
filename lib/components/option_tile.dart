@@ -16,13 +16,7 @@ class OptionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    final String optionChar = index == 1
-        ? 'A'
-        : index == 2
-            ? 'B'
-            : index == 3
-                ? 'C'
-                : 'D';
+    final String optionChar = String.fromCharCode(index+65);
     return Container(
       width:width*0.92,
       padding: EdgeInsets.symmetric(vertical: height*0.01,horizontal:width*0.01),
