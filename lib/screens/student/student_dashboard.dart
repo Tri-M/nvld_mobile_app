@@ -22,7 +22,8 @@ class _StudentDashboardState extends State<StudentDashboard> {
   @override
   void initState() {
     int? level = Provider.of<UserProvider>(context, listen: false).myUser.level;
-    getQuestions(level == 0 ? 1 : level!);
+    if (Provider.of<UserProvider>(context,listen:false).questions.isEmpty)
+      getQuestions(level == 0 ? 1 : level!);
     super.initState();
   }
 
@@ -53,9 +54,10 @@ class _StudentDashboardState extends State<StudentDashboard> {
   Widget build(BuildContext context) {
     UserModel myUser = Provider.of<UserProvider>(context).myUser;
     // Provider.of<UserProvider>(context).calculateScore();
-    print(
-        'welcome Ques ${Provider.of<UserProvider>(context, listen: false).welcomeQuestions}');
-    List<Question> questions = Provider.of<UserProvider>(context).questions;
+    
+    List<Question> questions = Provider.of<UserProvider>(context,listen:false).questions;
+    // print();
+    print('questions length: ${Provider.of<UserProvider>(context,listen:false).questions.length}');
     int qLen = questions.length;
     int score = 0;
     for (int i = 0; i < qLen; i++) {
