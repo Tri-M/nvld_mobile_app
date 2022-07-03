@@ -173,7 +173,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                               right: width * 0.06,
                               left: width * 0.02,
                             ),
-                            child: PerformanceGraph(),
+                            child: Image.asset('quiz.jpg'),
                           ),
                         ),
                       ),
