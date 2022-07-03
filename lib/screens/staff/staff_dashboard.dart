@@ -70,18 +70,11 @@ class StaffDashboardScreen extends StatelessWidget {
                               SizedBox(height: defaultPadding),
                               if (Responsiveness.isMobile(context))
                                 SizedBox(height: defaultPadding),
-                              if (Responsiveness.isMobile(context))
-                                StudentDetails(),
                             ],
                           ),
                         ),
                         if (!Responsiveness.isMobile(context))
                           SizedBox(width: defaultPadding),
-                        if (!Responsiveness.isMobile(context))
-                          Expanded(
-                            flex: 2,
-                            child: StudentDetails(),
-                          ),
                       ],
                     )
                   ],

@@ -49,6 +49,9 @@ class _MyStudentsState extends State<MyStudents> {
             elevation: 10,
             child: Column(
               children: [
+                SizedBox(
+                  height: 10,
+                ),
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(
@@ -212,7 +215,8 @@ class _MyStudentsState extends State<MyStudents> {
             return Column(
               children: <Widget>[
                 SizedBox(
-                  height: 200, // constrain height
+                  height: MediaQuery.of(context).size.height /
+                      2, // constrain height
                   child: ListView(
                     children:
                         snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -232,22 +236,22 @@ class _MyStudentsState extends State<MyStudents> {
             );
           },
         ),
-        // StudentCard(name: 'Abishek', email: 'abishek@gmail.com'),
-        // StudentCard(name: 'Trisha', email: 'trisha@gmail.com'),
-        // StudentCard(name: 'Karthik', email: 'karthik@gmail.com'),
-        const SizedBox(
-          height: defaultPadding,
-        ),
-        Responsiveness(
-          mobile: StudentInfoCardGridView(
-            crossAxisCount: _size.width < 650 ? 2 : 4,
-            childAspectRatio: _size.width < 650 ? 1.3 : 1,
-          ),
-          tablet: StudentInfoCardGridView(),
-          desktop: StudentInfoCardGridView(
-            childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
-          ),
-        ),
+        // // StudentCard(name: 'Abishek', email: 'abishek@gmail.com'),
+        // // StudentCard(name: 'Trisha', email: 'trisha@gmail.com'),
+        // // StudentCard(name: 'Karthik', email: 'karthik@gmail.com'),
+        // const SizedBox(
+        //   height: defaultPadding,
+        // ),
+        // Responsiveness(
+        //   mobile: StudentInfoCardGridView(
+        //     crossAxisCount: _size.width < 650 ? 2 : 4,
+        //     childAspectRatio: _size.width < 650 ? 1.3 : 1,
+        //   ),
+        //   tablet: StudentInfoCardGridView(),
+        //   desktop: StudentInfoCardGridView(
+        //     childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
+        //   ),
+        // ),
       ],
     );
   }
@@ -272,7 +276,7 @@ class StudentCard extends StatelessWidget {
           height: defaultPadding,
         ),
         Container(
-          height: (height + width) * 0.065,
+          height: (height + width) * 0.095,
           width: (width + height) * 0.45,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
