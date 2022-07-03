@@ -4,11 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:nvld_app/components/text_container.dart';
+import 'package:nvld_app/components/text_field_container.dart';
+import 'package:nvld_app/constants.dart';
 import 'package:nvld_app/models/UserModal.dart';
 import 'package:nvld_app/screens/admin/admin.dart';
 import 'package:http/http.dart' as http;
 import 'package:slidable_button/slidable_button.dart';
+
+final dob = TextEditingController();
 
 class Staff_addstud extends StatefulWidget {
   const Staff_addstud({Key? key}) : super(key: key);
@@ -142,8 +147,26 @@ class _Staff_addstudState extends State<Staff_addstud> {
                       },
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 30,
                     ),
+                    TextContainer(
+                      text: "Enter DOB of student (yyyy-mm-dd)",
+                      presetFontSizes: [18, 16, 14, 12, 10],
+                      width: width,
+                    ),
+                    TextFormField(
+                      controller: dob,
+                      onSaved: (value) {
+                        dob.text = value!;
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 20),
                     Center(
                       child: HorizontalSlidableButton(
                         width: MediaQuery.of(context).size.width / 3,
@@ -185,8 +208,11 @@ class _Staff_addstudState extends State<Staff_addstud> {
                           FirebaseFirestore firebaseFirestore =
                               FirebaseFirestore.instance;
                           User? user = _auth.currentUser;
-                          create(emailEditingController.text,
-                              passwordEditingController.text, user?.email);
+                          create(
+                              emailEditingController.text,
+                              passwordEditingController.text,
+                              user?.email,
+                              dob.text);
 
                           print(slide);
 
@@ -212,7 +238,8 @@ class _Staff_addstudState extends State<Staff_addstud> {
 
   final _auth = FirebaseAuth.instance;
 
-  void create(String email, String password, String? staffmail) async {
+  void create(
+      String email, String password, String? staffmail, String dob) async {
     late String errorMessage;
     try {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
@@ -266,7 +293,7 @@ class _Staff_addstudState extends State<Staff_addstud> {
     userModel.email = user!.email;
     userModel.uid = user.uid;
     userModel.name = "";
-    userModel.dob = "";
+    userModel.dob = dob.text;
     userModel.userType = "student";
     userModel.level = 0;
     userModel.staff = staffmail;
