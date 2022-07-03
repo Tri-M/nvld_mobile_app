@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nvld_app/screens/student/main_mcq.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +18,37 @@ class StudentDashboard extends StatefulWidget {
 }
 
 class _StudentDashboardState extends State<StudentDashboard> {
+
+  @override
+  void initState() {
+    int? level=Provider.of<UserProvider>(context, listen: false).myUser.level;
+    getQuestions(level==0?1:level!);
+    super.initState();
+  }
+
+  final _auth = FirebaseAuth.instance;
+
+  Future<void> getQuestions(int cat) async {
+    FirebaseFirestore.instance.collection('mCategory$cat').get().then((value) {
+      value.docs.forEach((element) {
+        Map questionData = element.data();
+        List<String> tempOptions = [];
+        for (String op in questionData["options"]) {
+          tempOptions.add(op);
+        }
+        Question tempQuestion = Question(
+            question: questionData["question"],
+            answer: questionData["answer"],
+            options: tempOptions,
+            type: questionData["type"],
+            media: questionData["url"]);
+        Provider.of<UserProvider>(context, listen: false)
+            .questions
+            .add(tempQuestion);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     UserModel myUser = Provider.of<UserProvider>(context).myUser;

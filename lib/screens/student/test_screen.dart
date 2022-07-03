@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:nvld_app/screens/student/mcq_page.dart';
 import 'package:provider/provider.dart';
@@ -34,48 +35,23 @@ class _mainPageState extends State<mainPage> {
   @override
   initState() {
     super.initState();
-    print(Provider.of<UserProvider>(context, listen: false).myUser);
-    getCategory();
-  }
-
-  void getCategory() async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final uid = user?.uid;
-    String? dob;
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .get()
-        .then((value) {
-      Map<String, dynamic>? data = value.data();
-      dob = data!['Dob'];
-    });
-
-    List<String> date = dob!.split("-");
-    DateTime currentDate = DateTime.now();
-    num age = currentDate.year - int.parse(date[0]);
-    int month1 = currentDate.month;
-    int month2 = int.parse(date[1]);
-    if (month2 > month1) {
-      age--;
-    } else if (month1 == month2) {
-      int day1 = currentDate.day;
-      int day2 = int.parse(date[2]);
-      if (day2 > day1) {
-        age--;
-      }
-    }
-    if (age <= 6)
-      getQuestions(1);
-    else if (age > 6 && age <= 11)
-      getQuestions(2);
-    else if (age > 11 && age <= 15)
-      getQuestions(3);
-    else if (age > 15)
-      getQuestions(4);
+    String? dobString =
+        Provider.of<UserProvider>(context, listen: false).myUser.dob;
+    DateTime dob = DateFormat('y-MM-dd').parse(dobString!);
+    print('this is dob : $dob');
+    DateTime now = DateTime.now();
+    print(now.year - dob.year);
+    int cat = 0;
+    if (now.year - dob.year < 7)
+      cat = 1;
+    else if (now.year - dob.year < 11)
+      cat = 2;
+    else if (now.year - dob.year < 15)
+      cat = 3;
     else
-      getQuestions(5);
+      cat = 4;
+    // print(dob);
+    getQuestions(cat);
   }
 
   Future<void> getQuestions(int cat) async {
@@ -152,9 +128,7 @@ class _mainPageState extends State<mainPage> {
             children: [
               ElevatedButton.icon(
                 onPressed: () {
-                  print('this is questions');
-                  print(Provider.of<UserProvider>(context, listen: false)
-                      .questions);
+                  // print(Provider.of<UserProvider>(context,listen:false).questions);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => McqPage()));
                 },
@@ -186,7 +160,7 @@ class _mainPageState extends State<mainPage> {
           skip: Text("Next"),
           done: Text("Attempt "),
           onDone: () {
-            print(Provider.of<UserProvider>(context, listen: false).questions);
+            // print(Provider.of<UserProvider>(context,listen:false).questions);
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => McqPage()));
           },

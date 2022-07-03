@@ -41,6 +41,12 @@ class UserProvider extends ChangeNotifier{
     myUser=user;
     notifyListeners();
   }
+
+  void logout(){
+    myUser=UserModel();
+    questions=[];
+    notifyListeners();
+  }
   // void calculateScore(){
   //   for (Question q in questions){
   //     print('q.selected: ${q.selected}');

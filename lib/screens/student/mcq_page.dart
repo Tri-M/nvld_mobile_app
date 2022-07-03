@@ -23,10 +23,11 @@ class McqPage extends StatefulWidget {
 
 class _McqPageState extends State<McqPage> {
   int currQuestion = 0;
-  
+
   @override
   Widget build(BuildContext context) {
-    List<Question> questions = Provider.of<UserProvider>(context,listen:true).questions;
+    List<Question> questions =
+        Provider.of<UserProvider>(context, listen: true).questions;
     // print('Working file till');
     // print('QUESTIONS IS $questions');
     int submittedQuestions = questions.where((q) => q.selected != null).length;
@@ -181,27 +182,27 @@ class _McqPageState extends State<McqPage> {
               SizedBox(height: height * 0.02),
               Column(
                 children: [
-              for (int i = 0;
-                  i < questions[currQuestion].options.length;
-                  i++)
-                OptionTile(
-                  text: questions[currQuestion].options[i],
-                  index: i + 1,
-                  selected: questions[currQuestion].selected,
-                  submitted: questions[currQuestion].submitted,
-                  answer: questions[currQuestion].answer,
-                  onTap: (int value) {
-                    setState(() {
-                      if (questions[currQuestion].selected != value)
-                        questions[currQuestion].selected = value;
-                      else {
-                        questions[currQuestion].selected = null;
-                        // questions[currQuestion].submitted = false;
-                      }
-                      // print('hi');
-                    });
-                  },
-                ),
+                  for (int i = 0;
+                      i < questions[currQuestion].options.length;
+                      i++)
+                    OptionTile(
+                      text: questions[currQuestion].options[i],
+                      index: i,
+                      selected: questions[currQuestion].selected,
+                      submitted: questions[currQuestion].submitted,
+                      answer: questions[currQuestion].answer,
+                      onTap: (int value) {
+                        setState(() {
+                          if (questions[currQuestion].selected != value)
+                            questions[currQuestion].selected = value;
+                          else {
+                            questions[currQuestion].selected = null;
+                            // questions[currQuestion].submitted = false;
+                          }
+                          // print('hi');
+                        });
+                      },
+                    ),
                 ],
               ),
               SizedBox(height: height * 0.03),
@@ -216,6 +217,8 @@ class _McqPageState extends State<McqPage> {
                         questions[i].submitted = true;
                       }
                     }
+                    Provider.of<UserProvider>(context, listen: false)
+                        .questions = [];
                     Navigator.push(
                         context,
                         MaterialPageRoute(
