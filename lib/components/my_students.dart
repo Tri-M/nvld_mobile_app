@@ -76,10 +76,15 @@ class _MyStudentsState extends State<MyStudents> {
                       primary: kPrimaryColor,
                     ),
                     onPressed: () {
+                      final _auth = FirebaseAuth.instance;
+                      User? user = _auth.currentUser;
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Staff_addstud(),
+                          builder: (context) => Staff_addstud(
+                            staffmail: user!.email,
+                          ),
                         ),
                       );
                     },

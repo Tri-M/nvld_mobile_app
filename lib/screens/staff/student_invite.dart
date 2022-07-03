@@ -16,10 +16,11 @@ import 'package:slidable_button/slidable_button.dart';
 final dob = TextEditingController();
 
 class Staff_addstud extends StatefulWidget {
-  const Staff_addstud({Key? key}) : super(key: key);
+  String? staffmail;
+  Staff_addstud({Key? key, required this.staffmail}) : super(key: key);
 
   @override
-  State<Staff_addstud> createState() => _Staff_addstudState();
+  State<Staff_addstud> createState() => _Staff_addstudState(staffmail);
 }
 
 class _Staff_addstudState extends State<Staff_addstud> {
@@ -27,6 +28,10 @@ class _Staff_addstudState extends State<Staff_addstud> {
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
   bool slide = false;
+  late String? staffmail;
+  _Staff_addstudState(String? staffmail) {
+    this.staffmail = staffmail;
+  }
 
   Future sendEmail({
     required String name,
@@ -208,11 +213,8 @@ class _Staff_addstudState extends State<Staff_addstud> {
                           FirebaseFirestore firebaseFirestore =
                               FirebaseFirestore.instance;
                           User? user = _auth.currentUser;
-                          create(
-                              emailEditingController.text,
-                              passwordEditingController.text,
-                              user?.email,
-                              dob.text);
+                          create(emailEditingController.text,
+                              passwordEditingController.text, dob.text);
 
                           print(slide);
 
@@ -238,15 +240,14 @@ class _Staff_addstudState extends State<Staff_addstud> {
 
   final _auth = FirebaseAuth.instance;
 
-  void create(
-      String email, String password, String? staffmail, String dob) async {
+  void create(String email, String password, String dob) async {
     late String errorMessage;
     try {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
       print('this is user ID : ${userCred.user!.uid}');
-      postDetailsToFirestore(userCred.user!.uid, staffmail);
+      postDetailsToFirestore(userCred.user!.uid);
       //     .then((value) => {postDetailsToFirestore()})
       //     .catchError((e) {
       //   Fluttertoast.showToast(msg: e!.message);
@@ -279,7 +280,7 @@ class _Staff_addstudState extends State<Staff_addstud> {
     }
   }
 
-  void postDetailsToFirestore(String uid, String? staffmail) async {
+  void postDetailsToFirestore(String uid) async {
     // calling our firestore
     // calling our user model
     // sedning these values
