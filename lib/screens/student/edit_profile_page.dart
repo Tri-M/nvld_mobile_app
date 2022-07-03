@@ -47,7 +47,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-            imagePath: '/assets/user_icon.JPG',
+            imagePath:
+                'https://firebasestorage.googleapis.com/v0/b/nvldapp.appspot.com/o/images%2Fuser.jpg?alt=media&token=122e6751-ee88-4171-81c3-3aea4f243637',
             isEdit: true,
             onClicked: () async {},
           ),
