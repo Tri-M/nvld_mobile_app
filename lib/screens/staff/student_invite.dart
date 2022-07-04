@@ -245,7 +245,7 @@ class _Staff_addstudState extends State<Staff_addstud> {
     late String errorMessage;
     try {
       UserCredential userCred = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+          email: email.trim(), password: password.trim());
 
       print('this is user ID : ${userCred.user!.uid}');
       postDetailsToFirestore(userCred.user!.uid);

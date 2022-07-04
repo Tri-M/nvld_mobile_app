@@ -18,14 +18,13 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            
             Image.network(
-              Provider.of<UserProvider>(context,listen:true).logoUrl,
+              Provider.of<UserProvider>(context, listen: true).logoUrl,
               height: size.height * 0.25,
               width: size.width / 1.2,
             ),
             Text(
-              "QUIZ APP",
+              "NVLD QUIZ APP",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 40,

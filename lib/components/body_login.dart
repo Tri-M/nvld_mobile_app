@@ -45,7 +45,7 @@ class _BodyState extends State<Body> {
           email: data['Email'],
           phoneNumber: data['Phone'],
           dob: data['Dob'],
-          uid:data['uid'],
+          uid: data['uid'],
           userType: data['UserType'],
           level: data['Level']));
       // print("data level ${data['Level']}");
@@ -159,12 +159,12 @@ class _BodyState extends State<Body> {
               hintText: "Email",
               icon: Icons.mail,
               onChanged: (value) {
-                email = value;
+                email = value.trim();
               },
             ),
             RoundedPasswordField(
               onChanged: (value) {
-                password = value;
+                password = value.trim();
               },
             ),
             RoundedButton(

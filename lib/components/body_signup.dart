@@ -36,89 +36,87 @@ class _BodyState extends State<Body> {
   String dob = "";
   String phonenumber = "";
   // final _auth = FirebaseAuth.instance;
-  
 
-    void postDetailsToFirestore() async {
-      // calling our firestore
-      // calling our user model
-      // sedning these values
+  void postDetailsToFirestore() async {
+    // calling our firestore
+    // calling our user model
+    // sedning these values
 
-      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-      User? user = _auth.currentUser;
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
 
-      UserModel userModel = UserModel();
+    UserModel userModel = UserModel();
 
-      // writing all the values
-      userModel.email = user!.email;
-      userModel.uid = user.uid;
-      userModel.name = name;
-      userModel.dob = dob;
-      userModel.userType = "student";
-      userModel.level = 0;
-      userModel.staff = "";
-      userModel.phoneNumber = phonenumber;
-      userModel.password = password;
+    // writing all the values
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+    userModel.name = name;
+    userModel.dob = dob;
+    userModel.userType = "student";
+    userModel.level = 0;
+    userModel.staff = "";
+    userModel.phoneNumber = phonenumber;
+    userModel.password = password;
 
-      await firebaseFirestore
-          .collection("users")
-          .doc(user.uid)
-          .set(userModel.toMap());
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
 
-      Provider.of<UserProvider>(context, listen: false).addUserData(userModel);
+    Provider.of<UserProvider>(context, listen: false).addUserData(userModel);
 
-      // print("came");
-      Fluttertoast.showToast(msg: "Account created successfully! ");
-      // getQuestions(1);
-      // print('Get Questions done');
-      
-      Navigator.pushAndRemoveUntil(
-          (context),
-          MaterialPageRoute(builder: (context) => TestScreen()),
-          (route) => false);
-    }
+    // print("came");
+    Fluttertoast.showToast(msg: "Account created successfully! ");
+    // getQuestions(1);
+    // print('Get Questions done');
 
-    void signUp(String email, String password) async {
-      print(email);
-      print(password);
-      try {
-        await _auth
-            .createUserWithEmailAndPassword(email: email, password: password)
-            .then((value) => {postDetailsToFirestore()})
-            .catchError((e) {
-          Fluttertoast.showToast(msg: e!.message);
-        });
-      } on FirebaseAuthException catch (error) {
-        switch (error.code) {
-          case "invalid-email":
-            errorMessage = "Your email address appears to be malformed.";
-            break;
-          case "wrong-password":
-            errorMessage = "Your password is wrong.";
-            break;
-          case "user-not-found":
-            errorMessage = "User with this email doesn't exist.";
-            break;
-          case "user-disabled":
-            errorMessage = "User with this email has been disabled.";
-            break;
-          case "too-many-requests":
-            errorMessage = "Too many requests";
-            break;
-          case "operation-not-allowed":
-            errorMessage = "Signing in with Email and Password is not enabled.";
-            break;
-          default:
-            errorMessage = "An undefined Error happened.";
-        }
-        Fluttertoast.showToast(msg: errorMessage);
-        print(error.code);
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => TestScreen()),
+        (route) => false);
+  }
+
+  void signUp(String email, String password) async {
+    print(email);
+    print(password);
+    try {
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => {postDetailsToFirestore()})
+          .catchError((e) {
+        Fluttertoast.showToast(msg: e!.message);
+      });
+    } on FirebaseAuthException catch (error) {
+      switch (error.code) {
+        case "invalid-email":
+          errorMessage = "Your email address appears to be malformed.";
+          break;
+        case "wrong-password":
+          errorMessage = "Your password is wrong.";
+          break;
+        case "user-not-found":
+          errorMessage = "User with this email doesn't exist.";
+          break;
+        case "user-disabled":
+          errorMessage = "User with this email has been disabled.";
+          break;
+        case "too-many-requests":
+          errorMessage = "Too many requests";
+          break;
+        case "operation-not-allowed":
+          errorMessage = "Signing in with Email and Password is not enabled.";
+          break;
+        default:
+          errorMessage = "An undefined Error happened.";
       }
+      Fluttertoast.showToast(msg: errorMessage);
+      print(error.code);
     }
+  }
 
   //final _auth = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
-    
     Size size = MediaQuery.of(context).size;
     return Background(
       child: SingleChildScrollView(
@@ -145,14 +143,14 @@ class _BodyState extends State<Body> {
               icon: Icons.mail,
               onChanged: (value) {
                 setState(() {
-                  email = value;
+                  email = value.trim();
                 });
               },
             ),
             RoundedPasswordField(
               onChanged: (value) {
                 setState(() {
-                  password = value;
+                  password = value.trim();
                 });
               },
             ),
@@ -161,7 +159,7 @@ class _BodyState extends State<Body> {
               icon: Icons.account_circle,
               onChanged: (value) {
                 setState(() {
-                  name = value;
+                  name = value.trim();
                 });
               },
             ),
@@ -199,7 +197,7 @@ class _BodyState extends State<Body> {
               icon: Icons.phone,
               onChanged: (value) {
                 setState(() {
-                  phonenumber = value;
+                  phonenumber = value.trim();
                 });
               },
             ),
