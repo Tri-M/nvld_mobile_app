@@ -30,7 +30,7 @@ class _Admin_addstaffState extends State<Admin_addstaff> {
     required String message,
   }) async {
     final serviceId = 'service_px2ny82';
-    final templateId = 'template_tnnh6vu';
+    final templateId = 'template_1ev7owr';
     final userId = 'hmFFOdBu4fKyItB0_';
 
     final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
